@@ -75,6 +75,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: 'vQz0nX8cEd2O0SX4szjRDVrjjQPvLv-w0ziWGZwrSbw',
+  },
   manifest: '/manifest.json',
 }
 
