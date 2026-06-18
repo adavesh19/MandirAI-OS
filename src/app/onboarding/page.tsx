@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { PageLoader } from '@/components/ui/loading'
-import { ArrowLeft, ArrowRight, Check, Sparkles, Building, MapPin, Clock, Landmark } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Sparkles, Building, MapPin, Clock, Landmark, UploadCloud, X } from 'lucide-react'
 import { onboardTemple } from './actions'
 
 export default function OnboardingPage() {
@@ -108,6 +108,35 @@ export default function OnboardingPage() {
       ...prev,
       images: { ...prev.images, [field]: value },
     }))
+  }
+
+  const [uploading, setUploading] = React.useState({
+    temple: false,
+    deity: false,
+    swamiji: false,
+  })
+
+  const handleFileUpload = async (field: 'temple' | 'deity' | 'swamiji', file: File) => {
+    setUploading((prev) => ({ ...prev, [field]: true }))
+    setError(null)
+    try {
+      const data = new FormData()
+      data.append('file', file)
+      const res = await fetch('/api/media/onboarding-upload', {
+        method: 'POST',
+        body: data,
+      })
+      const result = await res.json()
+      if (res.ok && result.success) {
+        handleImageChange(field, result.url)
+      } else {
+        setError(result.error || `Failed to upload ${field} image.`)
+      }
+    } catch (err) {
+      setError('An error occurred during file upload.')
+    } finally {
+      setUploading((prev) => ({ ...prev, [field]: false }))
+    }
   }
 
   const handleSubmit = async () => {
@@ -316,30 +345,138 @@ export default function OnboardingPage() {
                   <Sparkles className="h-6 w-6 text-saffron-500" /> Temple Media
                 </CardTitle>
                 <CardDescription>
-                  Provide image URLs for the temple. These will be used to generate your dynamic pages. (Image URL strings only).
+                  Upload high-quality images of your temple, main deity, and spiritual leaders. These will populate your template pages.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <Input
-                  label="Temple Photo URL"
-                  placeholder="https://example.com/temple.jpg"
-                  value={formData.images.temple}
-                  onChange={(e) => handleImageChange('temple', e.target.value)}
-                  required
-                />
-                <Input
-                  label="Main Deity Photo URL"
-                  placeholder="https://example.com/deity.jpg"
-                  value={formData.images.deity}
-                  onChange={(e) => handleImageChange('deity', e.target.value)}
-                  required
-                />
-                <Input
-                  label="Peethadhipati / Swamiji Photo URL (Optional)"
-                  placeholder="https://example.com/swamiji.jpg"
-                  value={formData.images.swamiji}
-                  onChange={(e) => handleImageChange('swamiji', e.target.value)}
-                />
+              <CardContent className="space-y-6">
+                {/* Temple Photo */}
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-stone-700 dark:text-stone-300">Temple Exterior / Front View <span className="text-red-500">*</span></label>
+                  <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl border border-dashed border-stone-200 bg-stone-50/50 dark:border-stone-800 dark:bg-stone-900/20">
+                    {formData.images.temple ? (
+                      <div className="relative h-24 w-32 rounded-lg overflow-hidden border border-stone-200 dark:border-stone-800">
+                        <img src={formData.images.temple} alt="Temple preview" className="h-full w-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => handleImageChange('temple', '')}
+                          className="absolute top-1 right-1 p-1 bg-red-600 hover:bg-red-700 text-white rounded-full transition-colors animate-in fade-in zoom-in duration-200"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="h-24 w-32 rounded-lg border border-dashed border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 flex items-center justify-center">
+                        <UploadCloud className="h-8 w-8 text-stone-350" />
+                      </div>
+                    )}
+                    <div className="flex-1 text-center sm:text-left">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="temple-upload"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]
+                          if (file) handleFileUpload('temple', file)
+                        }}
+                        disabled={uploading.temple}
+                      />
+                      <label
+                        htmlFor="temple-upload"
+                        className={`cursor-pointer inline-flex items-center justify-center rounded-xl text-sm font-bold border border-stone-200 bg-white hover:bg-stone-50 text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-white dark:hover:bg-stone-850 px-4 py-2.5 transition-all shadow-sm ${uploading.temple ? 'opacity-50 pointer-events-none' : ''}`}
+                      >
+                        {uploading.temple ? 'Uploading...' : 'Upload Temple Image'}
+                      </label>
+                      <p className="text-[11px] text-stone-400 mt-2">JPEG, PNG, WebP or GIF up to 10MB.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Main Deity Photo */}
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-stone-700 dark:text-stone-300">Main Deity / Garbhagriha Image <span className="text-red-500">*</span></label>
+                  <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl border border-dashed border-stone-200 bg-stone-50/50 dark:border-stone-800 dark:bg-stone-900/20">
+                    {formData.images.deity ? (
+                      <div className="relative h-24 w-32 rounded-lg overflow-hidden border border-stone-200 dark:border-stone-800">
+                        <img src={formData.images.deity} alt="Deity preview" className="h-full w-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => handleImageChange('deity', '')}
+                          className="absolute top-1 right-1 p-1 bg-red-600 hover:bg-red-700 text-white rounded-full transition-colors animate-in fade-in zoom-in duration-200"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="h-24 w-32 rounded-lg border border-dashed border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 flex items-center justify-center">
+                        <UploadCloud className="h-8 w-8 text-stone-350" />
+                      </div>
+                    )}
+                    <div className="flex-1 text-center sm:text-left">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="deity-upload"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]
+                          if (file) handleFileUpload('deity', file)
+                        }}
+                        disabled={uploading.deity}
+                      />
+                      <label
+                        htmlFor="deity-upload"
+                        className={`cursor-pointer inline-flex items-center justify-center rounded-xl text-sm font-bold border border-stone-200 bg-white hover:bg-stone-50 text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-white dark:hover:bg-stone-850 px-4 py-2.5 transition-all shadow-sm ${uploading.deity ? 'opacity-50 pointer-events-none' : ''}`}
+                      >
+                        {uploading.deity ? 'Uploading...' : 'Upload Deity Image'}
+                      </label>
+                      <p className="text-[11px] text-stone-400 mt-2">JPEG, PNG, WebP or GIF up to 10MB.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Peethadhipati Photo */}
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-stone-700 dark:text-stone-300">Peethadhipati / Swamiji Image (Optional)</label>
+                  <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl border border-dashed border-stone-200 bg-stone-50/50 dark:border-stone-800 dark:bg-stone-900/20">
+                    {formData.images.swamiji ? (
+                      <div className="relative h-24 w-32 rounded-lg overflow-hidden border border-stone-200 dark:border-stone-800">
+                        <img src={formData.images.swamiji} alt="Swamiji preview" className="h-full w-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => handleImageChange('swamiji', '')}
+                          className="absolute top-1 right-1 p-1 bg-red-600 hover:bg-red-700 text-white rounded-full transition-colors animate-in fade-in zoom-in duration-200"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="h-24 w-32 rounded-lg border border-dashed border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 flex items-center justify-center">
+                        <UploadCloud className="h-8 w-8 text-stone-350" />
+                      </div>
+                    )}
+                    <div className="flex-1 text-center sm:text-left">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="swamiji-upload"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]
+                          if (file) handleFileUpload('swamiji', file)
+                        }}
+                        disabled={uploading.swamiji}
+                      />
+                      <label
+                        htmlFor="swamiji-upload"
+                        className={`cursor-pointer inline-flex items-center justify-center rounded-xl text-sm font-bold border border-stone-200 bg-white hover:bg-stone-50 text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-white dark:hover:bg-stone-850 px-4 py-2.5 transition-all shadow-sm ${uploading.swamiji ? 'opacity-50 pointer-events-none' : ''}`}
+                      >
+                        {uploading.swamiji ? 'Uploading...' : 'Upload Leader Image'}
+                      </label>
+                      <p className="text-[11px] text-stone-400 mt-2">JPEG, PNG, WebP or GIF up to 10MB.</p>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
               <CardFooter className="justify-between bg-stone-50/50 dark:bg-stone-950/20 p-4">
                 <Button variant="outline" onClick={prevStep} leftIcon={<ArrowLeft className="h-4 w-4" />}>
@@ -347,7 +484,7 @@ export default function OnboardingPage() {
                 </Button>
                 <Button
                   onClick={nextStep}
-                  disabled={!formData.images.temple || !formData.images.deity}
+                  disabled={!formData.images.temple || !formData.images.deity || uploading.temple || uploading.deity || uploading.swamiji}
                   rightIcon={<ArrowRight className="h-4 w-4" />}
                 >
                   Location & Timings

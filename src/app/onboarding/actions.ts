@@ -166,7 +166,20 @@ export async function onboardTemple(formData: {
             initialBlocks = [
               { id: `hero3d-${ts}-1`, type: 'Hero3D', props: { title: name, subtitle: `Welcome to the divine presence of ${primaryDeity}`, modelType: 'diya' } },
               { id: `text-${ts}-2`, type: 'Text', props: { content: pageData.content } },
-              { id: `bento-${ts}-3`, type: 'BentoGrid', props: { title: 'Temple Highlights', description: 'Explore our sacred spaces and offerings.' } },
+              { 
+                id: `bento-${ts}-3`, 
+                type: 'BentoGrid', 
+                props: { 
+                  title: 'Temple Highlights', 
+                  description: 'Explore our sacred spaces, spiritual leaders, and daily programs.',
+                  items: [
+                    { id: '1', title: 'Daily Darshan & Aarti', description: 'Experience divine morning and evening prayers.', image: images.temple || 'https://images.unsplash.com/photo-1596700057039-383791054006?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 2 },
+                    { id: '2', title: 'Main Deity Darshan', description: `Invocations of Lord ${primaryDeity}.`, image: images.deity || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&q=80', colSpan: 1, rowSpan: 1 },
+                    { id: '3', title: 'Sacred Seva Bookings', description: 'Participate in personalized rituals.', colSpan: 1, rowSpan: 1 },
+                    { id: '4', title: 'Spiritual Leadership', description: 'Guided by our Peethadhipati and Swamijis.', image: images.swamiji || 'https://images.unsplash.com/photo-1614713568397-b6483569502d?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 1 }
+                  ]
+                } 
+              },
               { id: `carousel-${ts}-4`, type: 'Carousel', props: { title: 'Spiritual Initiatives', subtitle: 'Swipe to discover more.' } },
               { id: `events-${ts}-5`, type: 'Events', props: { title: 'Upcoming Festivals' } },
               { id: `donation-${ts}-6`, type: 'Donation', props: { title: 'Support the Temple', description: 'Your contributions help us maintain the premises and feed the poor.' } },
@@ -176,19 +189,59 @@ export async function onboardTemple(formData: {
             initialBlocks = [
               { id: `hero-${ts}-1`, type: 'Hero', props: { title: `About ${name}`, subtitle: 'Our Mission & Vision', backgroundImageUrl: images.temple } },
               { id: `text-${ts}-2`, type: 'Text', props: { content: pageData.content } },
-              { id: `bento-${ts}-3`, type: 'BentoGrid', props: { title: 'Our Heritage', description: 'Discover the legacy of our temple' } },
+              { 
+                id: `bento-${ts}-3`, 
+                type: 'BentoGrid', 
+                props: { 
+                  title: 'Our Heritage & Philosophy', 
+                  description: 'Understand our spiritual mission and core Vedic principles.',
+                  items: [
+                    { id: '1', title: 'Sanatana Dharma Philosophy', description: 'Preserving eternal cosmic principles and practices.', image: images.deity || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 2 },
+                    { id: '2', title: 'Charitable Annadanam', description: 'Providing sacred meals to visitors daily.', colSpan: 1, rowSpan: 1 },
+                    { id: '3', title: 'Community Service', description: 'Initiatives in education and environmental preservation.', colSpan: 1, rowSpan: 1 },
+                    { id: '4', title: 'Vedic Shastras Preservation', description: 'Teaching ancient texts and rituals to students.', image: images.temple || 'https://images.unsplash.com/photo-1596700057039-383791054006?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 1 }
+                  ]
+                } 
+              },
               { id: `gallery3d-${ts}-4`, type: 'Gallery3D', props: { title: 'Sacred Moments Gallery', images: [{ url: images.deity || 'https://images.unsplash.com/photo-1596700057039-383791054006?auto=format&fit=crop&q=80', caption: 'Darshan' }, { url: images.temple || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&q=80', caption: 'Architecture' }] } }
             ];
         } else if (type === 'HISTORY') {
             initialBlocks = [
               { id: `hero3d-${ts}-1`, type: 'Hero3D', props: { title: `History of ${name}`, subtitle: 'Centuries of devotion', modelType: 'diya' } },
               { id: `text-${ts}-2`, type: 'Text', props: { content: pageData.content } },
-              { id: `gallery3d-${ts}-3`, type: 'Gallery3D', props: { title: 'Historical Archives' } }
+              { 
+                id: `bento-${ts}-3`, 
+                type: 'BentoGrid', 
+                props: { 
+                  title: 'Chronicles & Historical Milestones', 
+                  description: 'Walk through the historical timeline and structural evolution of the temple.',
+                  items: [
+                    { id: '1', title: 'Ancient Origins & Foundation', description: 'Dating back to traditional spiritual consecration.', image: images.temple || 'https://images.unsplash.com/photo-1596700057039-383791054006?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 2 },
+                    { id: '2', title: 'Deity Installation (Prana Pratishtha)', description: 'The historic day the main deity was installed.', image: images.deity || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&q=80', colSpan: 1, rowSpan: 1 },
+                    { id: '3', title: 'Architecture & Artistry', description: 'Stone carvings and Gopuram construction history.', colSpan: 1, rowSpan: 1 },
+                    { id: '4', title: 'Centuries of Patrons', description: 'Supported by noble spiritual leaders and historic rulers.', image: images.swamiji || 'https://images.unsplash.com/photo-1614713568397-b6483569502d?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 1 }
+                  ]
+                } 
+              },
+              { id: `gallery3d-${ts}-4`, type: 'Gallery3D', props: { title: 'Historical Archives' } }
             ];
         } else if (type === 'CONTACT') {
             initialBlocks = [
               { id: `hero-${ts}-1`, type: 'Hero', props: { title: 'Contact Us', subtitle: 'Reach out for blessings and queries.' } },
-              { id: `bento-${ts}-2`, type: 'BentoGrid', props: { title: 'Quick Links', description: 'Find everything you need' } },
+              { 
+                id: `bento-${ts}-2`, 
+                type: 'BentoGrid', 
+                props: { 
+                  title: 'Reach Out For Blessings', 
+                  description: 'Multiple ways to connect with our administrative and spiritual office.',
+                  items: [
+                    { id: '1', title: 'Administrative Office', description: 'For trust board meetings, registrations, and official work.', image: images.temple || 'https://images.unsplash.com/photo-1596700057039-383791054006?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 2 },
+                    { id: '2', title: 'Priest Consultation Desk', description: 'Consult head priests for personalized poojas.', colSpan: 1, rowSpan: 1 },
+                    { id: '3', title: 'Pilgrim Accommodation Office', description: 'Inquire about stay and dharamshala rooms.', colSpan: 1, rowSpan: 1 },
+                    { id: '4', title: 'Find Us on Map', description: 'Located at the heart of the sacred town center.', image: images.deity || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 1 }
+                  ]
+                } 
+              },
               { id: `donation-${ts}-3`, type: 'Donation', props: { title: 'Support the Temple', description: 'Your contributions help us maintain the premises and feed the poor.' } }
             ];
         }
