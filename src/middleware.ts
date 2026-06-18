@@ -19,10 +19,7 @@ const PLATFORM_HOSTS = [
   'localhost:3000',
   '127.0.0.1',
   '127.0.0.1:3000',
-  'temple-ai-os.vercel.app', // ← Replace with your actual Vercel domain
-  // Add your production domain here, e.g.:
-  // 'templeos.in',
-  // 'www.templeos.in',
+  'vercel.app', // Allows all Vercel preview and production domains
 ]
 
 // In-memory cache for domain → slug lookups (avoids DB call on every request)
