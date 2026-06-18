@@ -1,0 +1,676 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+/* ============================================================
+   TEMPLE AI OS — Design Token System
+   Premium · Elegant · Spiritual · Indian Cultural Heritage
+   ============================================================ */
+
+/* ============================================================
+   THEME: Custom Tailwind v4 Theme Extensions
+   ============================================================ */
+@theme {
+  /* ── Font Families ── */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Outfit', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ── Brand Colors ── */
+  --color-saffron-50: #FFF7ED;
+  --color-saffron-100: #FFEDD5;
+  --color-saffron-200: #FED7AA;
+  --color-saffron-300: #FDBA74;
+  --color-saffron-400: #FB923C;
+  --color-saffron-500: #F97316;
+  --color-saffron-600: #EA580C;
+  --color-saffron-700: #C2410C;
+  --color-saffron-800: #9A3412;
+  --color-saffron-900: #7C2D12;
+  --color-saffron-950: #431407;
+
+  --color-gold-50: #FFFBEB;
+  --color-gold-100: #FEF3C7;
+  --color-gold-200: #FDE68A;
+  --color-gold-300: #FCD34D;
+  --color-gold-400: #FBBF24;
+  --color-gold-500: #D97706;
+  --color-gold-600: #B45309;
+  --color-gold-700: #92400E;
+  --color-gold-800: #78350F;
+  --color-gold-900: #451A03;
+
+  --color-maroon-50: #FEF2F2;
+  --color-maroon-100: #FEE2E2;
+  --color-maroon-200: #FECACA;
+  --color-maroon-300: #FCA5A5;
+  --color-maroon-400: #F87171;
+  --color-maroon-500: #DC2626;
+  --color-maroon-600: #B91C1C;
+  --color-maroon-700: #991B1B;
+  --color-maroon-800: #7C2D12;
+  --color-maroon-900: #431407;
+
+  --color-temple-red: #DC2626;
+  --color-cream: #FFF7ED;
+  --color-dark-bg: #0C0A09;
+
+  /* ── Semantic Colors (referenced via var()) ── */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+
+  /* ── Border Radius ── */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(249, 115, 22, 0.3), 0 0 60px rgba(249, 115, 22, 0.1);
+  --shadow-glow-gold: 0 0 20px rgba(217, 119, 6, 0.3), 0 0 60px rgba(217, 119, 6, 0.1);
+  --shadow-glow-lg: 0 0 40px rgba(249, 115, 22, 0.4), 0 0 80px rgba(249, 115, 22, 0.15);
+
+  /* ── Animations ── */
+  --animate-fade-in: fadeIn 0.5s ease-out;
+  --animate-slide-up: slideUp 0.5s ease-out;
+  --animate-slide-down: slideDown 0.5s ease-out;
+  --animate-slide-left: slideLeft 0.5s ease-out;
+  --animate-scale-in: scaleIn 0.3s ease-out;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 2s ease-in-out infinite;
+  --animate-spin-slow: spin 3s linear infinite;
+}
+
+/* ============================================================
+   LIGHT MODE — Default Tokens
+   ============================================================ */
+:root {
+  /* ── Backgrounds ── */
+  --background: #FFFBF5;
+  --foreground: #1C1917;
+
+  /* ── Card ── */
+  --card: #FFFFFF;
+  --card-foreground: #1C1917;
+
+  /* ── Primary (Saffron) ── */
+  --primary: #F97316;
+  --primary-foreground: #FFFFFF;
+
+  /* ── Secondary ── */
+  --secondary: #FFF7ED;
+  --secondary-foreground: #7C2D12;
+
+  /* ── Muted ── */
+  --muted: #F5F0EB;
+  --muted-foreground: #78716C;
+
+  /* ── Accent (Gold) ── */
+  --accent: #D97706;
+  --accent-foreground: #FFFFFF;
+
+  /* ── Border / Input ── */
+  --border: #E7E0D8;
+  --input: #E7E0D8;
+  --ring: #F97316;
+
+  /* ── Destructive ── */
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+
+  /* ── Success ── */
+  --success: #16A34A;
+  --success-foreground: #FFFFFF;
+
+  /* ── Warning ── */
+  --warning: #D97706;
+  --warning-foreground: #FFFFFF;
+
+  /* ── Sidebar ── */
+  --sidebar-bg: #FFF7ED;
+  --sidebar-foreground: #44403C;
+  --sidebar-accent: #F97316;
+
+  /* ── Misc ── */
+  --overlay: rgba(28, 25, 23, 0.6);
+  --backdrop-blur: 12px;
+
+  color-scheme: light;
+}
+
+/* ============================================================
+   DARK MODE — @media preference
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: #0C0A09;
+    --foreground: #FAFAF9;
+
+    --card: #1C1917;
+    --card-foreground: #FAFAF9;
+
+    --primary: #FB923C;
+    --primary-foreground: #431407;
+
+    --secondary: #292524;
+    --secondary-foreground: #FAFAF9;
+
+    --muted: #292524;
+    --muted-foreground: #A8A29E;
+
+    --accent: #FBBF24;
+    --accent-foreground: #431407;
+
+    --border: #44403C;
+    --input: #44403C;
+    --ring: #FB923C;
+
+    --destructive: #EF4444;
+    --destructive-foreground: #FFFFFF;
+
+    --success: #22C55E;
+    --success-foreground: #052E16;
+
+    --warning: #FBBF24;
+    --warning-foreground: #431407;
+
+    --sidebar-bg: #1C1917;
+    --sidebar-foreground: #D6D3D1;
+    --sidebar-accent: #FB923C;
+
+    --overlay: rgba(0, 0, 0, 0.7);
+    --backdrop-blur: 16px;
+
+    color-scheme: dark;
+  }
+}
+
+/* ============================================================
+   DARK MODE — .dark class override
+   ============================================================ */
+.dark {
+  --background: #0C0A09;
+  --foreground: #FAFAF9;
+
+  --card: #1C1917;
+  --card-foreground: #FAFAF9;
+
+  --primary: #FB923C;
+  --primary-foreground: #431407;
+
+  --secondary: #292524;
+  --secondary-foreground: #FAFAF9;
+
+  --muted: #292524;
+  --muted-foreground: #A8A29E;
+
+  --accent: #FBBF24;
+  --accent-foreground: #431407;
+
+  --border: #44403C;
+  --input: #44403C;
+  --ring: #FB923C;
+
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+
+  --success: #22C55E;
+  --success-foreground: #052E16;
+
+  --warning: #FBBF24;
+  --warning-foreground: #431407;
+
+  --sidebar-bg: #1C1917;
+  --sidebar-foreground: #D6D3D1;
+  --sidebar-accent: #FB923C;
+
+  --overlay: rgba(0, 0, 0, 0.7);
+  --backdrop-blur: 16px;
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   BASE LAYER
+   ============================================================ */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--background);
+    color: var(--foreground);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+
+  /* ── Focus Visible ── */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* ── Selection ── */
+  ::selection {
+    background-color: rgba(249, 115, 22, 0.25);
+    color: #7C2D12;
+  }
+
+  .dark ::selection {
+    background-color: rgba(251, 146, 60, 0.3);
+    color: #FFF7ED;
+  }
+
+  /* ── Smooth Transitions Default ── */
+  a, button, input, textarea, select {
+    transition: all 0.2s ease;
+  }
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+@layer base {
+  /* Webkit Scrollbars */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(168, 162, 158, 0.4);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 162, 158, 0.6);
+    background-clip: content-box;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgba(68, 64, 60, 0.6);
+    background-clip: content-box;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(68, 64, 60, 0.8);
+    background-clip: content-box;
+  }
+
+  /* Firefox Scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 162, 158, 0.4) transparent;
+  }
+
+  .dark * {
+    scrollbar-color: rgba(68, 64, 60, 0.6) transparent;
+  }
+}
+
+/* ============================================================
+   GLASSMORPHISM UTILITIES
+   ============================================================ */
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .glass-dark {
+    background: rgba(28, 25, 23, 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(68, 64, 60, 0.3);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  }
+
+  .dark .glass-card {
+    background: rgba(28, 25, 23, 0.6);
+    border-color: rgba(68, 64, 60, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ============================================================
+   GRADIENT UTILITIES
+   ============================================================ */
+@layer utilities {
+  .gradient-primary {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 50%, #DC2626 100%);
+  }
+
+  .gradient-gold {
+    background: linear-gradient(135deg, #FBBF24 0%, #D97706 50%, #B45309 100%);
+  }
+
+  .gradient-spiritual {
+    background: linear-gradient(135deg, #F97316 0%, #D97706 30%, #7C2D12 100%);
+  }
+
+  .gradient-saffron-soft {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 50%, #FED7AA 100%);
+  }
+
+  .gradient-dark {
+    background: linear-gradient(135deg, #0C0A09 0%, #1C1917 50%, #292524 100%);
+  }
+
+  .gradient-text-primary {
+    background: linear-gradient(135deg, #F97316, #D97706);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-text-gold {
+    background: linear-gradient(135deg, #FBBF24, #D97706);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-text-spiritual {
+    background: linear-gradient(135deg, #F97316, #7C2D12);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-border {
+    position: relative;
+    border: none;
+    background-clip: padding-box;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #F97316, #D97706, #7C2D12);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    pointer-events: none;
+  }
+}
+
+/* ============================================================
+   ANIMATION KEYFRAMES
+   ============================================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.2), 0 0 60px rgba(249, 115, 22, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.4), 0 0 80px rgba(249, 115, 22, 0.15);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(var(--backdrop-blur));
+  }
+}
+
+/* ============================================================
+   UTILITY ANIMATION CLASSES
+   ============================================================ */
+@layer utilities {
+  .animate-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.4s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.25s ease-out;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+    background-size: 200% 100%;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+}
+
+/* ============================================================
+   TEMPLE PATTERN OVERLAY (decorative)
+   ============================================================ */
+@layer utilities {
+  .temple-pattern {
+    background-image: radial-gradient(circle at 25px 25px, rgba(249, 115, 22, 0.04) 2px, transparent 0),
+                       radial-gradient(circle at 75px 75px, rgba(217, 119, 6, 0.03) 2px, transparent 0);
+    background-size: 100px 100px;
+  }
+
+  .dark .temple-pattern {
+    background-image: radial-gradient(circle at 25px 25px, rgba(251, 146, 60, 0.06) 2px, transparent 0),
+                       radial-gradient(circle at 75px 75px, rgba(251, 191, 36, 0.04) 2px, transparent 0);
+    background-size: 100px 100px;
+  }
+}
+
+/* ============================================================
+   COMPONENT UTILITIES
+   ============================================================ */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ============================================================
+   THERMAL PRINTER KIOSK MODE (@media print)
+   ============================================================ */
+@media print {
+  @page {
+    margin: 0;
+    size: 80mm auto;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    margin: 0;
+    padding: 0;
+    color: black !important;
+  }
+}

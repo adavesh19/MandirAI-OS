@@ -1,0 +1,39 @@
+{
+  "name": "Temple AI OS",
+  "short_name": "TempleOS",
+  "description": "The most powerful AI-driven Temple Management Platform",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#1c1917",
+  "theme_color": "#f97316",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/globe.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "business", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "url": "/dashboard",
+      "description": "Admin Overview"
+    },
+    {
+      "name": "Donations",
+      "short_name": "Donate",
+      "url": "/donations",
+      "description": "Manage Donations"
+    },
+    {
+      "name": "AI CRM",
+      "short_name": "CRM",
+      "url": "/dashboard/ai-crm",
+      "description": "Autonomous WhatsApp CRM"
+    }
+  ]
+}
