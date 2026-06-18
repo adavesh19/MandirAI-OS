@@ -20,18 +20,62 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  manifest: '/manifest.json',
-  title: 'MandirAI OS — Complete Temple Management Platform',
-  description: 'AI-powered SaaS platform for Hindu temple management. Auto-generate temple websites, manage donations, devotees CRM, events, receipts, and analytics.',
+  metadataBase: new URL('https://mandirai.vercel.app'),
+  title: {
+    default: 'MandirAI OS | The Ultimate Hindu Temple Management Software & AI Website Builder',
+    template: '%s | MandirAI OS',
+  },
+  description: 'The premium operating system for Hindu temples globally. Automate stunning 3D website creation in seconds using AI, manage massive donation drives, generate 80G tax receipts, track devotee CRM, and handle live seva bookings seamlessly.',
   keywords: [
-    'temple management system',
-    'hindu temple software',
-    'donation portal',
-    'devotee CRM',
-    'online seva booking',
+    'best temple management software',
+    'hindu temple management system',
     'temple website builder',
-    '80g tax receipt generator',
+    'temple donation software',
+    'temple CRM',
+    'seva booking software',
+    'digital hundi online',
+    'ai website creator for temples',
+    'mandir management software',
+    'mandir donation app',
+    'trust management software',
+    '80g receipt generator',
+    'mandir ai os',
+    'hindu trust software'
   ],
+  authors: [{ name: 'MandirAI Team' }],
+  creator: 'MandirAI OS',
+  publisher: 'MandirAI OS',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    title: 'MandirAI OS | The Ultimate Hindu Temple Management Software',
+    description: 'The premium operating system for Hindu temples globally. Automate stunning 3D website creation in seconds using AI, manage donations, and handle seva bookings.',
+    url: 'https://mandirai.vercel.app',
+    siteName: 'MandirAI OS',
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'MandirAI OS | The Ultimate Hindu Temple Management Software',
+    description: 'The premium operating system for Hindu temples globally. Automate stunning 3D website creation in seconds using AI.',
+    creator: '@mandirai_os',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
