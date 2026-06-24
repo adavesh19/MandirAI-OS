@@ -20,7 +20,7 @@ interface NoticeBoardBlockProps {
     layout?: 'grid' | 'ticker' | 'list'
     importance?: 'normal' | 'urgent'
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
 }
 
 export default function NoticeBoardBlock({ data, settings, theme = 'classic' }: NoticeBoardBlockProps) {

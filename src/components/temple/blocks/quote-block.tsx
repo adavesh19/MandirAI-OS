@@ -13,7 +13,7 @@ interface QuoteBlockProps {
     alignment?: 'left' | 'center' | 'right'
     borderStyle?: 'simple' | 'ornate' | 'double-gold' | 'glass'
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
 }
 
 export default function QuoteBlock({ data, settings, theme = 'classic' }: QuoteBlockProps) {

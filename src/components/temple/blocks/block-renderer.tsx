@@ -34,7 +34,7 @@ interface Block {
 
 interface BlockRendererProps {
   blocks?: Block[] | any
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
   sevas?: any[]
   templeAddress?: any
 }

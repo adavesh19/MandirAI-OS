@@ -12,7 +12,7 @@ interface MapBlockProps {
     zoom?: string
     height?: string
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
   templeAddress?: {
     line1?: string
     city?: string

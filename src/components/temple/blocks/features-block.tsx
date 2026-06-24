@@ -21,7 +21,7 @@ interface FeaturesBlockProps {
   settings?: {
     columns?: '2' | '3' | '4'
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
 }
 
 export default function FeaturesBlock({ data, settings, theme = 'classic' }: FeaturesBlockProps) {

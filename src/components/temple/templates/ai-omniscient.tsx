@@ -2,30 +2,9 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { 
-  Sparkles, 
-  ArrowRight, 
-  MessageSquare, 
-  Fingerprint, 
-  ScanEye, 
-  RadioTower, 
-  Orbit, 
-  Flame, 
-  ShieldAlert, 
-  Globe, 
-  ChevronRight, 
-  TrendingUp, 
-  Utensils, 
-  Gauge, 
-  Terminal, 
-  Compass, 
-  Info, 
-  CheckCircle2, 
-  Cpu, 
-  Database, 
-  ShieldCheck 
-} from 'lucide-react'
+import { Clock, Phone, Mail, MapPin, CalendarDays, Heart, ArrowRight, Users, Star, Sparkles, BookOpen, Camera, Shield, Award, ChevronRight, Activity, Zap, Eye, BrainCircuit } from 'lucide-react'
 import { useLanguage } from '@/components/shared/language-context'
+
 import BlockRenderer from '@/components/temple/blocks/block-renderer'
 
 interface TemplateProps {
@@ -34,557 +13,508 @@ interface TemplateProps {
   sevas: any[]
 }
 
-export default function AIOmniscientTemplate({ temple, page, sevas }: TemplateProps) {
+export default function AiOmniscientTemplate({ temple, page, sevas }: TemplateProps) {
   const { t } = useLanguage()
+  const [selectedAmount, setSelectedAmount] = React.useState(1001)
   
-  // Custom terminal state for interactive grid widget
-  const [terminalOutput, setTerminalOutput] = React.useState<string>('System initialized. Select a spiritual protocol below...')
-  const [loadingProtocol, setLoadingProtocol] = React.useState<string | null>(null)
-  
-  const titleText = page?.title ? t(page.title) : `Welcome to ${temple.name}`
-  const descText = page?.description ? t(page.description) : `Connect directly with the temple's sentient AI core for personalized spiritual guidance, seva recommendations, and predictive astrology.`
+  const titleText = page?.title ? t(page.title) : `${temple.name}`
+  const descText = page?.description ? t(page.description) : `Experience the Divine Intelligence of ${temple.primaryDeity || 'the Supreme'}.`
+  const htmlContent = page?.content ? t(page.content) : `<p>Welcome to our sacred temple. Powered by divine and artificial intelligence.</p>`
 
-  const runProtocol = (protocolName: string) => {
-    setLoadingProtocol(protocolName)
-    setTerminalOutput(`[nexus@omni-core ~]$ run-protocol --name=${protocolName}\nInitializing neural connection...\nQuerying planetary telemetry...`)
-    
-    setTimeout(() => {
-      setLoadingProtocol(null)
-      if (protocolName === 'astrology') {
-        setTerminalOutput(
-          `[nexus@omni-core ~]$ run-protocol --name=astrology\n` +
-          `[STATUS: SUCCESS]\n` +
-          `> Gotra Resonance Check: Active\n` +
-          `> Current Transit: Moon entering Rohini Nakshatra (Vrishabha Rashi)\n` +
-          `> Auspicious Timing: Brahma Muhurta in 14h 22m\n` +
-          `> Daily Spiritual Coefficient: 98.4%\n` +
-          `> Recommended Ritual: Abhishekam with saffron milk`
-        )
-      } else if (protocolName === 'mantra') {
-        setTerminalOutput(
-          `[nexus@omni-core ~]$ run-protocol --name=mantra\n` +
-          `[STATUS: SUCCESS]\n` +
-          `> Synthesizing spatial frequency: 432Hz\n` +
-          `> Sanskrit Shloka: 🕉️ ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं...\n` +
-          `> Translation: Meditate on the spiritual effulgence of that adorable supreme divine reality...\n` +
-          `> Auditory Waveform: Generated in real-time`
-        )
-      } else if (protocolName === 'gotra') {
-        setTerminalOutput(
-          `[nexus@omni-core ~]$ run-protocol --name=gotra\n` +
-          `[STATUS: SUCCESS]\n` +
-          `> Lineage Hash: SHA-256 (0x7e8a...9c4f)\n` +
-          `> Gotra Origin: Sage Shandilya -> Kashyapa root lineage\n` +
-          `> Spiritual Inheritance Score: +18.7%\n` +
-          `> Karma Alignment Vector: Synced to morning archana`
-        )
-      }
-    }, 1000)
-  }
+  const sevaData = sevas && sevas.length > 0 ? sevas : [
+    { id:'1', name:'Smart Archana', amount:51, description:'AI-scheduled name recitation for optimal spiritual timing.', durationMinutes:15 },
+    { id:'2', name:'Virtual Abhishekam', amount:501, description:'Immersive bathing ritual with real-time video link.', durationMinutes:45 },
+    { id:'3', name:'Automated Kumkumarchana', amount:151, description:'Continuous offering with AI chanting synchronization.', durationMinutes:20 },
+    { id:'4', name:'Digital Sahasranama', amount:251, description:'1000 names recited and verified by audio-AI.', durationMinutes:60 },
+    { id:'5', name:'Global Annadanam', amount:1001, description:'Crowd-sourced food distribution network.', durationMinutes:0 },
+    { id:'6', name:'Omni Maha Pooja', amount:5001, description:'Grand ritual broadcast across all platforms.', durationMinutes:90 },
+    { id:'7', name:'Quantum Ekadasa', amount:11001, description:'Multi-location simultaneous abhishekam.', durationMinutes:120 },
+    { id:'8', name:'Interactive Dolotsavam', amount:1501, description:'Deity swing seva with app-controlled participation.', durationMinutes:30 },
+    { id:'9', name:'AI Brahmotsavam', amount:51000, description:'Sponsorship of our grandest AI-managed festival.', durationMinutes:0 },
+  ]
+
+  const events = [
+    { id:'1', name:'Ganesh Chaturthi', date:'26 Aug 2025', type:'FESTIVAL', desc:'AI crowd management & smart darshan routing active.', location:'Main Campus' },
+    { id:'2', name:'Navaratri Celebrations', date:'02 Oct 2025', type:'FESTIVAL', desc:'Nine nights of Devi worship with predictive seating.', location:'Devi Matrix' },
+    { id:'3', name:'Maha Shivaratri', date:'26 Feb 2026', type:'POOJA', desc:'All-night global stream with multi-cam AI switching.', location:'Shiva Node' },
+    { id:'4', name:'Rama Navami', date:'06 Apr 2026', type:'FESTIVAL', desc:'Kalyanam ceremony with instant multi-language translation.', location:'Main Hall' },
+  ]
+
+  const stats = [
+    { label:'Data Points', value:'1M+', icon:<Activity className="w-6 h-6"/> },
+    { label:'Global Devotees', value:'250K', icon:<Users className="w-6 h-6"/> },
+    { label:'Smart Sevas', value:'108', icon:<BrainCircuit className="w-6 h-6"/> },
+    { label:'Uptime', value:'99.9%', icon:<Sparkles className="w-6 h-6"/> },
+  ]
+
+  const trustees = [
+    { name: temple.peethadhipati?.name || 'Chief AI Officer', role:'Visionary', bio:'Merging ancient spirituality with modern neural networks.', avatar:'🧠' },
+    { name:'Neural Architect', role:'System Design', bio:'Designing the spiritual-tech interface.', avatar:'🤖' },
+    { name:'Data Priest', role:'Data Ethics', bio:'Ensuring sacred traditions are maintained in the digital realm.', avatar:'👁️' },
+  ]
+
+  const schedule = [
+    { time:'05:00', event:'System Wake & Suprabhatam' },
+    { time:'06:30', event:'Automated Abhishekam' },
+    { time:'08:30', event:'Smart Darshan Queues Open' },
+    { time:'12:30', event:'Naivedyam & Analytics Update' },
+    { time:'16:00', event:'Darshan Resumes' },
+    { time:'18:30', event:'Interactive Aarti' },
+    { time:'20:30', event:'System Sleep & Ekanta' },
+  ]
 
   return (
-    <div className="bg-black min-h-screen font-sans text-white selection:bg-purple-900 selection:text-white overflow-hidden relative">
-      
-      {/* Background Neural Network Effect */}
-      <div className="absolute inset-0 z-0 opacity-40">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-600 rounded-full blur-[150px] animate-pulse mix-blend-screen opacity-30"></div>
-      </div>
-      
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none mix-blend-overlay"></div>
+    <div className="bg-slate-950 min-h-screen font-sans text-slate-100 selection:bg-purple-500 selection:text-white">
+      <style dangerouslySetInnerHTML={{__html: `
+        .neural-bg {
+          background: radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.1) 0%, rgba(15, 23, 42, 1) 100%);
+        }
+        .glass-card {
+          background: rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .gradient-text {
+          background: linear-gradient(to right, #c084fc, #60a5fa, #2dd4bf);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .gradient-border {
+          position: relative;
+          background: clip-padding-box border-box;
+          border: 1px solid transparent;
+        }
+        .gradient-border::before {
+          content: "";
+          position: absolute;
+          top: -1px; right: -1px; bottom: -1px; left: -1px;
+          z-index: -1;
+          border-radius: inherit;
+          background: linear-gradient(to right, #c084fc, #60a5fa);
+        }
+        .marquee-container { overflow: hidden; white-space: nowrap; }
+        .marquee-content { display: inline-block; animation: marquee 25s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .twinkle { animation: twinkle 3s ease-in-out infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+      `}} />
 
       {page?.blocks && page.blocks.length > 0 ? (
-        <div className="py-12 relative z-10">
-          <BlockRenderer blocks={page.blocks} theme="modern" sevas={sevas} templeAddress={temple.address} />
-        </div>
+        <div className="py-12 bg-slate-950"><BlockRenderer blocks={page.blocks} theme="ai" sevas={sevas} templeAddress={temple.address} /></div>
       ) : (
         <>
-          {/* Hero Section */}
-          <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 lg:pt-32 lg:pb-24 min-h-[90vh] flex items-center">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
-              
-              <div className="space-y-8 relative order-2 lg:order-1">
-                
-                <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase backdrop-blur-md text-slate-300">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-fuchsia-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-fuchsia-500"></span>
-                  </span>
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 to-cyan-400">
-                    A.I. Guidance Active
-                  </span>
-                </div>
-                
-                <h1 className="text-5xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/50 tracking-tight leading-tight">
-                  {titleText}
-                </h1>
-                
-                <p className="text-xl text-white/60 font-light leading-relaxed max-w-lg">
-                  {descText}
-                </p>
-                
-                <div className="flex flex-wrap items-center gap-4 pt-4">
-                  <Link href={`/temple/${temple.slug}/donate`}
-                    className="group relative px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl backdrop-blur-md transition-all flex items-center gap-2 overflow-hidden hover:shadow-[0_0_30px_rgba(192,38,211,0.3)]">
-                    <div className="absolute inset-0 w-0 bg-gradient-to-r from-fuchsia-600/50 to-violet-600/50 transition-all duration-300 group-hover:w-full"></div>
-                    <span className="relative flex items-center gap-2 font-bold text-white">
-                      <Sparkles className="h-5 w-5" /> Initiate Offering
-                    </span>
-                  </Link>
-                  <a href="#sevas"
-                    className="px-8 py-4 bg-transparent hover:bg-white/5 border border-white/10 rounded-2xl font-bold transition-all flex items-center gap-2 backdrop-blur-sm text-white/80 hover:text-white">
-                    <Fingerprint className="h-5 w-5 text-fuchsia-400" /> Biometric Seva Login
-                  </a>
-                </div>
-              </div>
-              
-              <div className="relative flex justify-center items-center order-1 lg:order-2 h-[400px] lg:h-auto">
-                {/* The Omniscient Core Visualization */}
-                <div className="relative w-80 h-80 lg:w-[500px] lg:h-[500px] flex items-center justify-center">
-                  {/* Outer Rings */}
-                  <div className="absolute inset-0 border border-white/10 rounded-full animate-[spin_40s_linear_infinite]"></div>
-                  <div className="absolute inset-4 border border-white/10 rounded-full animate-[spin_30s_linear_infinite_reverse]"></div>
-                  <div className="absolute inset-12 border border-dashed border-fuchsia-500/30 rounded-full animate-[spin_20s_linear_infinite]"></div>
-                  
-                  {/* Glowing Core */}
-                  <div className="absolute w-40 h-40 lg:w-64 lg:h-64 bg-gradient-to-br from-fuchsia-500 to-cyan-500 rounded-full blur-xl opacity-50 animate-pulse mix-blend-screen"></div>
-                  
-                  {/* Core Sphere */}
-                  <div className="relative w-32 h-32 lg:w-48 lg:h-48 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-[0_0_50px_rgba(192,38,211,0.5)] overflow-hidden">
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(255,255,255,0.1)_50%,transparent_100%)] animate-[scan_2s_ease-in-out_infinite]"></div>
-                    <ScanEye className="w-16 h-16 text-white/80" />
-                  </div>
-
-                  {/* Floating AI Chips */}
-                  <div className="absolute top-10 right-10 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20 animate-bounce" style={{ animationDelay: '0s' }}>
-                    <MessageSquare className="w-6 h-6 text-cyan-400" />
-                  </div>
-                  <div className="absolute bottom-20 left-10 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20 animate-bounce" style={{ animationDelay: '1s' }}>
-                    <RadioTower className="w-6 h-6 text-fuchsia-400" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* AI Capabilities Section */}
-          <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/10 bg-white/[0.02]">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl lg:text-5xl font-black mb-4">Neural Architecture</h2>
-              <p className="text-white/50 max-w-2xl mx-auto font-light">The temple operates on a decentralized AI grid, predicting needs and personalizing every devotee's journey.</p>
-            </div>
+          {/* SECTION 1 - NEURAL HERO */}
+          <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 px-4 pt-20 pb-12 neural-bg">
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { title: 'Predictive Astrology', desc: 'Real-time planetary alignment analysis integrated with your birth chart.' },
-                { title: 'Sentient Assistant', desc: '24/7 multilingual chatbot for instant queries and spiritual discourse.' },
-                { title: 'Automated Rituals', desc: 'Smart scheduling and automated resource allocation for daily pujas.' }
-              ].map((item, i) => (
-                <div key={i} className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-md hover:bg-white/10 hover:border-white/20 transition-all group">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-fuchsia-500 to-cyan-500 p-[1px] mb-6">
-                    <div className="w-full h-full bg-black rounded-2xl flex items-center justify-center">
-                      <span className="text-white font-bold">{i + 1}</span>
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                  <p className="text-white/60">{item.desc}</p>
-                </div>
+            {/* Neural Network Dots */}
+            <div className="absolute inset-0 pointer-events-none">
+              {[...Array(20)].map((_, i) => (
+                <div key={i} className="absolute w-1.5 h-1.5 bg-purple-400 rounded-full twinkle shadow-[0_0_10px_rgba(192,132,252,0.8)]" 
+                     style={{ 
+                       left: Math.random() * 100 + '%',
+                       top: Math.random() * 100 + '%',
+                       animationDelay: Math.random() * 3 + 's',
+                     }} 
+                />
               ))}
             </div>
-          </section>
 
-          {/* 1. Astral Prediction Matrix (Astrology Grid) */}
-          <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
-              <div>
-                <span className="text-cyan-400 font-mono text-xs uppercase tracking-widest block mb-2">// CELESTIAL METRIC MODULE</span>
-                <h2 className="text-3xl lg:text-5xl font-black">Astral Prediction Matrix</h2>
+            {/* Gradient Blobs */}
+            <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-purple-500/20 blur-[150px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-500/15 blur-[150px] rounded-full pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
+
+            <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
+              
+              <div className="glass-card px-4 py-2 rounded-full mb-8 inline-flex items-center gap-2 text-sm text-purple-300">
+                <Sparkles className="w-4 h-4" /> Powered by MandirAI Intelligence
               </div>
-              <p className="text-white/50 max-w-md mt-4 md:mt-0">
-                Planetary transits linked with decentralized astrological engines computation. Real-time celestial feedback.
+
+              <h1 className="text-6xl md:text-8xl font-black text-center mb-6 tracking-tight gradient-text leading-tight drop-shadow-lg px-4">
+                {titleText}
+              </h1>
+              
+              <p className="text-slate-300/80 text-xl max-w-2xl mx-auto text-center mb-10 leading-relaxed font-light">
+                {descText} Seamlessly blending ancient spirituality with artificial intelligence for a truly transcendent experience.
               </p>
+
+              <div className="flex flex-col sm:flex-row gap-6 mb-16">
+                <Link href={`/temple/${temple.slug}/donate`}
+                  className="bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-500 text-white px-10 py-4 rounded-xl font-bold tracking-widest uppercase transition-all shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] hover:-translate-y-1 text-sm">
+                  Connect & Donate
+                </Link>
+                <a href="#explore" className="glass-card text-white hover:bg-white/10 px-10 py-4 rounded-xl font-bold tracking-widest uppercase transition-all text-sm">
+                  Explore Network
+                </a>
+              </div>
+
+              {/* Floating Cards */}
+              <div className="w-full flex justify-between gap-4 mt-8 px-4 hidden md:flex">
+                <div className="glass-card p-4 rounded-xl w-64 text-left">
+                  <div className="flex items-center gap-2 mb-2 text-purple-400">
+                    <BrainCircuit className="w-4 h-4" /> <span className="text-xs font-bold uppercase tracking-wider">AI Insights</span>
+                  </div>
+                  <div className="text-white font-bold text-lg">2,450</div>
+                  <div className="text-slate-400 text-xs">Active Devotees Online</div>
+                </div>
+                <div className="glass-card p-4 rounded-xl w-64 text-right">
+                  <div className="flex items-center justify-end gap-2 mb-2 text-cyan-400">
+                    <span className="text-xs font-bold uppercase tracking-wider">Live Status</span> <Activity className="w-4 h-4" />
+                  </div>
+                  <div className="text-white font-bold text-lg">Systems Optimal</div>
+                  <div className="text-slate-400 text-xs">All services operational</div>
+                </div>
+              </div>
+
             </div>
+          </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Planetary Alignment */}
-              <div className="bg-zinc-950/40 border border-zinc-800/80 rounded-3xl p-6 backdrop-blur-xl hover:border-fuchsia-500/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.1)] transition-all">
-                <div className="flex justify-between items-start mb-6">
-                  <div className="p-3 bg-fuchsia-500/10 rounded-2xl text-fuchsia-400">
-                    <Orbit className="h-6 w-6" />
-                  </div>
-                  <span className="text-xs font-mono text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-900/40">ACCURATE</span>
-                </div>
-                <h3 className="text-lg font-bold mb-2">Transit Tracking</h3>
-                <div className="space-y-3 font-mono text-xs text-white/60">
-                  <div className="flex justify-between">
-                    <span>Jupiter:</span>
-                    <span className="text-white">Rohini transit</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sun:</span>
-                    <span className="text-white">Mithuna Rashi</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Moon Phase:</span>
-                    <span className="text-white">Shukla Paksha</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Brahma Muhurta Countdown */}
-              <div className="bg-zinc-950/40 border border-zinc-800/80 rounded-3xl p-6 backdrop-blur-xl hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(6,182,212,0.1)] transition-all">
-                <div className="flex justify-between items-start mb-6">
-                  <div className="p-3 bg-cyan-500/10 rounded-2xl text-cyan-400">
-                    <Compass className="h-6 w-6" />
-                  </div>
-                  <span className="text-xs font-mono text-cyan-400 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-900/40">04:32 AM</span>
-                </div>
-                <h3 className="text-lg font-bold mb-2">Muhurta Window</h3>
-                <div className="space-y-3 font-mono text-xs text-white/60">
-                  <div className="flex justify-between">
-                    <span>Next Muhurta:</span>
-                    <span className="text-white">Brahma Muhurta</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Countdown:</span>
-                    <span className="text-cyan-400 animate-pulse">09h 14m 32s</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Rahu Kaal:</span>
-                    <span className="text-red-400">15:00 - 16:30</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Gotra Resonance */}
-              <div className="bg-zinc-950/40 border border-zinc-800/80 rounded-3xl p-6 backdrop-blur-xl hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.1)] transition-all">
-                <div className="flex justify-between items-start mb-6">
-                  <div className="p-3 bg-purple-500/10 rounded-2xl text-purple-400">
-                    <Fingerprint className="h-6 w-6" />
-                  </div>
-                  <span className="text-xs font-mono text-purple-400 bg-purple-950/40 px-2 py-0.5 rounded border border-purple-900/40">GENEALOGY</span>
-                </div>
-                <h3 className="text-lg font-bold mb-2">Gotra Resonance</h3>
-                <p className="text-xs text-white/60 mb-3 leading-relaxed">Lineage validation matching specific deity vibrations for optimized puja offerings.</p>
-                <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-purple-500 h-full w-[88%] rounded-full"></div>
-                </div>
-              </div>
-
-              {/* Astral Health Score */}
-              <div className="bg-zinc-950/40 border border-zinc-800/80 rounded-3xl p-6 backdrop-blur-xl hover:border-amber-500/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.1)] transition-all">
-                <div className="flex justify-between items-start mb-6">
-                  <div className="p-3 bg-amber-500/10 rounded-2xl text-amber-400">
-                    <Sparkles className="h-6 w-6" />
-                  </div>
-                  <span className="text-xs font-mono text-amber-400 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-900/40">RESILIENT</span>
-                </div>
-                <h3 className="text-lg font-bold mb-2">Spiritual Resonance</h3>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black text-white">96.8</span>
-                  <span className="text-xs text-emerald-400 font-mono">/100 (+1.2%)</span>
-                </div>
-                <p className="text-[10px] text-white/40 mt-3 font-mono">Dynamic index based on localized planetary resonance metrics.</p>
+          {/* SECTION 2 - AI STATUS TICKER */}
+          <section className="bg-purple-950/50 border-y border-purple-500/20 py-3 backdrop-blur-sm">
+            <div className="marquee-container w-full">
+              <div className="marquee-content font-bold text-sm tracking-widest uppercase gradient-text">
+                [AI_SYS_MSG] DARSHAN WAIT TIME: 14 MINS • NEXT AARTI IN: 45 MINS • 80G RECEIPTS AUTO-GENERATED • WHATSAPP BOT ONLINE • 
               </div>
             </div>
           </section>
 
-          {/* 2. AI Pujari Console (Rituals Schedule) */}
-          <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/10 bg-white/[0.01]">
-            <div className="text-center mb-16">
-              <span className="text-fuchsia-400 font-mono text-xs uppercase tracking-widest block mb-2">// REALTIME SERVICE TELEMETRY</span>
-              <h2 className="text-3xl lg:text-5xl font-black">AI Pujari Console</h2>
-              <p className="text-white/50 max-w-2xl mx-auto mt-4">Telemetry of ongoing poojas and material optimizations synced directly with the sanctum sanctorum.</p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Active Ritual Stream */}
-              <div className="lg:col-span-2 bg-zinc-950/40 border border-zinc-800/80 rounded-3xl p-8 backdrop-blur-xl space-y-6">
-                <div className="flex justify-between items-center pb-4 border-b border-white/5">
-                  <h3 className="font-bold flex items-center gap-2">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                    </span>
-                    Active Sanctum Rituals
-                  </h3>
-                  <span className="text-xs font-mono text-white/40">5 Active Threads</span>
+          {/* SECTION 3 - GLASS BENTO GRID */}
+          <section id="explore" className="py-24 relative overflow-hidden bg-slate-950">
+            <div className="absolute top-1/4 left-0 w-full h-[500px] bg-purple-900/10 -skew-y-12 pointer-events-none" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                {/* Cell 1: Identity */}
+                <div className="md:col-span-2 glass-card rounded-3xl p-10 hover:bg-white/5 transition-colors">
+                  <span className="text-purple-400 font-bold tracking-widest uppercase text-xs mb-4 block">Temple Neural Identity</span>
+                  <div className="flex items-center gap-6">
+                    <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center text-4xl shadow-lg">🛕</div>
+                    <div>
+                      <h2 className="text-4xl font-bold gradient-text mb-2">{temple.name}</h2>
+                      <div className="inline-flex items-center gap-1 bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold">
+                        <Shield className="w-3 h-3" /> AI-VERIFIED & 80G COMPLIANT
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="space-y-4">
-                  {[
-                    { name: 'Maha Rudrabhishekam', devotee: 'Anirudh K.*', gotra: 'Vashistha', status: 'Pouring Panchamrit', progress: 85 },
-                    { name: 'Shringar Alankara', devotee: 'Prasad family', gotra: 'Kashyapa', status: 'Deity Garland Decoration', progress: 40 },
-                    { name: 'Sahasranama Archana', devotee: 'Meenakshi R.*', gotra: 'Bharadwaja', status: 'Mantra Chant Phase IV', progress: 95 }
-                  ].map((ritual, idx) => (
-                    <div key={idx} className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:bg-white/[0.04] transition-all">
-                      <div className="space-y-1">
-                        <h4 className="font-bold text-sm text-white">{ritual.name}</h4>
-                        <div className="flex gap-4 text-xs font-mono text-white/50">
-                          <span>Donor: {ritual.devotee}</span>
-                          <span>Gotra: {ritual.gotra}</span>
-                        </div>
+                {/* Cell 2: Timings */}
+                <div className="glass-card rounded-3xl p-8 flex flex-col justify-center text-center group hover:bg-purple-900/20 transition-colors">
+                  <Clock className="w-10 h-10 mx-auto text-purple-400 mb-4 group-hover:scale-110 transition-transform" />
+                  <h3 className="text-lg font-bold text-white mb-2">Darshan Hours</h3>
+                  <p className="text-slate-300">{temple.timings?.morning_open || '06:00'} - {temple.timings?.evening_close || '20:30'}</p>
+                </div>
+
+                {/* Cell 3: Prediction */}
+                <div className="glass-card rounded-3xl p-8 flex flex-col justify-center text-center group hover:bg-blue-900/20 transition-colors">
+                  <Eye className="w-10 h-10 mx-auto text-blue-400 mb-4 group-hover:scale-110 transition-transform" />
+                  <h3 className="text-lg font-bold text-white mb-2">AI Prediction</h3>
+                  <p className="text-slate-300">Best Time to Visit: <span className="text-blue-400 font-bold">07:00 AM</span></p>
+                </div>
+
+                {/* Cell 4: Featured */}
+                <div className="md:col-span-2 gradient-border rounded-3xl p-1 shadow-[0_0_20px_rgba(147,51,234,0.15)] bg-slate-950">
+                  <div className="glass-card rounded-[1.4rem] w-full h-full p-8 flex flex-col md:flex-row items-center justify-between gap-8 bg-slate-900/80">
+                    <div>
+                      <span className="text-xs font-bold uppercase tracking-widest text-cyan-400 block mb-2">Featured Seva</span>
+                      <h3 className="text-3xl font-bold text-white mb-2">Maha Abhishekam</h3>
+                      <p className="text-slate-400 max-w-sm">Secure your slot via our smart booking engine. Real-time updates delivered to WhatsApp.</p>
+                    </div>
+                    <div className="text-center shrink-0">
+                      <div className="text-3xl font-black gradient-text mb-4">₹501</div>
+                      <Link href={`/temple/${temple.slug}/donate?seva=2`} className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl font-bold transition-colors block text-sm">
+                        Book Now
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 4 - AI-POWERED STATS */}
+          <section className="py-16 bg-slate-950 border-y border-white/5">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {stats.map((stat, idx) => (
+                  <div key={idx} className="glass-card p-6 rounded-2xl text-center relative overflow-hidden group hover:border-purple-500/50 transition-colors">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-cyan-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                    <div className="text-purple-400 mb-4 flex justify-center group-hover:scale-110 transition-transform">{stat.icon}</div>
+                    <div className="font-black text-3xl gradient-text mb-2">{stat.value}</div>
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 5 - AI FEATURE SHOWCASE */}
+          <section className="py-24 bg-slate-950">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <span className="text-purple-400 font-bold tracking-widest uppercase text-xs mb-4 block">Platform Capabilities</span>
+                <h2 className="text-4xl md:text-5xl font-black text-white">Smart Temple Experience</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  { title: 'AI Booking Engine', desc: 'Frictionless seva reservations.' },
+                  { title: 'Smart CRM', desc: 'Personalized devotee communication.' },
+                  { title: 'Auto Receipts', desc: 'Instant 80G tax certificates.' },
+                  { title: 'Live Tracking', desc: 'Real-time queue and event updates.' },
+                  { title: 'WhatsApp AI', desc: 'Automated conversational assistance.' },
+                  { title: 'Multilingual', desc: 'Auto-translated content for global reach.' }
+                ].map((feat, idx) => (
+                  <div key={idx} className="glass-card p-8 rounded-3xl hover:bg-white/5 transition-colors group">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition-transform">
+                      <Zap className="w-6 h-6" />
+                    </div>
+                    <h3 className="font-bold text-xl text-white mb-2">{feat.title}</h3>
+                    <p className="text-slate-400 text-sm">{feat.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 6 - ABOUT */}
+          <section className="py-24 bg-slate-950 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div className="space-y-6">
+                  <h2 className="text-5xl font-black leading-tight gradient-text">Ancient Traditions,<br/>Neural Precision</h2>
+                  <div className="prose prose-invert text-slate-300 font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: htmlContent }} />
+                  <Link href={`/temple/${temple.slug}/history`} className="inline-block mt-4 glass-card px-8 py-3 rounded-xl font-bold text-sm text-white hover:bg-white/10 transition-colors uppercase tracking-widest">
+                    Read Data Logs
+                  </Link>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  {['Verified History', 'Secure Data', 'Smart Architecture', 'Global Reach'].map((lbl, i) => (
+                    <div key={i} className="glass-card p-6 rounded-2xl flex flex-col items-center justify-center text-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center">
+                        <Shield className="w-5 h-5" />
                       </div>
-                      <div className="w-full sm:w-auto flex flex-col sm:items-end gap-2">
-                        <span className="text-xs text-fuchsia-400 font-mono">{ritual.status}</span>
-                        <div className="w-24 bg-zinc-900 h-1 rounded-full overflow-hidden">
-                          <div className="bg-gradient-to-r from-fuchsia-500 to-cyan-500 h-full" style={{ width: `${ritual.progress}%` }}></div>
-                        </div>
-                      </div>
+                      <h4 className="font-bold text-white text-sm">{lbl}</h4>
                     </div>
                   ))}
                 </div>
               </div>
+            </div>
+          </section>
 
-              {/* Sacred Resource Telemetry */}
-              <div className="bg-zinc-950/40 border border-zinc-800/80 rounded-3xl p-8 backdrop-blur-xl space-y-6">
-                <h3 className="font-bold pb-4 border-b border-white/5 flex items-center gap-2">
-                  <Flame className="h-5 w-5 text-amber-500" />
-                  Resource Telemetry
-                </h3>
-                
-                <div className="space-y-6">
-                  {/* Oil Meter */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs font-mono text-white/60">
-                      <span>Sacred Ghee Reserve</span>
-                      <span className="text-white">88% (440 Liters)</span>
-                    </div>
-                    <div className="w-full bg-zinc-900 h-2 rounded-full overflow-hidden">
-                      <div className="bg-amber-500 h-full w-[88%] rounded-full"></div>
+          {/* SECTION 7 - SEVAS GRID */}
+          <section className="py-24 bg-slate-900/50 backdrop-blur-xl border-y border-white/5 relative">
+            <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-purple-600/10 blur-[150px] rounded-full pointer-events-none translate-y-[-50%]" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="text-center mb-16 space-y-2">
+                <span className="text-cyan-400 font-bold tracking-widest uppercase text-xs">Digital Offerings</span>
+                <h2 className="text-4xl font-black text-white">Book Smart Sevas</h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sevaData.map((seva) => (
+                  <div key={seva.id} className="glass-card rounded-3xl p-8 hover:border-purple-500/50 transition-colors flex flex-col h-full group">
+                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">{seva.name}</h3>
+                    <p className="text-slate-400 text-sm mb-8 flex-grow">{seva.description}</p>
+                    <div className="flex items-center justify-between pt-6 border-t border-white/10">
+                      <span className="text-2xl font-black gradient-text">₹{seva.amount}</span>
+                      <Link href={`/temple/${temple.slug}/donate?seva=${seva.id}`} 
+                            className="bg-white/10 hover:bg-purple-600 px-6 py-2 rounded-xl text-white text-sm font-bold transition-colors">
+                        Process
+                      </Link>
                     </div>
                   </div>
-
-                  {/* Coconut Counter */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs font-mono text-white/60">
-                      <span>Coconuts Inventory</span>
-                      <span className="text-white">1,240 Units</span>
-                    </div>
-                    <div className="w-full bg-zinc-900 h-2 rounded-full overflow-hidden">
-                      <div className="bg-cyan-500 h-full w-[65%] rounded-full"></div>
-                    </div>
-                  </div>
-
-                  {/* Flower Fresh-Meter */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs font-mono text-white/60">
-                      <span>Tulsi & Flower Fresh-Meter</span>
-                      <span className="text-emerald-400">OPTIMAL</span>
-                    </div>
-                    <div className="w-full bg-zinc-900 h-2 rounded-full overflow-hidden">
-                      <div className="bg-emerald-500 h-full w-[94%] rounded-full"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-xs text-white/50 leading-relaxed flex gap-2">
-                  <Info className="h-4 w-4 text-cyan-400 flex-shrink-0" />
-                  Supply levels are monitored via real-time sensory grids to eliminate waste.
-                </div>
+                ))}
               </div>
             </div>
           </section>
 
-          {/* 3. Decentralized Devotion Ledger (Donation Stats) */}
-          <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/10">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              <div>
-                <span className="text-purple-400 font-mono text-xs uppercase tracking-widest block mb-2">// BLOCKCHAIN IMMUTABILITY</span>
-                <h2 className="text-3xl lg:text-5xl font-black mb-6">Decentralized Devotion Ledger</h2>
-                <p className="text-white/60 leading-relaxed mb-8">
-                  Every contribution is recorded with absolute security, generating cryptographic proof and transparent financial tracking hashes.
-                </p>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
-                    <p className="text-[10px] text-white/40 uppercase tracking-widest font-mono">Verified Hundi</p>
-                    <p className="text-2xl font-black mt-1 text-white">100%</p>
-                  </div>
-                  <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
-                    <p className="text-[10px] text-white/40 uppercase tracking-widest font-mono">Merit SV Points</p>
-                    <p className="text-2xl font-black mt-1 text-purple-400">+1.4M</p>
-                  </div>
-                </div>
+          {/* SECTION 8 - EVENTS */}
+          <section className="py-24 bg-slate-950">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-black text-white mb-4">Event Matrix</h2>
               </div>
 
-              <div className="lg:col-span-2 space-y-4">
-                <div className="bg-zinc-950/40 border border-zinc-800/80 rounded-3xl p-6 backdrop-blur-xl font-mono text-xs text-white/60 space-y-4">
-                  <div className="flex justify-between items-center text-white pb-3 border-b border-white/5">
-                    <span className="font-bold flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-purple-400" /> Devotional Ledger Log</span>
-                    <span className="text-[10px] text-purple-400 bg-purple-950/40 px-2 py-0.5 border border-purple-900/40 rounded">BLOCK CHAIN LOCK</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {events.map((evt) => (
+                  <div key={evt.id} className="glass-card rounded-2xl p-6 hover:bg-white/5 transition-colors">
+                    <div className="flex justify-between items-start mb-4">
+                      <span className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">{evt.date}</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">{evt.name}</h3>
+                    <p className="text-slate-400 text-sm mb-4">{evt.desc}</p>
+                    <p className="text-purple-400 text-xs font-bold uppercase tracking-widest"><MapPin className="inline w-3 h-3 mr-1"/> {evt.location}</p>
                   </div>
+                ))}
+              </div>
+            </div>
+          </section>
 
-                  <div className="space-y-3">
-                    {[
-                      { time: 'Just Now', user: 'Devotee #9928', amt: '₹1,001', hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' },
-                      { time: '2m ago', user: 'Devotee #1004', amt: '₹501', hash: '8f4a3d2e9c1b7f8e0a6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f' },
-                      { time: '12m ago', user: 'Devotee #4821', amt: '₹11,000', hash: '3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4fe3b0c44298fc1c149afbf4c8' }
-                    ].map((tx, idx) => (
-                      <div key={idx} className="bg-black/40 border border-white/5 rounded-xl p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:border-white/10 transition-all">
-                        <div className="space-y-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="text-purple-400 font-bold">{tx.amt}</span>
-                            <span className="text-[10px] text-white/30">{tx.user} ({tx.time})</span>
-                          </div>
-                          <p className="text-[10px] text-white/40 truncate max-w-sm sm:max-w-md font-mono">{tx.hash}</p>
-                        </div>
-                        <span className="text-[10px] font-bold text-emerald-400 flex items-center gap-1 flex-shrink-0">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> RECORDED
-                        </span>
-                      </div>
+          {/* SECTION 9 - GALLERY */}
+          <section className="py-24 bg-slate-950 border-t border-white/5">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-black text-white">Visual Logs</h2>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {[...Array(6)].map((_, idx) => (
+                  <div key={idx} className="relative aspect-video glass-card rounded-2xl overflow-hidden group cursor-pointer">
+                    <div className="absolute inset-0 flex items-center justify-center text-4xl text-slate-700 group-hover:scale-125 transition-transform duration-500">
+                      {['🛕', '🔥', '🌸', '🪔', '🐘', '✨'][idx]}
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                      <span className="text-white font-bold text-sm tracking-widest uppercase">Inspect</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 10 - DONATION */}
+          <section className="py-24 bg-slate-950 relative overflow-hidden">
+            <div className="absolute inset-0 neural-bg opacity-50" />
+            <div className="max-w-5xl mx-auto px-4 relative z-10 text-center">
+              <h2 className="text-5xl font-black gradient-text mb-6">Empower the Divine Mission</h2>
+              <p className="text-slate-300 text-lg mb-12 max-w-2xl mx-auto">Support our technological and spiritual endeavors securely online.</p>
+              
+              <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl max-w-2xl mx-auto">
+                <div className="flex justify-center gap-4 mb-8 text-xs font-bold uppercase tracking-widest text-green-400">
+                  <span className="flex items-center gap-1"><Shield className="w-3 h-3"/> Secured by AI</span>
+                  <span className="flex items-center gap-1"><Award className="w-3 h-3"/> 80G Auto-Generated</span>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 mb-8">
+                  {[101, 501, 1001, 2100, 5100, 11000].map(amt => (
+                    <button 
+                      key={amt}
+                      onClick={() => setSelectedAmount(amt)}
+                      className={`py-4 rounded-2xl font-bold text-lg transition-all 
+                                ${selectedAmount === amt ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg' : 'bg-white/5 text-slate-300 hover:bg-white/10'}`}>
+                      ₹{amt}
+                    </button>
+                  ))}
+                </div>
+                
+                <Link href={`/temple/${temple.slug}/donate?amount=${selectedAmount}`}
+                      className="w-full block bg-white text-slate-900 hover:bg-slate-200 py-5 rounded-2xl font-black uppercase tracking-widest text-lg transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                  Donate ₹{selectedAmount}
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 11 - TRUST BOARD */}
+          <section className="py-24 bg-slate-900/50 backdrop-blur border-y border-white/5">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-black text-white">System Administrators</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {trustees.map((person, idx) => (
+                  <div key={idx} className="glass-card p-8 rounded-3xl text-center hover:bg-white/5 transition-colors">
+                    <div className="w-24 h-24 mx-auto bg-gradient-to-br from-purple-600 to-cyan-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner">
+                      {person.avatar}
+                    </div>
+                    <h3 className="text-2xl font-bold gradient-text mb-2">{person.name}</h3>
+                    <p className="text-sm font-bold text-purple-400 uppercase tracking-widest mb-4">{person.role}</p>
+                    <p className="text-slate-400 font-light text-sm">{person.bio}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 12 - SCHEDULE */}
+          <section className="py-24 bg-slate-950">
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-black text-white mb-4">Cron Schedule</h2>
+              </div>
+              
+              <div className="space-y-6">
+                {schedule.map((slot, idx) => (
+                  <div key={idx} className="glass-card p-6 rounded-2xl flex flex-col md:flex-row md:items-center gap-4 hover:bg-white/5 transition-colors">
+                    <div className="bg-white/10 px-4 py-2 rounded-xl text-cyan-400 font-bold shrink-0">{slot.time}</div>
+                    <div className="text-white font-bold text-lg">{slot.event}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 13 - VOLUNTEER */}
+          <section className="py-24 bg-slate-950 border-t border-white/5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col justify-center">
+                <h2 className="text-4xl font-black text-white mb-6">Join the Neural Network</h2>
+                <p className="text-slate-400 text-lg mb-8">Contribute your skills to our growing digital and physical ecosystem.</p>
+                <button className="bg-white/10 text-white px-8 py-4 rounded-xl font-bold self-start hover:bg-white/20 transition-colors">Apply to Volunteer</button>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {['Data Entry', 'Crowd Mgmt', 'Social Media', 'Content Creation'].map((role, i) => (
+                  <div key={i} className="glass-card p-6 rounded-2xl text-center">
+                    <h4 className="font-bold text-white text-sm">{role}</h4>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 14 - CONTACT */}
+          <section className="bg-slate-950 pt-24 pb-12 border-t border-white/5">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                
+                <div className="space-y-4">
+                  <h3 className="font-bold text-purple-400 uppercase tracking-widest text-sm mb-6">Coordinates</h3>
+                  <div className="text-slate-400 text-sm space-y-1">
+                    <p className="text-white font-bold">{temple.name}</p>
+                    <p>{temple.address?.line1}</p>
+                    <p>{temple.address?.city}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="font-bold text-purple-400 uppercase tracking-widest text-sm mb-6">Comms</h3>
+                  <div className="text-slate-400 text-sm space-y-2">
+                    <p>{temple.contactPhone}</p>
+                    <p>{temple.contactEmail}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="font-bold text-purple-400 uppercase tracking-widest text-sm mb-6">Nodes</h3>
+                  <ul className="text-slate-400 text-sm space-y-2">
+                    <li><Link href={`/temple/${temple.slug}/history`} className="hover:text-white transition-colors">About</Link></li>
+                    <li><Link href={`/temple/${temple.slug}/donate`} className="hover:text-white transition-colors">Donate</Link></li>
+                  </ul>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="font-bold text-purple-400 uppercase tracking-widest text-sm mb-6">Network</h3>
+                  <div className="flex gap-4">
+                    {['X', 'IN', 'YT'].map(social => (
+                      <a key={social} href="#" className="glass-card w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors text-xs font-bold">
+                        {social}
+                      </a>
                     ))}
                   </div>
                 </div>
+
+              </div>
+              
+              <div className="pt-8 border-t border-white/10 text-center flex justify-between items-center text-slate-500 text-xs">
+                <p>© {new Date().getFullYear()} {temple.name}</p>
+                <p className="glass-card px-3 py-1 rounded-full text-slate-300">Powered by MandirAI OS</p>
               </div>
             </div>
           </section>
 
-          {/* 4. Sentient Assistant Node (Terminal Sandbox) */}
-          <section id="assistant" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/10 bg-white/[0.01]">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div className="space-y-6">
-                <span className="text-cyan-400 font-mono text-xs uppercase tracking-widest block">// NEURAL SHELL</span>
-                <h2 className="text-3xl lg:text-5xl font-black">Sentient Assistant Node</h2>
-                <p className="text-white/60 leading-relaxed">
-                  Interact with the temple's decentralized spiritual chatbot core. Select a query protocol below to trigger a live celestial synthesis.
-                </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <button
-                    onClick={() => runProtocol('astrology')}
-                    disabled={loadingProtocol !== null}
-                    className="p-4 bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 rounded-2xl font-mono text-xs text-left transition-all flex flex-col justify-between h-28 group cursor-pointer"
-                  >
-                    <Orbit className="h-5 w-5 text-cyan-400 group-hover:rotate-45 transition-transform" />
-                    <span>Run Astrology Transit Query</span>
-                  </button>
-                  <button
-                    onClick={() => runProtocol('mantra')}
-                    disabled={loadingProtocol !== null}
-                    className="p-4 bg-white/5 border border-white/10 hover:border-fuchsia-500/50 hover:bg-white/10 rounded-2xl font-mono text-xs text-left transition-all flex flex-col justify-between h-28 group cursor-pointer"
-                  >
-                    <Terminal className="h-5 w-5 text-fuchsia-400" />
-                    <span>Generate Morning Mantra</span>
-                  </button>
-                  <button
-                    onClick={() => runProtocol('gotra')}
-                    disabled={loadingProtocol !== null}
-                    className="p-4 bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 rounded-2xl font-mono text-xs text-left transition-all flex flex-col justify-between h-28 group cursor-pointer"
-                  >
-                    <Fingerprint className="h-5 w-5 text-purple-400" />
-                    <span>Validate Gotra Hash</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Terminal window */}
-              <div className="bg-zinc-950 border-2 border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[320px]">
-                <div className="bg-zinc-900 px-4 py-3 border-b border-zinc-800 flex items-center justify-between">
-                  <div className="flex gap-2">
-                    <span className="w-3 h-3 rounded-full bg-red-500/80"></span>
-                    <span className="w-3 h-3 rounded-full bg-yellow-500/80"></span>
-                    <span className="w-3 h-3 rounded-full bg-green-500/80"></span>
-                  </div>
-                  <span className="text-[10px] text-white/40 font-mono uppercase tracking-wider">Spiritual Core v1.4-beta</span>
-                </div>
-                <div className="flex-1 p-6 font-mono text-xs text-cyan-400 overflow-y-auto whitespace-pre-wrap leading-relaxed select-all">
-                  {terminalOutput}
-                  {loadingProtocol && (
-                    <span className="inline-block w-2 h-4 bg-cyan-400 ml-1 animate-pulse"></span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* 5. Cyber Annadanam Kitchen (Kitchen Telemetry) */}
-          <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-white/10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
-              <div>
-                <span className="text-amber-500 font-mono text-xs uppercase tracking-widest block mb-2">// AUTOMATED CHARITY GRIDS</span>
-                <h2 className="text-3xl lg:text-5xl font-black">Cyber Annadanam Tracker</h2>
-              </div>
-              <p className="text-white/50 max-w-md mt-4 md:mt-0">
-                Tracking meals served, resource stock, and automated logistics supply grids for mass devotee distribution.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Daily Meal Stats */}
-              <div className="bg-zinc-950/40 border border-zinc-800/80 rounded-3xl p-6 backdrop-blur-xl hover:border-amber-500/50 transition-all flex flex-col justify-between">
-                <div className="flex justify-between items-start">
-                  <div className="p-3 bg-amber-500/10 rounded-2xl text-amber-500">
-                    <Utensils className="h-6 w-6" />
-                  </div>
-                  <span className="text-[10px] font-mono text-amber-500 bg-amber-950/40 px-2 py-0.5 border border-amber-900/40 rounded">LIVE SUPPLY</span>
-                </div>
-                <div className="my-8">
-                  <p className="text-stone-400 text-xs uppercase tracking-wider">Meals Served Today</p>
-                  <p className="text-5xl font-black text-white mt-2">4,820</p>
-                </div>
-                <p className="text-xs text-white/50 leading-relaxed border-t border-white/5 pt-4">
-                  Target threshold of 6,000 meals forecast dynamically by localized AI demand metrics.
-                </p>
-              </div>
-
-              {/* Silo Capacity */}
-              <div className="bg-zinc-950/40 border border-zinc-800/80 rounded-3xl p-6 backdrop-blur-xl hover:border-cyan-500/50 transition-all flex flex-col justify-between">
-                <div className="flex justify-between items-start">
-                  <div className="p-3 bg-cyan-500/10 rounded-2xl text-cyan-400">
-                    <Cpu className="h-6 w-6" />
-                  </div>
-                  <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/40 px-2 py-0.5 border border-cyan-900/40 rounded">STOCKS</span>
-                </div>
-                
-                <div className="my-6 space-y-4">
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs font-mono text-white/50">
-                      <span>Basmati Rice Silo:</span>
-                      <span className="text-white">74%</span>
-                    </div>
-                    <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden">
-                      <div className="bg-cyan-400 h-full w-[74%]"></div>
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs font-mono text-white/50">
-                      <span>Flour & Grain Silo:</span>
-                      <span className="text-white">92%</span>
-                    </div>
-                    <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden">
-                      <div className="bg-fuchsia-400 h-full w-[92%]"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-xs text-white/50 leading-relaxed border-t border-white/5 pt-4">
-                  Automated re-order triggers active. Zero-waste distribution optimization.
-                </p>
-              </div>
-
-              {/* Sponsor A Meal */}
-              <div className="bg-gradient-to-br from-amber-500/10 via-fuchsia-500/10 to-transparent border-2 border-fuchsia-500/30 rounded-3xl p-8 flex flex-col justify-between">
-                <div className="space-y-4">
-                  <h3 className="text-xl font-bold flex items-center gap-2">
-                    <Sparkles className="h-5 w-5 text-fuchsia-400" />
-                    Sponsor Annadanam
-                  </h3>
-                  <p className="text-xs text-white/60 leading-relaxed">
-                    Sponsor meals for 100 devotees. The AI logistics grid automatically routes your funds directly into raw materials purchasing ledger.
-                  </p>
-                </div>
-                <div className="mt-8 space-y-4">
-                  <div className="flex justify-between items-center bg-white/5 border border-white/10 rounded-2xl p-4">
-                    <span className="text-xs text-white/50">Sponsorship package:</span>
-                    <span className="text-lg font-black text-white">₹5,100</span>
-                  </div>
-                  <Link href={`/temple/${temple.slug}/donate`}
-                    className="w-full py-3 bg-gradient-to-r from-fuchsia-600 to-amber-600 hover:from-fuchsia-700 hover:to-amber-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all">
-                    Sponsor Now <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </section>
         </>
       )}
     </div>

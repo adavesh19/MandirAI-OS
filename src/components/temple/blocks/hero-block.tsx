@@ -16,7 +16,7 @@ interface HeroBlockProps {
     alignment?: 'left' | 'center' | 'right'
     symbol?: 'none' | 'om' | 'flag' | 'lamp'
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
 }
 
 export default function HeroBlock({ data, settings, theme = 'classic' }: HeroBlockProps) {

@@ -88,19 +88,19 @@ export default function HeroSection() {
             <span className="text-saffron-700 dark:text-saffron-400">MandirAI OS — The Future of Temples</span>
           </div>
 
-          {/* Heading */}
+          {/* Heading — targets "temple website builder" keyword */}
           <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-stone-900 dark:text-white mb-6 leading-tight drop-shadow-sm">
-            Digitize Your Temple with{' '}
-            <br className="hidden md:block" />
+            India&apos;s #1{' '}
             <span className="bg-gradient-to-r from-saffron-500 via-amber-500 to-maroon-600 bg-clip-text text-transparent dark:to-saffron-400 relative">
-              Artificial Intelligence
+              Temple Website Builder
               <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-saffron-500 to-transparent opacity-30 blur-sm"></div>
             </span>
+            {' '}&amp; Management Platform
           </h1>
 
           {/* Subheading */}
           <p className="max-w-2xl mx-auto text-lg md:text-xl text-stone-700 dark:text-stone-300 mb-10 leading-relaxed font-medium">
-            One unified platform to automatically generate your website, manage donations, devotees CRM, events, receipts, and analytics.
+            Build your complete temple website in 3 minutes using AI — then manage donations, seva bookings, devotee CRM, 80G receipts, multilingual pages, and more from one dashboard.
           </p>
 
           {/* Actions */}

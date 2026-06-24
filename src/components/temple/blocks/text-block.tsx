@@ -12,7 +12,7 @@ interface TextBlockProps {
     align?: 'left' | 'center' | 'justify'
     size?: 'small' | 'medium' | 'large'
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
 }
 
 export default function TextBlock({ data, settings, theme = 'classic' }: TextBlockProps) {

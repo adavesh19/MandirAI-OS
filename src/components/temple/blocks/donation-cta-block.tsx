@@ -18,7 +18,7 @@ interface DonationCtaBlockProps {
     layout?: 'single-card' | 'split'
     showQr?: boolean
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
 }
 
 export default function DonationCtaBlock({ data, settings, theme = 'classic' }: DonationCtaBlockProps) {

@@ -16,7 +16,7 @@ interface GalleryBlockProps {
   settings?: {
     columns?: '2' | '3' | '4'
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
 }
 
 export default function GalleryBlock({ data, settings, theme = 'classic' }: GalleryBlockProps) {

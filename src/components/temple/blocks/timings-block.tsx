@@ -12,7 +12,7 @@ interface TimingsBlockProps {
     contact?: Record<string, string>
   }
   settings?: any
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
 }
 
 export default function TimingsBlock({ data, settings, theme = 'classic' }: TimingsBlockProps) {

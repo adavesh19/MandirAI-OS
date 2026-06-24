@@ -21,7 +21,7 @@ interface SevasBlockProps {
     columns?: '2' | '3' | '4'
     backgroundStyle?: 'light' | 'dark' | 'accent'
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
   sevas?: SevaItem[]
 }
 

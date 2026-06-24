@@ -109,6 +109,28 @@ export default function AIBuilderClient({ templeSlug, templeName }: AIBuilderCli
   const [copiedId, setCopiedId] = React.useState<string | null>(null)
   const fileInputRef = React.useRef<HTMLInputElement>(null)
 
+  const handleMediaUpload = async (file: File, callback: (url: string) => void) => {
+    setUploadingMedia(true)
+    try {
+      const data = new FormData()
+      data.append('file', file)
+      const res = await fetch('/api/media/onboarding-upload', {
+        method: 'POST',
+        body: data,
+      })
+      const result = await res.json()
+      if (res.ok && result.success) {
+        callback(result.url)
+      } else {
+        alert(result.error || 'Upload failed')
+      }
+    } catch (err) {
+      alert('Upload error')
+    } finally {
+      setUploadingMedia(false)
+    }
+  }
+
   // Active blocks computed
   const activeBlocks = draftBlocks || initialBlocks
 
@@ -1788,14 +1810,33 @@ Tell me what you'd like to do. For example:
                       </div>
                       <div className="space-y-1.5">
                         <label className="text-[10.5px] font-bold text-stone-650 dark:text-stone-350 uppercase">Cover image URL</label>
-                        <input
-                          type="text"
-                          value={activeBlock.settings?.backgroundImage || ''}
-                          onChange={(e) => updateBlockSetting(activeBlock.id, 'backgroundImage', e.target.value)}
-                          className="w-full text-xs font-mono border border-stone-250 dark:border-stone-750 bg-white dark:bg-stone-900 rounded-xl p-2.5 focus:outline-none focus:border-amber-500"
-                          placeholder="e.g. /uploads/image.jpg"
-                        />
-                        <p className="text-[9px] text-stone-400">Tip: Upload images in the Media tab, copy the URL and paste it here.</p>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={activeBlock.settings?.backgroundImage || ''}
+                            onChange={(e) => updateBlockSetting(activeBlock.id, 'backgroundImage', e.target.value)}
+                            className="flex-1 w-full text-xs font-mono border border-stone-250 dark:border-stone-750 bg-white dark:bg-stone-900 rounded-xl p-2.5 focus:outline-none focus:border-amber-500"
+                            placeholder="e.g. /uploads/image.jpg"
+                          />
+                          <input
+                            type="file"
+                            accept="image/*"
+                            id={`upload-hero-${activeBlock.id}`}
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0]
+                              if (file) handleMediaUpload(file, (url) => updateBlockSetting(activeBlock.id, 'backgroundImage', url))
+                            }}
+                            disabled={uploadingMedia}
+                          />
+                          <label
+                            htmlFor={`upload-hero-${activeBlock.id}`}
+                            className={`cursor-pointer shrink-0 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-center border border-stone-250 dark:border-stone-750 transition-colors ${uploadingMedia ? 'opacity-50 pointer-events-none' : ''}`}
+                          >
+                            {uploadingMedia ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4 text-amber-600" />}
+                          </label>
+                        </div>
+                        <p className="text-[9px] text-stone-400">Tip: Upload directly or paste an existing URL.</p>
                       </div>
                       {renderSelectSetting('alignment', 'alignment', [
                         { value: 'center', label: 'Center Aligned' },

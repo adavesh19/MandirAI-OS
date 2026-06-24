@@ -15,7 +15,7 @@ interface FormBlockProps {
   settings?: {
     formType?: 'contact' | 'prayer_request' | 'feedback'
   }
-  theme?: 'classic' | 'heritage' | 'modern' | 'divine-glow'
+  theme?: string
 }
 
 export default function FormBlock({ data, settings, theme = 'classic' }: FormBlockProps) {
