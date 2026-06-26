@@ -4,478 +4,412 @@ import * as React from 'react'
 import Link from 'next/link'
 import { Clock, Phone, Mail, MapPin, CalendarDays, Heart, ArrowRight, Users, Star, Sparkles, BookOpen, Camera, Shield, Award, ChevronRight, Moon, Sun, Zap, Play, Globe, Gift } from 'lucide-react'
 import { useLanguage } from '@/components/shared/language-context'
-
 import BlockRenderer from '@/components/temple/blocks/block-renderer'
 
-interface TemplateProps {
-  temple: any
-  page: any
-  sevas: any[]
-}
+interface TemplateProps { temple: any; page: any; sevas: any[] }
 
-export default function DivineGlowTemplate({ temple, page, sevas }: TemplateProps) {
+export default function DivinGlowTemplate({ temple, page, sevas }: TemplateProps) {
   const { t } = useLanguage()
-  const [selectedAmount, setSelectedAmount] = React.useState(1001)
-  
-  const titleText = page?.title ? t(page.title) : `${temple.name}`
-  const descText = page?.description ? t(page.description) : `A sacred spiritual center dedicated to Lord ${temple.primaryDeity || 'the Divine'}.`
-  const htmlContent = page?.content ? t(page.content) : `<p>Welcome to our sacred temple. May the divine blessings be with you always.</p>`
+  const [selectedAmount, setSelectedAmount] = React.useState(501)
+  const [activeDay, setActiveDay] = React.useState(0)
+
+  const titleText = page?.title ? t(page.title) : `Divine Light of ${temple.name}`
+  const descText = page?.description ? t(page.description) : `Experience the divine glow of Lord ${temple.primaryDeity || 'the Almighty'}. Where sacred fire meets eternal devotion.`
 
   const sevaData = sevas && sevas.length > 0 ? sevas : [
-    { id:'1', name:'Panchamrutha Abhishekam', amount:1001, description:'Sacred bathing of the deity with 5 nectars.', durationMinutes:60 },
-    { id:'2', name:'Maha Shodashopacharapuja', amount:5001, description:'Grand worship offering 16 sacred upacharas.', durationMinutes:120 },
-    { id:'3', name:'Sahasranama Archana', amount:251, description:'Recitation of 1000 divine names.', durationMinutes:45 },
-    { id:'4', name:'Visesha Deepa Aradhana', amount:501, description:'Special lighting of lamps offering.', durationMinutes:30 },
-    { id:'5', name:'Annadanam (50 persons)', amount:2501, description:'Sponsorship for feeding 50 devotees.', durationMinutes:0 },
-    { id:'6', name:'Rajopachara Seva', amount:11001, description:'Royal treatment and elaborate worship.', durationMinutes:180 },
-    { id:'7', name:'Kumkumarchana', amount:151, description:'Worship using sacred red vermilion.', durationMinutes:20 },
-    { id:'8', name:'Nitya Pooja', amount:101, description:'Daily regular worship offering.', durationMinutes:15 },
-    { id:'9', name:'Brahmotsavam Sponsor', amount:51000, description:'Grand sponsorship of the annual temple festival.', durationMinutes:0 },
+    { id:'1', name:'Nitya Archana', amount:51, desc:'108-name floral offering at dawn.', emoji:'🌸' },
+    { id:'2', name:'Agni Abhishekam', amount:1001, desc:'Sacred fire-bath ritual with panchagavya.', emoji:'🔥' },
+    { id:'3', name:'Kumkumarchana', amount:151, desc:'Kumkum offering to Devi with ashtottaram.', emoji:'🔴' },
+    { id:'4', name:'Sahasranama Archana', amount:501, desc:'Thousand holy names with bilva/tulsi.', emoji:'📿' },
+    { id:'5', name:'Annadanam', amount:2001, desc:'Sponsor meals for 200 pilgrims.', emoji:'🍛' },
+    { id:'6', name:'Deepotsavam', amount:5001, desc:'1008 sacred lamps lit simultaneously.', emoji:'🪔' },
+    { id:'7', name:'Devi Alankara', amount:3001, desc:'Special jewel adornment for the Goddess.', emoji:'💎' },
+    { id:'8', name:'Maha Homam', amount:11001, desc:'Grand fire ritual with vedic mantra.', emoji:'🏺' },
+    { id:'9', name:'Brahmotsavam Seva', amount:51000, desc:'Sponsor the annual 9-day grand utsavam.', emoji:'👑' },
   ]
 
-  const events = [
-    { id:'1', name:'Annual Brahmotsavam', date:'14 Days in Chaitra', type:'MAHA UTSAV', desc:'The grand annual festival featuring daily processions.', location:'Entire Temple' },
-    { id:'2', name:'Sharad Navaratri', date:'02 Oct 2025', type:'FESTIVAL', desc:'Nine nights of Devi worship with alankarams.', location:'Devi Shrine' },
-    { id:'3', name:'Maha Shivaratri', date:'26 Feb 2026', type:'POOJA', desc:'Night-long vigil and continuous abhishekam.', location:'Shiva Mandapam' },
-    { id:'4', name:'Sri Rama Navami', date:'06 Apr 2026', type:'FESTIVAL', desc:'Sita Rama Kalyanam ceremony.', location:'Main Hall' },
-    { id:'5', name:'Krishna Janmashtami', date:'16 Aug 2026', type:'FESTIVAL', desc:'Midnight celebrations and unjal seva.', location:'Krishna Temple' },
+  const weeklyPooja = [
+    { day:'Mon', pooja:'Shiva Mahabhishekam', emoji:'🔱', glow:'rgba(99,102,241,0.3)' },
+    { day:'Tue', pooja:'Anjaneya Tava Seva', emoji:'🔥', glow:'rgba(239,68,68,0.3)' },
+    { day:'Wed', pooja:'Ganapathi Homam', emoji:'🐘', glow:'rgba(234,179,8,0.3)' },
+    { day:'Thu', pooja:'Guru Archana', emoji:'🪔', glow:'rgba(245,158,11,0.3)' },
+    { day:'Fri', pooja:'Devi Sringara', emoji:'💫', glow:'rgba(236,72,153,0.3)' },
+    { day:'Sat', pooja:'Venkateswara Seva', emoji:'👑', glow:'rgba(139,92,246,0.3)' },
+    { day:'Sun', pooja:'Sahasranama Pooja', emoji:'☀️', glow:'rgba(245,158,11,0.5)' },
   ]
 
-  const stats = [
-    { label:'Years of Heritage', value:'500+', icon:'🏛️' },
-    { label:'Monthly Devotees', value:'25,000+', icon:'🙏' },
-    { label:'Daily Sevas', value:'108', icon:'🪔' },
-    { label:'Divine Presence', value:'24/7', icon:'✨' },
+  const notices = [
+    { date:'24 Jun', title:'Deepotsavam — 1008 Lamps', desc:'All 1008 lamps lit simultaneously at 6 PM. Open to all.', tag:'Special' },
+    { date:'26 Jun', title:'Agni Abhishekam Slots', desc:'Book slots for July. Limited per session.', tag:'Booking' },
+    { date:'28 Jun', title:'Night Meditation Camp', desc:'Silent meditation at the temple from 9 PM to midnight.', tag:'Wellness' },
+    { date:'01 Jul', title:'Brahmotsavam Registration', desc:'Sponsor individual vahana seva for the 9-day festival.', tag:'Festival' },
+    { date:'05 Jul', title:'Jyotirlinga Abhishekam', desc:'Rare 12-vessel abhishekam performed once a year.', tag:'Rare' },
   ]
 
-  const trustees = [
-    { name: temple.peethadhipati?.name || 'Sri Swami', role:'Spiritual Head', bio:'Guiding the light of dharma and devotion.', avatar:'🙏' },
-    { name:'Sri Chairman', role:'Chairman', bio:'Ensuring the temple traditions shine forever.', avatar:'👤' },
-    { name:'Sri Secretary', role:'Secretary', bio:'Managing the temple administration smoothly.', avatar:'👤' },
+  const slokas = [
+    { text:'ॐ नमः शिवाय', meaning:'I bow to Lord Shiva — the auspicious one.', deity:'Shiva' },
+    { text:'ॐ श्री महागणपतये नमः', meaning:'I salute Lord Ganesha, the remover of obstacles.', deity:'Ganesha' },
+    { text:'सर्वे भवन्तु सुखिनः', meaning:'May all beings be happy, may all be free from suffering.', deity:'Universal' },
   ]
 
-  const schedule = [
-    { time:'5:00 AM', event:'Suprabhatam & Mangala Aarti' },
-    { time:'6:30 AM', event:'Pratahkal Pooja' },
-    { time:'8:30 AM', event:'Darshan Opens' },
-    { time:'12:30 PM', event:'Maha Naivedyam (Rajabhoga)' },
-    { time:'4:00 PM', event:'Temple Reopens' },
-    { time:'6:30 PM', event:'Sandhya Aarti & Deeparadhana' },
-    { time:'8:30 PM', event:'Ekanta Seva & Temple Closes' },
+  const aartis = [
+    { time:'5:00 AM', name:'Mangala Aarti', icon:'🌄', energy:'Opening of divine gates' },
+    { time:'7:00 AM', name:'Abhishekam Aarti', icon:'🏺', energy:'Water offering purification' },
+    { time:'12:00 PM', name:'Rajabhoga Aarti', icon:'☀️', energy:'Peak solar energy blessing' },
+    { time:'6:00 PM', name:'Sandhya Aarti', icon:'🌅', energy:'Twilight divine communion' },
+    { time:'8:00 PM', name:'Shodashopachar Aarti', icon:'🌙', energy:'16-step evening worship' },
+    { time:'9:00 PM', name:'Sheja Aarti', icon:'🌌', energy:'Night rest of the deity' },
   ]
+
+  const milestones = [
+    { year:'1523', event:'Divine Manifestation', desc:'Svayambhu deity discovered by a shepherd having divine vision.' },
+    { year:'1789', event:'Deepotsavam Tradition', desc:'The annual 1000-lamp festival tradition started by the king.' },
+    { year:'1924', event:'Trust Established', desc:'Public charitable trust registered with full transparency.' },
+    { year:'2025', event:'AI Era Begins', desc:'Full digital platform with live darshan and online booking.' },
+  ]
+
+  const address = temple.address as any || {}
 
   return (
-    <div className="bg-[#0d0500] min-h-screen font-serif text-[#FFFDD0] selection:bg-amber-600 selection:text-white">
-      <style dangerouslySetInnerHTML={{__html: `
-        .spin-slow { animation: spin 40s linear infinite; }
-        .spin-slow-reverse { animation: spin 30s linear infinite reverse; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        .marquee-container { overflow: hidden; white-space: nowrap; }
-        .marquee-content { display: inline-block; animation: marquee 30s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .perspective-1000 { perspective: 1000px; }
-        .transform-3d { transform-style: preserve-3d; }
-        .card-tilt:hover { transform: rotateX(5deg) rotateY(-5deg) translateZ(10px); }
-        .gold-glow-text { background: linear-gradient(to right, #F4C430, #FFFDD0, #F4C430); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 20px rgba(245,158,11,0.2); } 50% { box-shadow: 0 0 40px rgba(245,158,11,0.5); } }
-        .animate-glow-pulse { animation: glow-pulse 3s infinite; }
+    <div className="min-h-screen font-sans" style={{background:'#000000', color:'#fef3c7'}}>
+      <style dangerouslySetInnerHTML={{__html:`
+        @keyframes fire-flicker { 0%,100%{transform:scaleY(1) scaleX(1);opacity:1;} 30%{transform:scaleY(1.08) scaleX(0.96);opacity:0.95;} 70%{transform:scaleY(0.96) scaleX(1.04);opacity:1;} }
+        @keyframes amber-glow { 0%,100%{box-shadow:0 0 20px rgba(245,158,11,0.4),0 0 60px rgba(245,158,11,0.1);} 50%{box-shadow:0 0 40px rgba(245,158,11,0.7),0 0 100px rgba(245,158,11,0.2);} }
+        @keyframes float-ember { 0%{transform:translateY(0) rotate(0deg);opacity:1;} 100%{transform:translateY(-80px) rotate(20deg);opacity:0;} }
+        @keyframes gold-spin { 100%{transform:rotate(360deg);} }
+        @keyframes marquee { 0%{transform:translateX(100vw);} 100%{transform:translateX(-100%);} }
+        @keyframes pulse-ring { 0%{transform:scale(1);opacity:0.5;} 100%{transform:scale(1.5);opacity:0;} }
+        @keyframes shimmer { 0%{background-position:-200% 0;} 100%{background-position:200% 0;} }
+        .fire { animation: fire-flicker 0.6s ease-in-out infinite alternate; }
+        .amber-glow { animation: amber-glow 2.5s ease-in-out infinite; }
+        .gold-text { background:linear-gradient(90deg,#92400e,#fbbf24,#f59e0b,#fcd34d,#f59e0b,#fbbf24,#92400e); background-size:300% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 5s linear infinite; }
+        .ticker-anim { animation:marquee 35s linear infinite; white-space:nowrap; display:inline-block; }
+        .card-glow { transition:all 0.35s ease; border:1px solid rgba(245,158,11,0.15); }
+        .card-glow:hover { border-color:rgba(245,158,11,0.5); box-shadow:0 0 30px rgba(245,158,11,0.2), 0 20px 60px rgba(0,0,0,0.5); transform:translateY(-6px); }
+        .seva-glow:hover { border-color:rgba(245,158,11,0.6); box-shadow:0 0 20px rgba(245,158,11,0.25); transform:translateY(-4px) scale(1.01); }
+        .seva-glow { transition:all 0.3s ease; border:1px solid rgba(245,158,11,0.1); }
+        .spin-slow { animation:gold-spin 60s linear infinite; }
+        .btn-fire { background:linear-gradient(135deg,#b45309,#f59e0b,#d97706); transition:all 0.3s ease; }
+        .btn-fire:hover { transform:scale(1.05); box-shadow:0 8px 32px rgba(245,158,11,0.5); }
+        .pulse-ring { animation:pulse-ring 2s ease-out infinite; }
       `}} />
 
-      {page?.blocks && page.blocks.length > 0 ? (
-        <div className="py-12 bg-black"><BlockRenderer blocks={page.blocks} theme="glow" sevas={sevas} templeAddress={temple.address} /></div>
-      ) : (
-        <>
-          {/* SECTION 1 - IMMERSIVE GLOW HERO */}
-          <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0d0500] px-4 pt-20 pb-12">
-            
-            {/* Ambient Lights */}
-            <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-orange-600/10 blur-[150px] rounded-full pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-amber-500/10 blur-[150px] rounded-full pointer-events-none" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#F4C430]/10 blur-[120px] rounded-full pointer-events-none" />
+      {/* ══ HERO ══════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{background:'radial-gradient(ellipse at 50% 40%, rgba(120,50,0,0.6) 0%, rgba(60,20,0,0.4) 40%, #000 80%)'}}>
+        {/* Animated fire particles */}
+        {[0,1,2,3,4].map(i => (
+          <div key={i} className="absolute bottom-0 text-2xl fire opacity-60 select-none" style={{left:`${15+i*18}%`, animationDelay:`${i*0.15}s`}}>🔥</div>
+        ))}
+        {/* Spinning mandala */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-10">
+          <div className="spin-slow w-[700px] h-[700px] rounded-full" style={{border:'1px solid #f59e0b'}} />
+          <div className="absolute w-[500px] h-[500px] rounded-full" style={{border:'1px solid rgba(245,158,11,0.6)', animation:'gold-spin 40s linear infinite reverse'}} />
+        </div>
+        {/* Floating diyas */}
+        <div className="absolute top-28 left-16 text-4xl fire select-none">🪔</div>
+        <div className="absolute top-36 right-20 text-4xl fire select-none" style={{animationDelay:'0.3s'}}>🪔</div>
+        <div className="absolute bottom-32 left-20 text-3xl fire select-none" style={{animationDelay:'0.6s'}}>🪔</div>
+        <div className="absolute bottom-28 right-16 text-3xl fire select-none" style={{animationDelay:'0.9s'}}>🪔</div>
 
-            {/* Glowing Rings */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
-              <div className="absolute w-[600px] h-[600px] rounded-full border border-[#F4C430]/30 spin-slow" />
-              <div className="absolute w-[650px] h-[650px] rounded-full border border-dashed border-amber-500/30 spin-slow-reverse" />
-            </div>
+        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
+          <div className="w-28 h-28 mx-auto mb-8 rounded-full flex items-center justify-center text-6xl amber-glow" style={{background:'radial-gradient(circle,#7c2d12,#450a00)'}}>🕉️</div>
+          <div className="inline-flex items-center gap-2 mb-6 px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest" style={{background:'rgba(245,158,11,0.1)', border:'1px solid rgba(245,158,11,0.3)', color:'#fcd34d'}}>
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse inline-block" />🔥 Sacred Fire Temple · Divine Glow
+          </div>
+          <h1 className="font-extrabold text-5xl sm:text-6xl md:text-8xl leading-tight mb-6 tracking-tight">
+            <span className="gold-text">{temple.name || titleText}</span>
+          </h1>
+          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-12 leading-relaxed" style={{color:'rgba(254,243,199,0.7)'}}>{descText}</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href={`/temple/${temple.slug}/sevas`} className="btn-fire text-stone-900 font-black px-10 py-4 rounded-2xl flex items-center gap-2 shadow-2xl">
+              🔥 Book Sacred Seva <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link href={`/temple/${temple.slug}/donate`} className="font-black px-10 py-4 rounded-2xl hover:scale-105 transition-all" style={{border:'2px solid rgba(245,158,11,0.5)', color:'#fcd34d'}}>
+              💛 Offer Dana
+            </Link>
+            <Link href={`/temple/${temple.slug}/live`} className="font-black px-10 py-4 rounded-2xl hover:scale-105 transition-all flex items-center gap-2" style={{background:'rgba(245,158,11,0.1)', border:'1px solid rgba(245,158,11,0.3)', color:'#fcd34d'}}>
+              <span className="w-2 h-2 bg-red-500 rounded-full animate-ping inline-block" />🔴 Live Darshan
+            </Link>
+          </div>
+        </div>
+      </section>
 
-            {/* Particles */}
-            <div className="absolute inset-0 pointer-events-none">
-              {[...Array(15)].map((_, i) => (
-                <div key={i} className="absolute rounded-full bg-[#F4C430]/60 animate-pulse" 
-                     style={{ 
-                       width: Math.random() * 4 + 2 + 'px', 
-                       height: Math.random() * 4 + 2 + 'px',
-                       left: Math.random() * 100 + '%',
-                       top: Math.random() * 100 + '%',
-                       animationDelay: Math.random() * 5 + 's',
-                       animationDuration: Math.random() * 3 + 2 + 's'
-                     }} 
-                />
-              ))}
-            </div>
+      {/* ══ TICKER ════════════════════════════════════════════════════════ */}
+      <div className="py-3 overflow-hidden" style={{background:'linear-gradient(90deg,#78350f,#b45309,#78350f)'}}>
+        <div className="ticker-anim text-xs font-black tracking-widest text-amber-100">
+          🔥 JAI MAHA KALI · JAI DURGA MATA 🪔 Deepotsavam: 1008 Lamps Tonight 6 PM ✨ Agni Abhishekam Every Morning 6 AM 🌙 Night Meditation Camp 9 PM 💛 Brahmotsavam Oct 12-21 — Register Now 🕉️
+        </div>
+      </div>
 
-            <div className="relative z-10 text-center max-w-5xl mx-auto space-y-8 flex flex-col items-center">
-              
-              <div className="w-32 h-32 rounded-full bg-black/40 border border-[#F4C430]/50 backdrop-blur-md flex items-center justify-center shadow-[0_0_40px_rgba(244,196,48,0.3)] animate-glow-pulse mb-4">
-                <span className="text-6xl text-[#F4C430]">🕉️</span>
+      {/* ══ AARTI TIMINGS ════════════════════════════════════════════════ */}
+      <section className="py-24 px-4" style={{background:'#0a0500'}}>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-amber-500 text-xs uppercase tracking-widest font-black mb-3">Sacred Timings</p>
+            <h2 className="text-4xl sm:text-5xl font-extrabold mb-4"><span className="gold-text">Aarti & Pooja Timings</span></h2>
+            <p className="max-w-xl mx-auto" style={{color:'rgba(254,243,199,0.5)'}}>Six sacred aarti sessions daily — each carrying its own unique spiritual energy and significance.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {aartis.map((a,i) => (
+              <div key={i} className="card-glow rounded-2xl p-7 text-center" style={{background:'rgba(245,158,11,0.04)'}}>
+                <div className="text-4xl mb-4 fire">{a.icon}</div>
+                <p className="text-2xl font-black mb-1" style={{color:'#fbbf24'}}>{a.time}</p>
+                <p className="font-bold text-amber-200 text-lg mb-2">{a.name}</p>
+                <p className="text-xs" style={{color:'rgba(254,243,199,0.5)'}}>{a.energy}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <h1 className="text-6xl md:text-8xl font-black tracking-wide gold-glow-text leading-tight px-4 drop-shadow-[0_0_15px_rgba(244,196,48,0.4)]">
-                {titleText}
-              </h1>
-              
-              <div className="flex items-center justify-center gap-6 py-4">
-                <div className="h-px w-32 bg-gradient-to-r from-transparent via-[#F4C430] to-transparent" />
-                <Sparkles className="h-6 w-6 text-[#F4C430]" />
-                <div className="h-px w-32 bg-gradient-to-l from-transparent via-[#F4C430] to-transparent" />
+      {/* ══ LIVE DARSHAN ════════════════════════════════════════════════ */}
+      <section className="py-24 px-4" style={{background:'#050200'}}>
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full text-xs font-black uppercase" style={{background:'rgba(239,68,68,0.2)', border:'1px solid rgba(239,68,68,0.4)', color:'#fca5a5'}}>
+            <span className="w-2 h-2 bg-red-500 rounded-full animate-ping inline-block" /> LIVE · Sandhya Aarti
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-extrabold mb-4"><span className="gold-text">Watch the Sacred Flame</span></h2>
+          <p className="mb-12 text-lg" style={{color:'rgba(254,243,199,0.6)'}}>The divine fire of aarti reaches every corner of the universe. Watch it live from wherever you are.</p>
+          <div className="aspect-video rounded-3xl overflow-hidden border flex items-center justify-center" style={{background:'rgba(120,53,15,0.15)', borderColor:'rgba(245,158,11,0.2)'}}>
+            {temple.liveStreamUrl ? (
+              <iframe src={temple.liveStreamUrl} className="w-full h-full" allowFullScreen title="Live Darshan" />
+            ) : (
+              <div className="text-center p-8">
+                <div className="text-8xl mb-4 fire">🔥</div>
+                <p className="font-bold text-xl mb-2" style={{color:'#fbbf24'}}>Sacred Fire is Burning</p>
+                <p className="text-sm" style={{color:'rgba(254,243,199,0.5)'}}>Next Aarti: This Evening 6:00 PM</p>
               </div>
+            )}
+          </div>
+        </div>
+      </section>
 
-              <p className="text-[#FFFDD0]/90 text-xl md:text-2xl max-w-3xl mx-auto font-light leading-relaxed">
-                {descText}
-              </p>
+      {/* ══ WEEKLY POOJA CALENDAR ════════════════════════════════════════ */}
+      <section className="py-24 px-4" style={{background:'#0a0500'}}>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-amber-500 text-xs uppercase tracking-widest font-black mb-3">Vara Pooja</p>
+            <h2 className="text-4xl font-extrabold mb-4"><span className="gold-text">Weekly Ritual Calendar</span></h2>
+          </div>
+          <div className="grid grid-cols-7 gap-2">
+            {weeklyPooja.map((w,i) => (
+              <button key={i} onClick={()=>setActiveDay(i)} className="rounded-2xl p-4 text-center transition-all" style={{background: activeDay===i ? `rgba(245,158,11,0.2)` : 'rgba(245,158,11,0.04)', border: `1px solid ${activeDay===i ? 'rgba(245,158,11,0.6)' : 'rgba(245,158,11,0.1)'}`, boxShadow: activeDay===i ? w.glow : 'none'}}>
+                <div className="text-2xl mb-2">{w.emoji}</div>
+                <p className="font-black text-xs uppercase" style={{color:'#fcd34d'}}>{w.day}</p>
+                <p className="text-[9px] mt-1 leading-tight" style={{color:'rgba(254,243,199,0.5)'}}>{w.pooja}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-8 pt-10">
-                <Link href={`/temple/${temple.slug}/donate`}
-                  className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white px-12 py-5 font-bold tracking-widest uppercase text-sm rounded-lg transition-all animate-glow-pulse shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:shadow-[0_0_40px_rgba(245,158,11,0.6)]">
-                  Offer Seva
+      {/* ══ SEVAS GRID ══════════════════════════════════════════════════ */}
+      <section className="py-24 px-4" style={{background:'#050200'}}>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-amber-500 text-xs uppercase tracking-widest font-black mb-3">Agni Seva</p>
+            <h2 className="text-4xl sm:text-5xl font-extrabold mb-4"><span className="gold-text">Sacred Fire Rituals</span></h2>
+            <p className="max-w-xl mx-auto" style={{color:'rgba(254,243,199,0.5)'}}>Each seva performed with sacred fire, flowers, and Vedic mantras by our most experienced priests.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {sevaData.map((seva: any, i: number) => (
+              <div key={seva.id} className={`seva-glow rounded-2xl p-7 cursor-pointer relative ${i===1?'lg:col-span-2':''}`} style={{background:'rgba(245,158,11,0.03)'}}>
+                {i===1 && <div className="absolute top-3 right-3 text-[10px] font-black uppercase px-2 py-1 rounded-full text-stone-900" style={{background:'linear-gradient(135deg,#b45309,#fbbf24)'}}>🔥 Popular</div>}
+                <div className="flex justify-between items-start mb-5">
+                  <div className="text-4xl">{seva.emoji}</div>
+                  <p className="text-2xl font-black" style={{color:'#fbbf24'}}>₹{seva.amount.toLocaleString('en-IN')}</p>
+                </div>
+                <h3 className="font-bold text-amber-200 text-lg mb-2">{seva.name}</h3>
+                <p className="text-sm leading-relaxed mb-6" style={{color:'rgba(254,243,199,0.55)'}}>{seva.desc}</p>
+                <Link href={`/temple/${temple.slug}/sevas`} className="btn-fire text-stone-900 font-bold text-sm px-5 py-2.5 rounded-xl inline-flex items-center gap-1 hover:scale-105">
+                  Book Seva <ArrowRight className="h-3 w-3" />
                 </Link>
-                <a href="#explore" className="bg-transparent border border-[#F4C430]/50 text-[#F4C430] hover:bg-[#F4C430]/10 px-12 py-5 font-bold tracking-widest uppercase text-sm rounded-lg transition-all backdrop-blur-sm">
-                  Enter Temple
-                </a>
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <div className="absolute bottom-10 left-0 w-full flex justify-center gap-8 px-4 z-10 flex-wrap">
-              <div className="bg-black/40 backdrop-blur-md border border-amber-500/30 px-6 py-3 rounded-full flex items-center gap-3">
-                <Clock className="text-[#F4C430] w-5 h-5" />
-                <span className="text-[#FFFDD0] text-sm uppercase tracking-wider font-bold">Open: {temple.timings?.morning_open || '6:00 AM'}</span>
+      {/* ══ SACRED SLOKAS ════════════════════════════════════════════════ */}
+      <section className="py-24 px-4" style={{background:'#0a0500'}}>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-amber-500 text-xs uppercase tracking-widest font-black mb-3">Mantras</p>
+            <h2 className="text-4xl font-extrabold mb-4"><span className="gold-text">Sacred Chants of Power</span></h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {slokas.map((s,i) => (
+              <div key={i} className="card-glow rounded-2xl p-8 text-center" style={{background:'rgba(245,158,11,0.04)'}}>
+                <div className="text-5xl mb-6 fire">🕉️</div>
+                <p className="text-2xl font-bold mb-4 leading-relaxed" style={{color:'#fcd34d', fontFamily:'serif'}}>{s.text}</p>
+                <p className="text-sm mb-6 leading-relaxed" style={{color:'rgba(254,243,199,0.6)'}}>{s.meaning}</p>
+                <span className="text-[10px] font-bold px-3 py-1 rounded-full" style={{background:'rgba(245,158,11,0.15)', color:'#fbbf24', border:'1px solid rgba(245,158,11,0.3)'}}>{s.deity}</span>
               </div>
-              <div className="bg-black/40 backdrop-blur-md border border-amber-500/30 px-6 py-3 rounded-full flex items-center gap-3">
-                <MapPin className="text-[#F4C430] w-5 h-5" />
-                <span className="text-[#FFFDD0] text-sm uppercase tracking-wider font-bold">{temple.address?.city || 'Sacred Location'}</span>
-              </div>
-            </div>
-          </section>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          {/* SECTION 2 - GLOWING TICKER */}
-          <section className="bg-[#130700] border-y border-[#F4C430]/20 py-4 shadow-[0_0_20px_rgba(244,196,48,0.1)]">
-            <div className="marquee-container w-full">
-              <div className="marquee-content font-bold text-[#F4C430] tracking-widest uppercase text-sm">
-                ✦ THE LIGHT OF DIVINITY SHINES HERE ✦ TODAY'S AARTI: 6:30 PM ✦ UPCOMING UTSAVAM: SHARAD NAVARATRI ✦ ALL SEVAS AVAILABLE ONLINE ✦ 
-              </div>
-            </div>
-          </section>
+      {/* ══ DONATION ════════════════════════════════════════════════════ */}
+      <section className="py-24 px-4" style={{background:'#050200'}}>
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="text-7xl mb-6 fire">🔥</div>
+          <p className="text-amber-500 text-xs uppercase tracking-widest font-black mb-4">Dana — Sacred Offering</p>
+          <h2 className="text-4xl sm:text-5xl font-extrabold mb-6"><span className="gold-text">Ignite Divine Grace</span></h2>
+          <p className="text-lg mb-12 max-w-2xl mx-auto" style={{color:'rgba(254,243,199,0.6)'}}>Every offering made with pure devotion burns away karma and attracts divine blessings. All donations 80G exempt.</p>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-8">
+            {[51,101,501,1001,5001,11001].map(amt => (
+              <button key={amt} onClick={()=>setSelectedAmount(amt)} className={`py-4 rounded-2xl font-black text-sm transition-all ${selectedAmount===amt?'text-stone-900 scale-105':'text-amber-300'}`}
+                style={selectedAmount===amt?{background:'linear-gradient(135deg,#b45309,#fbbf24)',boxShadow:'0 8px 32px rgba(245,158,11,0.4)'}:{background:'rgba(245,158,11,0.05)', border:'1px solid rgba(245,158,11,0.15)'}}>
+                ₹{amt >= 1000 ? (amt/1000)+'K' : amt}
+              </button>
+            ))}
+          </div>
+          <Link href={`/temple/${temple.slug}/donate`} className="btn-fire text-stone-900 font-black text-xl px-12 py-5 rounded-2xl inline-flex items-center gap-3 shadow-2xl">
+            <Heart className="h-6 w-6" /> Offer ₹{selectedAmount.toLocaleString('en-IN')} to the Sacred Fire
+          </Link>
+          <p className="text-xs mt-4" style={{color:'rgba(254,243,199,0.35)'}}>🔒 Razorpay Secured · 80G Receipt on WhatsApp</p>
+        </div>
+      </section>
 
-          {/* SECTION 3 - GLASS BENTO GRID */}
-          <section id="explore" className="py-24 bg-[#0d0500] relative">
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-900/10 via-[#0d0500] to-[#0d0500] pointer-events-none" />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                {/* Cell 1: Temple Identity */}
-                <div className="md:col-span-2 bg-[#130700]/80 backdrop-blur-md border border-[#F4C430]/20 p-10 rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-                  <span className="text-[#F4C430] font-bold tracking-widest uppercase text-sm mb-4 block">Temple Identity</span>
-                  <div className="flex items-center gap-6 mb-6">
-                    <div className="h-24 w-24 bg-black/50 border border-[#F4C430]/50 rounded-full flex items-center justify-center text-4xl shadow-[0_0_15px_rgba(244,196,48,0.2)]">🛕</div>
-                    <div>
-                      <h2 className="text-4xl font-bold gold-glow-text mb-2">{temple.name}</h2>
-                      <p className="text-[#FFFDD0]/70 text-lg">{temple.templeType || 'Ancient Shrine'} dedicated to {temple.primaryDeity || 'The Divine'}</p>
-                    </div>
+      {/* ══ NOTICES ═════════════════════════════════════════════════════ */}
+      <section className="py-20 px-4" style={{background:'#0a0500'}}>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-amber-500 text-xs uppercase tracking-widest font-black mb-3">Announcements</p>
+            <h2 className="text-4xl font-extrabold mb-4"><span className="gold-text">Sacred News & Events</span></h2>
+          </div>
+          <div className="space-y-4">
+            {notices.map((n,i) => (
+              <div key={i} className="card-glow rounded-2xl p-5 flex items-start gap-4" style={{background:'rgba(245,158,11,0.03)'}}>
+                <div className="shrink-0 text-center w-12">
+                  <p className="text-[10px] font-bold" style={{color:'#f59e0b'}}>{n.date.split(' ')[1]}</p>
+                  <p className="text-2xl font-black text-amber-200">{n.date.split(' ')[0]}</p>
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="font-bold text-amber-200">{n.title}</h3>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{background:'rgba(245,158,11,0.15)',color:'#fbbf24'}}>{n.tag}</span>
                   </div>
-                </div>
-
-                {/* Cell 2: Morning Hours */}
-                <div className="bg-[#130700]/80 backdrop-blur-md border border-[#F4C430]/20 p-8 rounded-2xl flex flex-col justify-center relative overflow-hidden group hover:border-[#F4C430]/50 transition-colors">
-                  <Sun className="absolute -right-4 -top-4 w-32 h-32 text-[#F4C430]/10 group-hover:text-[#F4C430]/20 transition-colors" />
-                  <h3 className="text-xl font-bold text-[#F4C430] mb-2 relative z-10">Morning Darshan</h3>
-                  <p className="text-2xl font-bold text-[#FFFDD0] relative z-10">{temple.timings?.morning_open || '6:00 AM'}</p>
-                  <p className="text-[#FFFDD0]/60 text-sm relative z-10">to {temple.timings?.morning_close || '12:00 PM'}</p>
-                </div>
-
-                {/* Cell 3: Evening Hours */}
-                <div className="bg-[#130700]/80 backdrop-blur-md border border-[#F4C430]/20 p-8 rounded-2xl flex flex-col justify-center relative overflow-hidden group hover:border-[#F4C430]/50 transition-colors">
-                  <Moon className="absolute -right-4 -top-4 w-32 h-32 text-[#F4C430]/10 group-hover:text-[#F4C430]/20 transition-colors" />
-                  <h3 className="text-xl font-bold text-[#F4C430] mb-2 relative z-10">Evening Darshan</h3>
-                  <p className="text-2xl font-bold text-[#FFFDD0] relative z-10">{temple.timings?.evening_open || '4:00 PM'}</p>
-                  <p className="text-[#FFFDD0]/60 text-sm relative z-10">to {temple.timings?.evening_close || '8:30 PM'}</p>
-                </div>
-
-                {/* Cell 4: Featured Seva */}
-                <div className="md:col-span-2 bg-gradient-to-r from-[#1a0a00] to-[#2a1000] border border-[#F4C430]/40 p-8 rounded-2xl shadow-[0_0_30px_rgba(244,196,48,0.15)] flex flex-col md:flex-row items-center justify-between gap-8">
-                  <div>
-                    <span className="bg-[#F4C430]/20 text-[#F4C430] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block">Featured Seva</span>
-                    <h3 className="text-3xl font-bold text-[#FFFDD0] mb-2">Maha Abhishekam</h3>
-                    <p className="text-[#FFFDD0]/70 max-w-md">Offer the most sacred bath to the deity. Receive divine blessings and prasadam.</p>
-                  </div>
-                  <div className="text-center shrink-0">
-                    <p className="text-4xl font-bold text-[#F4C430] mb-4">₹1001</p>
-                    <button className="bg-[#F4C430] text-[#0d0500] px-8 py-3 rounded-lg font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors">Book Now</button>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 4 - 3D GLOWING STATS */}
-          <section className="py-16 bg-[#130700] border-y border-[#F4C430]/10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 perspective-1000">
-                {stats.map((stat, idx) => (
-                  <div key={idx} className="bg-[#0d0500] border border-[#F4C430]/20 p-8 rounded-xl text-center transform-3d transition-all duration-300 card-tilt hover:border-[#F4C430]/60 hover:shadow-[0_0_30px_rgba(244,196,48,0.2)] group">
-                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">{stat.icon}</div>
-                    <div className="font-bold text-3xl md:text-4xl gold-glow-text mb-2">{stat.value}</div>
-                    <div className="text-xs uppercase tracking-widest text-[#FFFDD0]/60 font-bold">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 5 - ABOUT */}
-          <section className="py-24 bg-[#0d0500] relative">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div className="space-y-8">
-                  <h2 className="text-5xl font-bold leading-tight gold-glow-text">The Divine <br/>Presence</h2>
-                  <div className="h-px w-24 bg-[#F4C430]/50" />
-                  <div className="prose prose-lg prose-invert text-[#FFFDD0]/80 font-light leading-relaxed text-justify" dangerouslySetInnerHTML={{ __html: htmlContent }} />
-                  <button className="text-[#F4C430] border-b border-[#F4C430]/50 hover:border-[#F4C430] uppercase tracking-widest text-sm font-bold pb-1 transition-colors flex items-center gap-2">
-                    Read History <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-6">
-                  {['Ancient Heritage', 'Sacred Deity', 'Divine Atmosphere', 'Registered Trust'].map((lbl, i) => (
-                    <div key={i} className="bg-[#130700]/80 backdrop-blur border border-[#F4C430]/20 p-8 rounded-2xl text-center flex flex-col items-center justify-center gap-4 hover:bg-[#F4C430]/5 transition-colors">
-                      <Shield className="w-8 h-8 text-[#F4C430]" />
-                      <h4 className="font-bold text-[#FFFDD0] text-sm uppercase tracking-widest">{lbl}</h4>
-                    </div>
-                  ))}
+                  <p className="text-sm" style={{color:'rgba(254,243,199,0.55)'}}>{n.desc}</p>
                 </div>
               </div>
-            </div>
-          </section>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          {/* SECTION 6 - SEVAS 3-COL GLOWING GRID */}
-          <section className="py-24 bg-[#130700] relative overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#F4C430]/5 blur-[150px] rounded-full pointer-events-none" />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-              <div className="text-center mb-16 space-y-4">
-                <span className="text-[#F4C430] font-bold tracking-widest uppercase text-sm">Sacred Offerings</span>
-                <h2 className="text-4xl md:text-5xl font-bold gold-glow-text">Book a Seva</h2>
-                <p className="text-[#FFFDD0]/60 max-w-2xl mx-auto">Offer your prayers from anywhere. The temple priests will perform the rituals on your behalf.</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {sevaData.map((seva) => (
-                  <div key={seva.id} className="bg-[#0d0500] border border-[#F4C430]/20 p-8 rounded-2xl transition-all duration-300 flex flex-col h-full hover:border-[#F4C430]/60 hover:shadow-[0_0_30px_rgba(244,196,48,0.2)] hover:-translate-y-2 group">
-                    <h3 className="text-2xl font-bold text-[#FFFDD0] mb-3 group-hover:text-[#F4C430] transition-colors">{seva.name}</h3>
-                    <p className="text-[#FFFDD0]/60 font-light text-sm mb-8 flex-grow">{seva.description}</p>
-                    <div className="flex items-center justify-between pt-6 border-t border-[#F4C430]/20">
-                      <span className="text-2xl font-bold text-[#F4C430]">₹{seva.amount}</span>
-                      <Link href={`/temple/${temple.slug}/donate?seva=${seva.id}`} 
-                            className="bg-transparent border border-[#F4C430] text-[#F4C430] hover:bg-[#F4C430] hover:text-[#0d0500] px-6 py-2 rounded-lg text-sm font-bold uppercase tracking-wider transition-colors">
-                        Book
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 7 - EVENTS */}
-          <section className="py-24 bg-[#0d0500]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold gold-glow-text mb-4">Upcoming Events</h2>
-                <div className="h-px w-24 bg-[#F4C430]/50 mx-auto" />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {events.map((evt) => (
-                  <div key={evt.id} className="bg-[#130700] border border-[#F4C430]/20 rounded-xl p-6 hover:border-[#F4C430]/50 transition-colors">
-                    <div className="flex justify-between items-start mb-4">
-                      <span className="bg-[#F4C430]/10 text-[#F4C430] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-[#F4C430]/30">{evt.date}</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-[#FFFDD0] mb-2">{evt.name}</h3>
-                    <p className="text-[#FFFDD0]/60 text-sm mb-4 line-clamp-2">{evt.desc}</p>
-                    <p className="text-[#F4C430] text-xs font-bold uppercase tracking-widest"><MapPin className="inline w-3 h-3 mr-1"/> {evt.location}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 8 - GALLERY */}
-          <section className="py-24 bg-[#130700] border-t border-[#F4C430]/10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {[...Array(6)].map((_, idx) => (
-                  <div key={idx} className="relative aspect-square rounded-xl overflow-hidden bg-[#0d0500] border border-[#F4C430]/20 group cursor-pointer">
-                    <div className="absolute inset-0 flex items-center justify-center text-4xl text-[#F4C430]/30 group-hover:scale-110 group-hover:text-[#F4C430] transition-all duration-500">
-                      {['🛕', '🔥', '🌸', '🪔', '🐘', '✨'][idx]}
-                    </div>
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4">
-                      <span className="text-[#FFFDD0] font-bold tracking-widest uppercase border border-[#F4C430] px-4 py-2 rounded">View</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 9 - DONATION CTA */}
-          <section className="py-24 bg-[#0d0500] relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-900/20 via-[#0d0500] to-[#0d0500]" />
-            <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-              <h2 className="text-5xl font-bold gold-glow-text mb-6">Kindle the Sacred Flame</h2>
-              <p className="text-[#FFFDD0]/80 text-lg mb-12">Support the temple's divine activities. Every contribution helps maintain the light of devotion.</p>
-              
-              <div className="bg-[#130700]/80 backdrop-blur-md border border-[#F4C430]/30 p-10 rounded-3xl shadow-[0_0_40px_rgba(244,196,48,0.1)]">
-                <div className="grid grid-cols-3 gap-4 mb-10">
-                  {[101, 501, 1001, 2100, 5100, 11000].map(amt => (
-                    <button 
-                      key={amt}
-                      onClick={() => setSelectedAmount(amt)}
-                      className={`py-4 rounded-xl font-bold text-lg transition-all border 
-                                ${selectedAmount === amt ? 'bg-[#F4C430] border-[#F4C430] text-[#0d0500] shadow-[0_0_20px_rgba(244,196,48,0.4)]' : 'bg-black/50 border-[#F4C430]/30 text-[#F4C430] hover:border-[#F4C430]'}`}>
-                      ₹{amt}
-                    </button>
-                  ))}
+      {/* ══ HISTORY ═════════════════════════════════════════════════════ */}
+      <section className="py-24 px-4" style={{background:'#050200'}}>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-amber-500 text-xs uppercase tracking-widest font-black mb-3">Sacred Legacy</p>
+            <h2 className="text-4xl font-extrabold mb-4"><span className="gold-text">500 Years of Divine Fire</span></h2>
+          </div>
+          <div className="relative pl-8">
+            <div className="absolute left-0 top-0 bottom-0 w-0.5" style={{background:'linear-gradient(180deg,#b45309,#fbbf24,#b45309)'}} />
+            {milestones.map((m,i) => (
+              <div key={i} className="relative mb-8">
+                <div className="absolute -left-8 top-2 w-4 h-4 rounded-full fire" style={{background:'linear-gradient(135deg,#b45309,#fbbf24)'}} />
+                <div className="card-glow rounded-2xl p-6" style={{background:'rgba(245,158,11,0.04)'}}>
+                  <p className="font-black text-xl mb-1" style={{color:'#fbbf24'}}>{m.year}</p>
+                  <h3 className="font-bold text-amber-200 mb-2">{m.event}</h3>
+                  <p className="text-sm" style={{color:'rgba(254,243,199,0.55)'}}>{m.desc}</p>
                 </div>
-                
-                <Link href={`/temple/${temple.slug}/donate?amount=${selectedAmount}`}
-                      className="inline-block bg-gradient-to-r from-amber-500 via-[#F4C430] to-amber-500 text-[#0d0500] px-16 py-5 rounded-xl font-black uppercase tracking-widest text-lg transition-all hover:shadow-[0_0_30px_rgba(244,196,48,0.5)] animate-glow-pulse w-full md:w-auto">
-                  Donate ₹{selectedAmount}
-                </Link>
-                <p className="text-[#F4C430]/60 text-xs font-bold uppercase tracking-widest mt-6">Secure Online Payment • 80G Certified</p>
               </div>
-            </div>
-          </section>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          {/* SECTION 10 - TRUST BOARD */}
-          <section className="py-24 bg-[#130700] border-y border-[#F4C430]/10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold gold-glow-text mb-4">Temple Trust</h2>
+      {/* ══ GALLERY ═════════════════════════════════════════════════════ */}
+      <section className="py-20 px-4" style={{background:'#0a0500'}}>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-amber-500 text-xs uppercase tracking-widest font-black mb-3">Gallery</p>
+            <h2 className="text-4xl font-extrabold mb-4"><span className="gold-text">Sacred Glimpses in the Glow</span></h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 auto-rows-[140px]">
+            {[
+              {label:'Sanctum Sanctorum',emoji:'🛕',span:'md:col-span-2 md:row-span-2'},
+              {label:'Deepotsavam',emoji:'🪔',span:''},
+              {label:'Maha Homam',emoji:'🔥',span:''},
+              {label:'Festival Night',emoji:'🎭',span:''},
+              {label:'Sacred Pond',emoji:'💧',span:''},
+              {label:'Deity Alankara',emoji:'💎',span:''},
+              {label:'View Gallery →',emoji:'📸',span:''},
+            ].map((g,i) => (
+              <div key={i} className={`card-glow rounded-2xl flex flex-col items-center justify-center ${g.span}`} style={{background:'rgba(245,158,11,0.04)'}}>
+                <div className={`${i===0?'text-6xl mb-3':'text-4xl mb-2'} fire`}>{g.emoji}</div>
+                <p className={`font-bold text-center px-2 ${i===0?'text-sm':'text-xs'}`} style={{color: i===0?'#fcd34d':'rgba(254,243,199,0.6)'}}>{g.label}</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {trustees.map((person, idx) => (
-                  <div key={idx} className="bg-[#0d0500] p-8 border border-[#F4C430]/20 rounded-2xl text-center hover:border-[#F4C430]/50 transition-colors">
-                    <div className="w-24 h-24 mx-auto bg-gradient-to-br from-amber-600 to-amber-900 rounded-full flex items-center justify-center text-4xl mb-6 border-2 border-[#F4C430] shadow-[0_0_15px_rgba(244,196,48,0.3)]">
-                      {person.avatar}
-                    </div>
-                    <h3 className="text-2xl font-bold text-[#FFFDD0] mb-2">{person.name}</h3>
-                    <p className="text-sm font-bold text-[#F4C430] uppercase tracking-widest mb-4">{person.role}</p>
-                    <p className="text-[#FFFDD0]/60 font-light">{person.bio}</p>
-                  </div>
-                ))}
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ VISIT INFO ═══════════════════════════════════════════════════ */}
+      <section className="py-20 px-4" style={{background:'#050200'}}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-amber-500 text-xs uppercase tracking-widest font-black mb-3">Reach Us</p>
+            <h2 className="text-4xl font-extrabold mb-4"><span className="gold-text">Come, Feel the Divine Glow</span></h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[{m:'🚌',t:'Bus',d:'Stop 200m away'},{m:'🚂',t:'Train',d:'3km, autos available'},{m:'✈️',t:'Flight',d:'25km, cabs available'},{m:'🚗',t:'Drive',d:'500-car free parking'}].map((t,i)=>(
+              <div key={i} className="card-glow rounded-2xl p-5 text-center" style={{background:'rgba(245,158,11,0.04)'}}>
+                <div className="text-3xl mb-2">{t.m}</div>
+                <p className="font-bold text-amber-300 text-sm mb-1">{t.t}</p>
+                <p className="text-xs" style={{color:'rgba(254,243,199,0.5)'}}>{t.d}</p>
               </div>
-            </div>
-          </section>
+            ))}
+          </div>
+          <div className="mt-6 card-glow rounded-2xl p-6 text-center" style={{background:'rgba(245,158,11,0.04)'}}>
+            <MapPin className="h-8 w-8 mx-auto mb-3" style={{color:'#f59e0b'}} />
+            <p className="font-bold text-amber-200">{address.line1||'Temple Road'}, {address.city||'City'}, {address.state||'State'}</p>
+            <Link href={`/temple/${temple.slug}/contact`} className="btn-fire text-stone-900 font-bold text-sm px-5 py-2 rounded-xl mt-3 inline-block">Open in Maps →</Link>
+          </div>
+        </div>
+      </section>
 
-          {/* SECTION 11 - SCHEDULE */}
-          <section className="py-24 bg-[#0d0500]">
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold gold-glow-text mb-4">Daily Schedule</h2>
-              </div>
-              
-              <div className="relative border-l-2 border-[#F4C430] ml-4 md:ml-12 shadow-[0_0_15px_rgba(244,196,48,0.5)]">
-                {schedule.map((slot, idx) => (
-                  <div key={idx} className="mb-12 ml-8 relative group">
-                    <span className="absolute -left-[41px] top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#0d0500] border-2 border-[#F4C430] group-hover:bg-[#F4C430] transition-colors shadow-[0_0_10px_rgba(244,196,48,0.5)]"></span>
-                    <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8 bg-[#130700] border border-[#F4C430]/20 p-4 rounded-xl">
-                      <span className="font-bold text-[#F4C430] w-24 shrink-0 text-lg">{slot.time}</span>
-                      <span className="text-[#FFFDD0] font-bold text-lg">{slot.event}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 12 - VOLUNTEER & SECTION 13 - FEATURES */}
-          <section className="bg-[#130700] border-t border-[#F4C430]/20 py-24">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h2 className="text-4xl font-bold gold-glow-text mb-12">Digital Temple Features</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                  { title: 'Online Booking', icon: <Zap/> },
-                  { title: 'Tax Exemption', icon: <Shield/> },
-                  { title: 'Live Darshan', icon: <Play/> },
-                  { title: 'Multilingual', icon: <Globe/> },
-                  { title: 'Instant Receipts', icon: <Award/> },
-                  { title: 'Prasadam', icon: <Gift/> }
-                ].map((feat, idx) => (
-                  <div key={idx} className="bg-[#0d0500] border border-[#F4C430]/20 p-8 rounded-xl flex flex-col items-center gap-4 hover:border-[#F4C430]/50 transition-colors">
-                    <div className="w-16 h-16 rounded-full border border-[#F4C430] flex items-center justify-center text-[#F4C430] shadow-[0_0_15px_rgba(244,196,48,0.2)]">
-                      {feat.icon}
-                    </div>
-                    <h3 className="font-bold text-[#FFFDD0]">{feat.title}</h3>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 14 - CONTACT */}
-          <section className="bg-[#0d0500] pt-24 pb-12 border-t border-[#F4C430]/30">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                
-                <div className="space-y-6">
-                  <h3 className="font-bold text-[#F4C430] text-xl uppercase tracking-widest">Location</h3>
-                  <div className="text-[#FFFDD0]/70 font-light space-y-1">
-                    <p className="font-bold text-[#FFFDD0]">{temple.name}</p>
-                    <p>{temple.address?.line1}</p>
-                    {temple.address?.line2 && <p>{temple.address.line2}</p>}
-                    <p>{temple.address?.city}, {temple.address?.state}</p>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <h3 className="font-bold text-[#F4C430] text-xl uppercase tracking-widest">Contact</h3>
-                  <div className="text-[#FFFDD0]/70 font-light space-y-3">
-                    <p className="flex items-center gap-3"><Phone className="w-4 h-4 text-[#F4C430]" /> {temple.contactPhone}</p>
-                    <p className="flex items-center gap-3"><Mail className="w-4 h-4 text-[#F4C430]" /> {temple.contactEmail}</p>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <h3 className="font-bold text-[#F4C430] text-xl uppercase tracking-widest">Links</h3>
-                  <ul className="text-[#FFFDD0]/70 font-light space-y-3">
-                    <li><Link href={`/temple/${temple.slug}/history`} className="hover:text-[#F4C430] transition-colors">History</Link></li>
-                    <li><Link href={`/temple/${temple.slug}/events`} className="hover:text-[#F4C430] transition-colors">Events</Link></li>
-                    <li><Link href={`/temple/${temple.slug}/donate`} className="text-[#F4C430] font-bold hover:underline">Book Seva</Link></li>
-                  </ul>
-                </div>
-
-                <div className="space-y-6">
-                  <h3 className="font-bold text-[#F4C430] text-xl uppercase tracking-widest">Social</h3>
-                  <div className="flex gap-4">
-                    {['FB', 'YT', 'IG'].map(social => (
-                      <a key={social} href="#" className="w-10 h-10 border border-[#F4C430]/50 rounded-full flex items-center justify-center text-[#F4C430] hover:bg-[#F4C430] hover:text-[#0d0500] transition-colors font-bold text-xs">
-                        {social}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-
-              </div>
-              
-              <div className="pt-8 border-t border-[#F4C430]/20 text-center flex flex-col md:flex-row justify-between items-center gap-4 text-[#FFFDD0]/50 text-sm">
-                <p>© {new Date().getFullYear()} {temple.name}. All rights reserved.</p>
-                <p>Powered by <span className="text-[#F4C430] font-bold">MandirAI OS</span></p>
-              </div>
-            </div>
-          </section>
-
-        </>
+      {/* ══ DYNAMIC BLOCKS ═══════════════════════════════════════════════ */}
+      {page?.blocks && page.blocks.length > 0 && (
+        <div className="py-12" style={{background:'#0a0500'}}><BlockRenderer blocks={page.blocks} theme="glow" sevas={sevas} templeAddress={temple.address} /></div>
       )}
+
+      {/* ══ FOOTER ══════════════════════════════════════════════════════ */}
+      <footer className="py-16 px-4" style={{background:'#030100'}}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+            <div>
+              <h3 className="font-black text-xl mb-3 gold-text">🔥 {temple.name}</h3>
+              <p className="text-sm leading-relaxed" style={{color:'rgba(254,243,199,0.4)'}}>Where sacred fire meets eternal devotion. Serving divine seekers for 500+ years.</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-xs uppercase tracking-widest mb-4" style={{color:'#f59e0b'}}>Quick Links</h4>
+              <ul className="space-y-2 text-sm" style={{color:'rgba(254,243,199,0.5)'}}>
+                {[['Sevas',`/temple/${temple.slug}/sevas`],['Donate',`/temple/${temple.slug}/donate`],['Events',`/temple/${temple.slug}/events`],['Gallery',`/temple/${temple.slug}/gallery`],['Live',`/temple/${temple.slug}/live`]].map(([l,h])=>(
+                  <li key={l}><Link href={h} className="hover:text-amber-400 transition-colors">{l}</Link></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-xs uppercase tracking-widest mb-4" style={{color:'#f59e0b'}}>Contact</h4>
+              <ul className="space-y-2 text-sm" style={{color:'rgba(254,243,199,0.5)'}}>
+                <li className="flex gap-2"><Phone className="h-4 w-4" style={{color:'#f59e0b'}} />{temple.contactPhone||'+91 98765 43210'}</li>
+                <li className="flex gap-2"><Mail className="h-4 w-4" style={{color:'#f59e0b'}} />{temple.contactEmail||'info@temple.org'}</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-xs uppercase tracking-widest mb-4" style={{color:'#f59e0b'}}>Timings</h4>
+              <p className="text-sm" style={{color:'rgba(254,243,199,0.5)'}}>5:00 AM – 12:00 PM<br/>4:00 PM – 9:00 PM<br/>Open all 365 days</p>
+            </div>
+          </div>
+          <div className="border-t pt-8 text-center text-xs" style={{borderColor:'rgba(245,158,11,0.1)', color:'rgba(254,243,199,0.25)'}}>
+            © 2025 {temple.name}. All rights reserved. Powered by MandirAI OS 🕉️
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
