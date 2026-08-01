@@ -1,14 +1,30 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  // CRITICAL: Must match your actual deployed domain exactly
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mandir-ai-os.vercel.app'
 
   return {
     rules: [
       {
-        userAgent: '*',
-        allow: '/',
+        // Allow all major search engine bots fully
+        userAgent: ['Googlebot', 'Bingbot', 'Slurp', 'DuckDuckBot', 'facebot', 'Twitterbot', 'LinkedInBot'],
+        allow: [
+          '/',
+          '/temple-website-builder',
+          '/temple-management-software',
+          '/temple-donation-software',
+          '/mandir-management-system',
+          '/features',
+          '/seva-booking-system',
+          '/80g-receipt-generator',
+          '/devotee-crm',
+          '/live-darshan-streaming',
+          '/pricing',
+          '/register',
+          '/login',
+          '/sitemap.xml',
+          '/temple/',
+        ],
         disallow: [
           '/dashboard',
           '/dashboard/',
@@ -20,20 +36,24 @@ export default function robots(): MetadataRoute.Robots {
           '/settings/',
           '/api/',
           '/onboarding',
+          '/kiosk/',
         ],
       },
       {
-        userAgent: 'Googlebot',
-        allow: [
-          '/',
-          '/pricing',
-          '/temple-website-builder',
-          '/features',
-          '/temple-management-software',
-          '/temple-donation-software',
-          '/sitemap.xml',
+        // General: allow all public pages, block private ones
+        userAgent: '*',
+        allow: '/',
+        disallow: [
+          '/dashboard',
+          '/dashboard/',
+          '/super-admin',
+          '/super-admin/',
+          '/my-dashboard',
+          '/settings',
+          '/api/',
+          '/onboarding',
+          '/kiosk/',
         ],
-        crawlDelay: 2,
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
