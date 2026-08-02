@@ -57,7 +57,7 @@ const FALLBACK_DATA = {
 
 export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateProps) {
   const { t } = useLanguage()
-  const data = temple?.metadata || FALLBACK_DATA
+  const data = { ...FALLBACK_DATA, ...temple, name: temple?.name || FALLBACK_DATA.name };
   const activeSevas = sevas && sevas.length > 0 ? sevas : [
     { id: 1, name: "Suvarna Pushparchana", description: "Archana performed with 108 golden lotuses.", price: 5001 },
     { id: 2, name: "Kalyanotsavam", description: "The grand celestial wedding ceremony.", price: 10001 },

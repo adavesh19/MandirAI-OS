@@ -164,7 +164,7 @@ const Button = ({ children, variant = 'primary', className = "", onClick }: { ch
 
 export default function ModernElegantTemplate({ temple, page, sevas }: TemplateProps) {
   const { t } = useLanguage();
-  const data = temple || FALLBACK_DATA;
+  const data = { ...FALLBACK_DATA, ...temple, name: temple?.name || FALLBACK_DATA.name };
   const activeSevas = sevas && sevas.length > 0 ? sevas : FALLBACK_DATA.sevas;
 
   const handleAIFeature = () => {

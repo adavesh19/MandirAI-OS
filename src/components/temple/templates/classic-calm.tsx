@@ -33,7 +33,7 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const tName = temple?.name || "Sri Venkateswara Swamy Temple";
+  const tName = temple?.name || "Shree Temple";
   const tDescription = temple?.description || "An ancient abode of peace, spirituality, and divine grace. Experience the sacred scroll of timeless devotion.";
 
   const fallbackSevas = sevas && sevas.length > 0 ? sevas : [
