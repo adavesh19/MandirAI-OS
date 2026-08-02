@@ -164,7 +164,25 @@ const Button = ({ children, variant = 'primary', className = "", onClick }: { ch
 
 export default function ModernElegantTemplate({ temple, page, sevas }: TemplateProps) {
   const { t } = useLanguage();
-  const data = { ...FALLBACK_DATA, ...temple, name: temple?.name || FALLBACK_DATA.name };
+  
+  // Safe stringification for timings
+  const timingsStr = temple?.timings 
+    ? typeof temple.timings === 'string' 
+      ? temple.timings
+      : `${temple.timings.morning_open || '06:00'} - ${temple.timings.morning_close || '12:00'} | ${temple.timings.evening_open || '16:00'} - ${temple.timings.evening_close || '21:00'}`
+    : FALLBACK_DATA.timings;
+
+  const data = { 
+    ...FALLBACK_DATA, 
+    ...temple, 
+    name: temple?.name || FALLBACK_DATA.name,
+    timings: timingsStr,
+    contact: {
+      phone: temple?.contactPhone || FALLBACK_DATA.contact.phone,
+      email: temple?.contactEmail || FALLBACK_DATA.contact.email,
+      whatsapp: temple?.contactPhone || FALLBACK_DATA.contact.whatsapp,
+    }
+  };
   const activeSevas = sevas && sevas.length > 0 ? sevas : FALLBACK_DATA.sevas;
 
   const handleAIFeature = () => {

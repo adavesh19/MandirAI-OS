@@ -57,7 +57,23 @@ const FALLBACK_DATA = {
 
 export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateProps) {
   const { t } = useLanguage()
-  const data = { ...FALLBACK_DATA, ...temple, name: temple?.name || FALLBACK_DATA.name };
+  // Safe stringification for timings
+  const timingsStr = temple?.timings 
+    ? typeof temple.timings === 'string' 
+      ? temple.timings
+      : `${temple.timings.morning_open || '05:00'} AM - ${temple.timings.morning_close || '12:30'} PM & ${temple.timings.evening_open || '04:00'} PM - ${temple.timings.evening_close || '09:00'} PM`
+    : FALLBACK_DATA.timings;
+
+  const data = { 
+    ...FALLBACK_DATA, 
+    ...temple, 
+    name: temple?.name || FALLBACK_DATA.name,
+    timings: timingsStr,
+    contact: {
+      phone: temple?.contactPhone || FALLBACK_DATA.contact.phone,
+      email: temple?.contactEmail || FALLBACK_DATA.contact.email,
+    }
+  };
   const activeSevas = sevas && sevas.length > 0 ? sevas : [
     { id: 1, name: "Suvarna Pushparchana", description: "Archana performed with 108 golden lotuses.", price: 5001 },
     { id: 2, name: "Kalyanotsavam", description: "The grand celestial wedding ceremony.", price: 10001 },
