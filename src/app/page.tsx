@@ -31,6 +31,22 @@ const homeStructuredData = {
         'query-input': 'required name=search_term_string'
       }
     },
+    // ── Person — Founder / Developer ─────────────────────────────────
+    {
+      '@type': 'Person',
+      name: 'Adavesh Adavimath',
+      jobTitle: 'AI Builder & Python / Machine Learning Engineer',
+      description: 'Founder and Developer of MandirAI OS — India\'s #1 AI-powered temple management platform.',
+      url: 'https://www.linkedin.com/in/adavesh-adavimath-992815294/',
+      sameAs: [
+        'https://www.linkedin.com/in/adavesh-adavimath-992815294/',
+      ],
+      worksFor: {
+        '@type': 'Organization',
+        name: 'MandirAI OS',
+        url: 'https://mandir-ai-os.vercel.app',
+      },
+    },
     // ── BreadcrumbList (for rich SERP) ───────────────────────────────
     {
       '@type': 'BreadcrumbList',

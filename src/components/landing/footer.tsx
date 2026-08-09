@@ -107,10 +107,16 @@ export default function Footer() {
           <p className="text-xs text-stone-600">
             &copy; {new Date().getFullYear()} MandirAI OS. All rights reserved.
           </p>
-          <p className="text-xs text-stone-650 flex items-center space-x-1">
-            <span>Made with</span>
-            <span className="text-red-500 text-sm">🙏</span>
-            <span>in India</span>
+          <p className="text-xs text-stone-500 flex items-center gap-1">
+            Built with <span className="text-red-500 text-sm">🙏</span> in India by{' '}
+            <a
+              href="https://www.linkedin.com/in/adavesh-adavimath-992815294/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-saffron-400 hover:text-saffron-300 font-semibold underline underline-offset-2 transition-colors"
+            >
+              Adavesh Adavimath
+            </a>
           </p>
         </div>
       </div>
