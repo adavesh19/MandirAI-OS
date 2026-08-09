@@ -55,9 +55,9 @@ const homeStructuredData = {
       url: 'https://mandir-ai-os.vercel.app',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://mandir-ai-os.vercel.app/logo-long.png',
-        width: 800,
-        height: 200,
+        url: 'https://mandir-ai-os.vercel.app/logo-circle.png',
+        width: 512,
+        height: 512,
       },
       image: 'https://mandir-ai-os.vercel.app/og-image.png',
       description: 'India\'s #1 AI-powered temple website builder and management platform. Create your Hindu temple website in 3 minutes.',
