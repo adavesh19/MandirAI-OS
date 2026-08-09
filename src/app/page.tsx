@@ -47,6 +47,32 @@ const homeStructuredData = {
         url: 'https://mandir-ai-os.vercel.app',
       },
     },
+    // ── Organization — Tells Google this is MandirAI OS, NOT Vercel ──
+    {
+      '@type': 'Organization',
+      name: 'MandirAI OS',
+      alternateName: 'MandirAI',
+      url: 'https://mandir-ai-os.vercel.app',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://mandir-ai-os.vercel.app/logo-circle.png',
+        width: 512,
+        height: 512,
+      },
+      image: 'https://mandir-ai-os.vercel.app/og-image.png',
+      description: 'India\'s #1 AI-powered temple website builder and management platform. Create your Hindu temple website in 3 minutes.',
+      founder: {
+        '@type': 'Person',
+        name: 'Adavesh Adavimath',
+        sameAs: 'https://www.linkedin.com/in/adavesh-adavimath-992815294/',
+      },
+      foundingDate: '2026',
+      areaServed: 'IN',
+      knowsAbout: ['Temple Management', 'Hindu Temple Website Builder', 'Online Donations', 'Seva Booking', '80G Receipts'],
+      sameAs: [
+        'https://mandir-ai-os.vercel.app',
+      ],
+    },
     // ── BreadcrumbList (for rich SERP) ───────────────────────────────
     {
       '@type': 'BreadcrumbList',

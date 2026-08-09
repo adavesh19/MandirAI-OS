@@ -76,8 +76,8 @@ export const metadata: Metadata = {
     'mandirAI',
   ],
 
-  authors: [{ name: 'MandirAI Team', url: 'https://mandir-ai-os.vercel.app' }],
-  creator: 'MandirAI OS',
+  authors: [{ name: 'Adavesh Adavimath', url: 'https://www.linkedin.com/in/adavesh-adavimath-992815294/' }],
+  creator: 'Adavesh Adavimath',
   publisher: 'MandirAI OS',
 
   alternates: {
@@ -105,7 +105,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://mandir-ai-os.vercel.app/og-image.png',
         width: 1200,
         height: 630,
         alt: 'MandirAI OS — Temple Website Builder & Management Software',
