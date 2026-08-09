@@ -118,6 +118,7 @@ export default function HeroSection() {
               </Button>
             </Link>
           </div>
+        </div>
         </motion.div>
 
         {/* Stats Grid */}
