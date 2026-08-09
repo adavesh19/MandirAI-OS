@@ -79,24 +79,25 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {/* Badge */}
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md dark:bg-stone-900/80 border border-saffron-500/30 text-xs font-bold uppercase tracking-wider mb-8 shadow-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-saffron-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-saffron-500"></span>
-            </span>
-            <span className="text-saffron-700 dark:text-saffron-400">MandirAI OS — The Future of Temples</span>
-          </div>
+          <div className="max-w-4xl mx-auto text-center relative z-10">
+            {/* Long 3D Logo placed prominently in the hero */}
+            <div className="flex justify-center mb-10">
+              <img 
+                src="/logo-long.png" 
+                alt="MandirAI OS - Intelligent Temple Operating System" 
+                className="w-full max-w-2xl h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500 hover:drop-shadow-[0_20px_40px_rgba(200,146,63,0.3)] animate-fade-in-up"
+              />
+            </div>
 
-          {/* Heading — targets "temple website builder" keyword */}
-          <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-stone-900 dark:text-white mb-6 leading-tight drop-shadow-sm">
-            India&apos;s #1{' '}
-            <span className="bg-gradient-to-r from-saffron-500 via-amber-500 to-maroon-600 bg-clip-text text-transparent dark:to-saffron-400 relative">
-              Temple Website Builder
-              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-saffron-500 to-transparent opacity-30 blur-sm"></div>
-            </span>
-            {' '}&amp; Management Platform
-          </h1>
+            {/* Heading — targets "temple website builder" keyword */}
+            <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-stone-900 dark:text-white mb-6 leading-tight drop-shadow-sm mt-4">
+              India&apos;s #1{' '}
+              <span className="bg-gradient-to-r from-saffron-500 via-amber-500 to-maroon-600 bg-clip-text text-transparent dark:to-saffron-400 relative">
+                Temple Website Builder
+                <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-saffron-500 to-transparent opacity-30 blur-sm"></div>
+              </span>
+              {' '}&amp; Management Platform
+            </h1>
 
           {/* Subheading */}
           <p className="max-w-2xl mx-auto text-lg md:text-xl text-stone-700 dark:text-stone-300 mb-10 leading-relaxed font-medium">

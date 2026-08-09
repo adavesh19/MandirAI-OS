@@ -34,8 +34,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <span className="text-2xl font-bold tracking-tight text-saffron-500 group-hover:scale-105 transition-transform duration-300">🕉️</span>
+          <Link href="/" className="flex items-center space-x-3 group">
+            <img 
+              src="/logo-circle.png" 
+              alt="MandirAI OS Logo" 
+              className="w-10 h-10 drop-shadow-md group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300"
+            />
             <span className="font-heading text-xl font-bold bg-gradient-to-r from-saffron-500 via-gold-500 to-maroon-600 bg-clip-text text-transparent dark:to-saffron-400">
               MandirAI OS
             </span>

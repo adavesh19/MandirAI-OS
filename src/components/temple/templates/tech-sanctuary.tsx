@@ -13,6 +13,9 @@ import {
 } from 'lucide-react';
 import BlockRenderer from '@/components/temple/blocks/block-renderer';
 import { useLanguage } from '@/components/shared/language-context';
+import { SacredParticles } from '@/components/ui/sacred-particles';
+import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar';
+import { PanchangTicker } from '@/components/temple/panchang-ticker';
 
 export interface TemplateProps {
   temple?: any;
@@ -110,12 +113,14 @@ export default function TechSanctuaryTemplate({ temple, page, sevas = MOCK_SEVAS
   if (!mounted) return <div className="min-h-screen bg-[#020817] flex items-center justify-center text-[#06b6d4] font-mono">INITIALIZING...</div>;
 
   return (
-    <div className="min-h-screen bg-[#020817] text-slate-300 font-sans selection:bg-[#06b6d4] selection:text-[#020817] overflow-x-hidden"
+    <div className="min-h-screen bg-[#020817] text-slate-300 font-sans selection:bg-[#06b6d4] selection:text-[#020817] overflow-x-hidden relative"
          style={{
            backgroundImage: `radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.03) 0%, transparent 100%), 
                              linear-gradient(rgba(2, 8, 23, 0.9), rgba(2, 8, 23, 0.9)),
                              url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%2306b6d4' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E")`
          }}>
+      <PanchangTicker className="relative z-50" />
+      <SacredParticles variant="diya-ember" quantity={35} className="fixed inset-0 z-10 pointer-events-none" />
       
       {/* Global CSS for unique effects */}
       <style dangerouslySetInnerHTML={{__html: `
@@ -852,8 +857,7 @@ export default function TechSanctuaryTemplate({ temple, page, sevas = MOCK_SEVAS
       )}
 
       {/* Hidden: titleText used to satisfy TS */}
-      {false && <span>{titleText}</span>}
-
+      <VirtualRitualBar templeName={temple?.name || "Sanctum"} />
     </div>
   );
 }

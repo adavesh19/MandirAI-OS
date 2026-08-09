@@ -8,6 +8,9 @@ import {
 } from 'lucide-react'
 import BlockRenderer from '@/components/temple/blocks/block-renderer'
 import { useLanguage } from '@/components/shared/language-context'
+import { SacredParticles } from '@/components/ui/sacred-particles'
+import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
+import { PanchangTicker } from '@/components/temple/panchang-ticker'
 
 export interface TemplateProps {
   temple: any
@@ -91,7 +94,9 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0400] text-amber-100 font-serif selection:bg-amber-900 selection:text-amber-100 overflow-x-hidden">
+    <div className="min-h-screen bg-[#0d0400] text-amber-100 font-serif selection:bg-amber-900 selection:text-amber-100 overflow-x-hidden relative">
+      <PanchangTicker className="relative z-30" />
+      <SacredParticles variant="marigold" quantity={35} className="fixed inset-0 z-10 pointer-events-none" />
       <style dangerouslySetInnerHTML={{__html: `
         .bg-stone-pattern {
           background-color: #0d0400;
@@ -601,6 +606,8 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
           </div>
         </div>
       </footer>
+
+      <VirtualRitualBar templeName={data.name} />
 
       {/* Dynamic Blocks */}
       {page?.blocks && page.blocks.length > 0 && (

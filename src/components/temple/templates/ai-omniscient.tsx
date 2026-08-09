@@ -11,6 +11,9 @@ import {
 } from 'lucide-react';
 import BlockRenderer from '@/components/temple/blocks/block-renderer';
 import { useLanguage } from '@/components/shared/language-context';
+import { SacredParticles } from '@/components/ui/sacred-particles';
+import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar';
+import { PanchangTicker } from '@/components/temple/panchang-ticker';
 
 export interface TemplateProps {
   temple: any;
@@ -886,8 +889,10 @@ const Footer = ({ temple }: { temple: any }) => {
 // ---------------------------------------------------------
 export default function AiOmniscientTemplate({ temple, page, sevas }: TemplateProps) {
   return (
-    <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-purple-500 selection:text-white">
+    <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-purple-500 selection:text-white relative">
       <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
+      <PanchangTicker className="relative z-30" />
+      <SacredParticles variant="all" quantity={40} className="fixed inset-0 z-10 pointer-events-none" />
       
       {/* Dynamic Blocks rendering wrapper if page uses blocks */}
       {page?.blocks?.length > 0 ? (
@@ -914,6 +919,8 @@ export default function AiOmniscientTemplate({ temple, page, sevas }: TemplatePr
           <Footer temple={temple} />
         </>
       )}
+      
+      <VirtualRitualBar templeName={temple?.name || "Omniscient Sanctum"} />
     </div>
   );
 }

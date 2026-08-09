@@ -44,6 +44,9 @@ import {
 } from 'lucide-react';
 import BlockRenderer from '@/components/temple/blocks/block-renderer';
 import { useLanguage } from '@/components/shared/language-context';
+import { SacredParticles } from '@/components/ui/sacred-particles';
+import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar';
+import { PanchangTicker } from '@/components/temple/panchang-ticker';
 
 export interface TemplateProps {
   temple: any;
@@ -195,6 +198,8 @@ export default function ModernElegantTemplate({ temple, page, sevas }: TemplateP
 
   return (
     <div className="min-h-screen bg-[linear-gradient(135deg,#f0f4ff,#faf0ff)] font-sans text-slate-800 overflow-x-hidden selection:bg-indigo-200 selection:text-indigo-900 relative">
+      <PanchangTicker className="relative z-50" />
+      <SacredParticles variant="diya-ember" quantity={35} className="fixed inset-0 z-10 pointer-events-none" />
       
       {/* Decorative Background Blobs */}
       <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-300/30 rounded-full blur-[120px] pointer-events-none z-0"></div>
@@ -918,6 +923,7 @@ export default function ModernElegantTemplate({ temple, page, sevas }: TemplateP
           animation: float 4s ease-in-out infinite;
         }
       `}} />
+      <VirtualRitualBar templeName={data.name} />
     </div>
   );
 }

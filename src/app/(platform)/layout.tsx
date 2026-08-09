@@ -90,8 +90,12 @@ export default async function PlatformLayout({ children }: PlatformLayoutProps) 
       ─────────────────────────────────────────────────────────── */}
       <aside className="hidden md:flex w-64 bg-stone-900 text-stone-200 flex-col border-r border-stone-850 shrink-0">
         {/* Sidebar Header */}
-        <div className="h-16 flex items-center px-6 border-b border-stone-800 space-x-2">
-          <span className="text-xl">🕉️</span>
+        <div className="h-16 flex items-center px-6 border-b border-stone-800 space-x-3">
+          <img 
+            src="/logo-circle.png" 
+            alt="MandirAI OS Logo" 
+            className="w-8 h-8 drop-shadow-md hover:scale-105 hover:rotate-3 transition-transform duration-300"
+          />
           <div className="flex flex-col truncate">
             <span className="font-heading font-bold text-white text-sm truncate">{temple.name}</span>
             <span className="text-[10px] text-saffron-400 font-semibold tracking-wider uppercase">Admin Portal</span>

@@ -34,6 +34,9 @@ import {
 } from "lucide-react";
 import BlockRenderer from "@/components/temple/blocks/block-renderer";
 import { useLanguage } from "@/components/shared/language-context";
+import { SacredParticles } from "@/components/ui/sacred-particles";
+import { VirtualRitualBar } from "@/components/temple/virtual-ritual-bar";
+import { PanchangTicker } from "@/components/temple/panchang-ticker";
 
 // ==========================================
 // TYPES & PROPS
@@ -1018,10 +1021,12 @@ export default function DivineGlowTemplate(props: TemplateProps) {
   const { temple, sevas } = props;
 
   return (
-    <div className="min-h-screen bg-[#050100] text-white selection:bg-orange-500 selection:text-white font-sans">
+    <div className="min-h-screen bg-[#050100] text-white selection:bg-orange-500 selection:text-white font-sans relative overflow-x-hidden">
       <GlobalStyles />
+      <PanchangTicker className="relative z-30" />
+      <SacredParticles variant="all" quantity={45} className="fixed inset-0 z-10 pointer-events-none" />
       
-      <main>
+      <main className="relative z-20">
         <HeroSection temple={temple} />
         <StatsBar />
         <QuickActions temple={temple} />
@@ -1040,6 +1045,7 @@ export default function DivineGlowTemplate(props: TemplateProps) {
         <InfoSection />
       </main>
 
+      <VirtualRitualBar templeName={temple?.name || "Mandir"} />
       <Footer />
     </div>
   );

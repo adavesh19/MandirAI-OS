@@ -11,6 +11,9 @@ import {
   BookOpen, Video, ArrowRight, CheckCircle2, 
   Sparkles, ExternalLink, Activity
 } from 'lucide-react';
+import { SacredParticles } from '@/components/ui/sacred-particles';
+import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar';
+import { PanchangTicker } from '@/components/temple/panchang-ticker';
 
 export interface TemplateProps {
   temple: any;
@@ -62,7 +65,9 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
   );
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-[#2c1810] font-sans selection:bg-[#c8923f] selection:text-white">
+    <div className="min-h-screen bg-[#faf8f5] text-[#2c1810] font-sans selection:bg-[#c8923f] selection:text-white relative">
+      <PanchangTicker className="relative z-50" />
+      <SacredParticles variant="marigold" quantity={35} className="fixed inset-0 z-10 pointer-events-none" />
       {/* Navbar */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#faf8f5]/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
@@ -673,6 +678,7 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
           </div>
         </div>
       </footer>
+      <VirtualRitualBar templeName={tName} />
     </div>
   );
 }
