@@ -38,7 +38,7 @@ export default function Navbar() {
             <img 
               src="/logo-long.png" 
               alt="MandirAI OS - Intelligent Temple Operating System" 
-              className="h-10 w-auto max-w-[180px] object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+              className="h-14 w-auto max-w-[220px] object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
             />
           </Link>
 

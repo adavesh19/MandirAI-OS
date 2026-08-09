@@ -80,17 +80,9 @@ export default function HeroSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <div className="max-w-4xl mx-auto text-center relative z-10">
-            {/* Long 3D Logo placed prominently in the hero */}
-            <div className="flex justify-center mb-10">
-              <img 
-                src="/logo-long.png" 
-                alt="MandirAI OS - Intelligent Temple Operating System" 
-                className="w-full max-w-2xl h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500 hover:drop-shadow-[0_20px_40px_rgba(200,146,63,0.3)] animate-fade-in-up"
-              />
-            </div>
 
             {/* Heading — targets "temple website builder" keyword */}
-            <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-stone-900 dark:text-white mb-6 leading-tight drop-shadow-sm mt-4">
+            <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-stone-900 dark:text-white mb-6 leading-tight drop-shadow-sm">
               India&apos;s #1{' '}
               <span className="bg-gradient-to-r from-saffron-500 via-amber-500 to-maroon-600 bg-clip-text text-transparent dark:to-saffron-400 relative">
                 Temple Website Builder
