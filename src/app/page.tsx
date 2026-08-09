@@ -20,6 +20,17 @@ export const metadata: Metadata = {
 const homeStructuredData = {
   '@context': 'https://schema.org',
   '@graph': [
+    // WebSite (for Site Name in Google Search)
+    {
+      '@type': 'WebSite',
+      name: 'MandirAI OS',
+      url: 'https://mandir-ai-os.vercel.app',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: 'https://mandir-ai-os.vercel.app/search?q={search_term_string}',
+        'query-input': 'required name=search_term_string'
+      }
+    },
     // ── BreadcrumbList (for rich SERP) ───────────────────────────────
     {
       '@type': 'BreadcrumbList',

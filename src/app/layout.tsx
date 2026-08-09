@@ -29,6 +29,8 @@ export const metadata: Metadata = {
     template: '%s | MandirAI OS',
   },
 
+  applicationName: 'MandirAI OS',
+
   description:
     "MandirAI OS is India's #1 AI-powered temple website builder and management platform. Create your Hindu temple website in 3 minutes. Manage online donations with UPI, seva bookings, 80G receipts, devotee CRM, live darshan streaming, and WhatsApp notifications — all in one platform. Free to start.",
 
