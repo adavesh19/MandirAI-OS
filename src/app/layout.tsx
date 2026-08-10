@@ -81,6 +81,21 @@ export const metadata: Metadata = {
   creator: 'Adavesh Adavimath',
   publisher: 'MandirAI OS',
 
+  // Explicit favicon/icon declarations — overrides Vercel's default branding in Google Search
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
+      { url: '/logo-circle.png', sizes: '512x512', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      { rel: 'mask-icon', url: '/logo-circle.png' },
+    ],
+  },
+
   alternates: {
     canonical: process.env.NEXT_PUBLIC_APP_URL || 'https://mandir-ai-os.vercel.app',
     languages: {
@@ -265,6 +280,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="MandirAI OS" />
         <meta name="mobile-web-app-capable" content="yes" />
+
+        {/* Explicit favicons — tell Google to use OUR logo, not Vercel's */}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/logo-circle.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
 
         {/* Geo-targeting meta tags (boost local/regional search) */}
         <meta name="geo.region" content="IN" />
