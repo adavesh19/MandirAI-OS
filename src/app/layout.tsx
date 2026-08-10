@@ -1,6 +1,7 @@
 import { Inter, Outfit } from 'next/font/google'
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
+import { Analytics } from '@vercel/analytics/next'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -280,6 +281,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans antialiased bg-background text-foreground bg-stone-50 dark:bg-stone-950 min-h-screen flex flex-col">
         {children}
+        <Analytics />
       </body>
     </html>
   )
