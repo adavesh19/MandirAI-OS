@@ -16,7 +16,7 @@ const outfit = Outfit({
 })
 
 export const viewport: Viewport = {
-  themeColor: '#f97316',
+  themeColor: '#b45309',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -84,15 +84,17 @@ export const metadata: Metadata = {
   // Explicit favicon/icon declarations — overrides Vercel's default branding in Google Search
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48', type: 'image/x-icon' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
       { url: '/logo-circle.png', sizes: '512x512', type: 'image/png' },
     ],
-    shortcut: '/favicon.ico',
+    shortcut: [{ url: '/favicon.ico', type: 'image/x-icon' }],
     apple: [
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
     other: [
-      { rel: 'mask-icon', url: '/logo-circle.png' },
+      { rel: 'mask-icon', url: '/logo-circle.png', color: '#b45309' },
     ],
   },
 
@@ -179,7 +181,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         url: 'https://mandir-ai-os.vercel.app',
         logo: {
           '@type': 'ImageObject',
-          url: 'https://mandir-ai-os.vercel.app/logo.png',
+          url: 'https://mandir-ai-os.vercel.app/logo-circle.png',
           width: 512,
           height: 512,
         },
@@ -281,11 +283,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-title" content="MandirAI OS" />
         <meta name="mobile-web-app-capable" content="yes" />
 
-        {/* Explicit favicons — tell Google to use OUR logo, not Vercel's */}
+        {/* Explicit favicons — MandieAI OS logo */}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/logo-circle.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="mask-icon" href="/logo-circle.png" color="#b45309" />
 
         {/* Geo-targeting meta tags (boost local/regional search) */}
         <meta name="geo.region" content="IN" />

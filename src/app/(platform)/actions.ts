@@ -471,4 +471,87 @@ export async function updateTemplePlan(
   }
 }
 
+// 7. Super Admin King - Hard Delete Temple with all cascading data
+export async function deleteTempleAsKing(templeId: string) {
+  const { role } = await requireRole(['super_admin'])
+  if (role !== 'super_admin') {
+    return { success: false, error: 'Unauthorized: King access required.' }
+  }
+
+  try {
+    // Delete in sequence to respect foreign keys if needed or rely on cascade
+    await prisma.temple.delete({
+      where: { id: templeId },
+    })
+
+    revalidatePath('/super-admin/overview')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Super Admin failed to delete temple:', error)
+    return { success: false, error: error?.message || 'Failed to delete temple.' }
+  }
+}
+
+// 8. Super Admin King - Update Temple Core Attributes
+export async function updateTempleDetailsAsKing(
+  templeId: string,
+  data: {
+    name?: string
+    slug?: string
+    primaryDeity?: string
+    contactPhone?: string
+    contactEmail?: string
+    templeType?: any
+    subscriptionPlan?: any
+    isActive?: boolean
+  }
+) {
+  const { role } = await requireRole(['super_admin'])
+  if (role !== 'super_admin') {
+    return { success: false, error: 'Unauthorized: King access required.' }
+  }
+
+  try {
+    await prisma.temple.update({
+      where: { id: templeId },
+      data: {
+        ...(data.name && { name: data.name }),
+        ...(data.slug && { slug: data.slug.toLowerCase().trim() }),
+        ...(data.primaryDeity !== undefined && { primaryDeity: data.primaryDeity }),
+        ...(data.contactPhone !== undefined && { contactPhone: data.contactPhone }),
+        ...(data.contactEmail !== undefined && { contactEmail: data.contactEmail }),
+        ...(data.templeType && { templeType: data.templeType }),
+        ...(data.subscriptionPlan && { subscriptionPlan: data.subscriptionPlan }),
+        ...(data.isActive !== undefined && { isActive: data.isActive }),
+      },
+    })
+
+    revalidatePath('/super-admin/overview')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Super Admin failed to update temple details:', error)
+    return { success: false, error: error?.message || 'Failed to update temple details.' }
+  }
+}
+
+// 9. Super Admin King - Delete Devotee
+export async function deleteDevoteeAsKing(devoteeId: string) {
+  const { role } = await requireRole(['super_admin'])
+  if (role !== 'super_admin') {
+    return { success: false, error: 'Unauthorized: King access required.' }
+  }
+
+  try {
+    await prisma.devotee.delete({
+      where: { id: devoteeId },
+    })
+
+    revalidatePath('/super-admin/overview')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Super Admin failed to delete devotee:', error)
+    return { success: false, error: error?.message || 'Failed to delete devotee.' }
+  }
+}
+
 

@@ -1,18 +1,30 @@
 {
-  "name": "Temple AI OS",
-  "short_name": "TempleOS",
-  "description": "The most powerful AI-driven Temple Management Platform",
+  "name": "MandieAI OS",
+  "short_name": "MandieAI",
+  "description": "India's #1 Intelligent Temple Operating System — AI-powered Temple Website Builder & Management Platform",
   "start_url": "/dashboard",
   "display": "standalone",
-  "background_color": "#1c1917",
-  "theme_color": "#f97316",
+  "background_color": "#ffffff",
+  "theme_color": "#b45309",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/globe.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo-circle.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "categories": ["productivity", "business", "utilities"],
@@ -21,19 +33,22 @@
       "name": "Dashboard",
       "short_name": "Dashboard",
       "url": "/dashboard",
-      "description": "Admin Overview"
+      "description": "Admin Overview",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Donations",
       "short_name": "Donate",
       "url": "/donations",
-      "description": "Manage Donations"
+      "description": "Manage Donations",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "AI CRM",
       "short_name": "CRM",
       "url": "/dashboard/ai-crm",
-      "description": "Autonomous WhatsApp CRM"
+      "description": "Autonomous WhatsApp CRM",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
