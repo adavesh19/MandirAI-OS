@@ -82,16 +82,7 @@ export default function AIOmniscientTemplate({ temple, page, sevas }: TemplatePr
     }, 2800)
   }
 
-  // If custom page blocks exist, render via BlockRenderer
-  if (page?.blocks && Array.isArray(page.blocks) && page.blocks.length > 0) {
-    return (
-      <div className="min-h-screen bg-[#070914] text-indigo-100">
-        <PanchangTicker className="relative z-50" />
-        <BlockRenderer blocks={page.blocks} theme="ai-omniscient" sevas={activeSevas} templeAddress={temple?.address} />
-        <VirtualRitualBar templeName={tName} />
-      </div>
-    )
-  }
+  // Render template directly
 
   return (
     <div className="min-h-screen bg-[#060814] text-[#f1f5f9] font-serif selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">

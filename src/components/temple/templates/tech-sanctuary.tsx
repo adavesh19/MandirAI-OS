@@ -75,16 +75,7 @@ export default function TechSanctuaryTemplate({ temple, page, sevas }: TemplateP
     }, 2800)
   }
 
-  // If page blocks exist, render via BlockRenderer
-  if (page?.blocks && Array.isArray(page.blocks) && page.blocks.length > 0) {
-    return (
-      <div className="min-h-screen bg-[#090a0f] text-zinc-100">
-        <PanchangTicker className="relative z-50" />
-        <BlockRenderer blocks={page.blocks} theme="tech-sanctuary" sevas={activeSevas} templeAddress={temple?.address} />
-        <VirtualRitualBar templeName={tName} />
-      </div>
-    )
-  }
+  // Render template directly
 
   return (
     <div className="min-h-screen bg-[#07080c] text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-x-hidden">

@@ -73,16 +73,7 @@ export default function ModernElegantTemplate({ temple, page, sevas }: TemplateP
     }, 2800)
   }
 
-  // If page blocks exist, render via BlockRenderer
-  if (page?.blocks && Array.isArray(page.blocks) && page.blocks.length > 0) {
-    return (
-      <div className="min-h-screen bg-[#faf9f6] text-stone-900">
-        <PanchangTicker className="relative z-50" />
-        <BlockRenderer blocks={page.blocks} theme="modern" sevas={activeSevas} templeAddress={temple?.address} />
-        <VirtualRitualBar templeName={tName} />
-      </div>
-    )
-  }
+  // Render template directly
 
   return (
     <div className="min-h-screen bg-[#faf9f5] dark:bg-[#0c0d10] text-stone-900 dark:text-stone-100 font-sans selection:bg-amber-500 selection:text-white relative overflow-x-hidden">

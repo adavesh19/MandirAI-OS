@@ -163,28 +163,7 @@ export async function onboardTemple(formData: {
         const ts = Date.now() + idx;
         
         if (type === 'HOME') {
-            initialBlocks = [
-              { id: `hero3d-${ts}-1`, type: 'Hero3D', props: { title: name, subtitle: `Welcome to the divine presence of ${primaryDeity}`, modelType: 'diya' } },
-              { id: `text-${ts}-2`, type: 'Text', props: { content: pageData.content } },
-              { 
-                id: `bento-${ts}-3`, 
-                type: 'BentoGrid', 
-                props: { 
-                  title: 'Temple Highlights', 
-                  description: 'Explore our sacred spaces, spiritual leaders, and daily programs.',
-                  items: [
-                    { id: '1', title: 'Daily Darshan & Aarti', description: 'Experience divine morning and evening prayers.', image: images.temple || 'https://images.unsplash.com/photo-1596700057039-383791054006?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 2 },
-                    { id: '2', title: 'Main Deity Darshan', description: `Invocations of Lord ${primaryDeity}.`, image: images.deity || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&q=80', colSpan: 1, rowSpan: 1 },
-                    { id: '3', title: 'Sacred Seva Bookings', description: 'Participate in personalized rituals.', colSpan: 1, rowSpan: 1 },
-                    { id: '4', title: 'Spiritual Leadership', description: 'Guided by our Peethadhipati and Swamijis.', image: images.swamiji || 'https://images.unsplash.com/photo-1614713568397-b6483569502d?auto=format&fit=crop&q=80', colSpan: 2, rowSpan: 1 }
-                  ]
-                } 
-              },
-              { id: `carousel-${ts}-4`, type: 'Carousel', props: { title: 'Spiritual Initiatives', subtitle: 'Swipe to discover more.' } },
-              { id: `events-${ts}-5`, type: 'Events', props: { title: 'Upcoming Festivals' } },
-              { id: `donation-${ts}-6`, type: 'Donation', props: { title: 'Support the Temple', description: 'Your contributions help us maintain the premises and feed the poor.' } },
-              { id: `gallery3d-${ts}-7`, type: 'Gallery3D', props: { title: 'Sacred Moments Gallery', images: [{ url: images.temple || 'https://images.unsplash.com/photo-1596700057039-383791054006?auto=format&fit=crop&q=80', caption: 'Temple Exterior' }, { url: images.deity || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&q=80', caption: 'Main Deity' }, { url: images.swamiji || 'https://images.unsplash.com/photo-1614713568397-b6483569502d?auto=format&fit=crop&q=80', caption: 'Blessed Moments' }] } }
-            ];
+            initialBlocks = [];
         } else if (type === 'ABOUT') {
             initialBlocks = [
               { id: `hero-${ts}-1`, type: 'Hero', props: { title: `About ${name}`, subtitle: 'Our Mission & Vision', backgroundImageUrl: images.temple } },

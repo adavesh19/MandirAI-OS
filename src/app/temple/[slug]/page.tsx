@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { notFound } from 'next/navigation'
 import prisma from '@/lib/prisma'
-import ClassicCalmTemplate from '@/components/shared/../temple/templates/classic-calm'
+import ClassicCalmTemplate from '@/components/temple/templates/classic-calm'
 import HeritageGrandTemplate from '@/components/temple/templates/heritage-grand'
 import ModernElegantTemplate from '@/components/temple/templates/modern-elegant'
 import DivineGlowTemplate from '@/components/temple/templates/divine-glow'

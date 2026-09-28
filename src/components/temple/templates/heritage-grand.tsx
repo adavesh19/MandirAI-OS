@@ -74,16 +74,7 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
     }, 2800)
   }
 
-  // If custom page blocks exist, render via BlockRenderer
-  if (page?.blocks && Array.isArray(page.blocks) && page.blocks.length > 0) {
-    return (
-      <div className="min-h-screen bg-[#100603] text-stone-100">
-        <PanchangTicker className="relative z-50" />
-        <BlockRenderer blocks={page.blocks} theme="heritage" sevas={activeSevas} templeAddress={temple?.address} />
-        <VirtualRitualBar templeName={tName} />
-      </div>
-    )
-  }
+  // Render template directly
 
   return (
     <div className="min-h-screen bg-[#120603] text-[#fbf6ea] font-serif selection:bg-[#d4af37] selection:text-black overflow-x-hidden relative">

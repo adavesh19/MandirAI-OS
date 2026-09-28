@@ -74,16 +74,7 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
     }, 2800)
   }
 
-  // If custom page blocks exist, render via BlockRenderer
-  if (page?.blocks && Array.isArray(page.blocks) && page.blocks.length > 0) {
-    return (
-      <div className="min-h-screen bg-[#faf8f4] text-[#2c1810]">
-        <PanchangTicker className="relative z-50" />
-        <BlockRenderer blocks={page.blocks} theme="classic" sevas={activeSevas} templeAddress={temple?.address} />
-        <VirtualRitualBar templeName={tName} />
-      </div>
-    )
-  }
+  // Render template directly
 
   return (
     <div className="min-h-screen bg-[#faf8f4] text-[#2c1810] font-sans selection:bg-[#c8923f] selection:text-white relative overflow-x-hidden">
