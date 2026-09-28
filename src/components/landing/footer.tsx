@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import Link from 'next/link'
+import LanguageSwitcher from '@/components/shared/language-switcher'
 
 const FacebookIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -68,10 +69,15 @@ export default function Footer() {
               Product
             </h4>
             <ul className="space-y-2.5 text-xs sm:text-sm">
+              <li>
+                <Link href="/onboarding?plan=launch-299" className="text-amber-400 hover:text-amber-300 font-bold transition-colors">
+                  ⚡ Create Website @ ₹299
+                </Link>
+              </li>
               <li><Link href="#features" className="hover:text-saffron-400 transition-colors">Features</Link></li>
               <li><Link href="#pricing" className="hover:text-saffron-400 transition-colors">Pricing</Link></li>
+              <li><Link href="/temple-website-builder" className="hover:text-saffron-400 transition-colors">Website Builder</Link></li>
               <li><Link href="/demo" className="hover:text-saffron-400 transition-colors">Request Demo</Link></li>
-              <li><Link href="/plans" className="hover:text-saffron-400 transition-colors">SaaS Plans</Link></li>
             </ul>
           </div>
 
@@ -107,6 +113,12 @@ export default function Footer() {
           <p className="text-xs text-stone-600">
             &copy; {new Date().getFullYear()} MandirAI OS. All rights reserved.
           </p>
+
+          {/* Language Switcher in Footer */}
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+          </div>
+
           <p className="text-xs text-stone-500 flex items-center gap-1">
             Built with <span className="text-red-500 text-sm">🙏</span> in India by{' '}
             <a

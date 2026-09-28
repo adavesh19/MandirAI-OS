@@ -2,6 +2,7 @@ import { Inter, Outfit } from 'next/font/google'
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
+import AppProviders from '@/components/shared/app-providers'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -305,7 +306,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="alternate" type="application/rss+xml" title="MandirAI OS Blog" href="/feed.xml" />
       </head>
       <body className="font-sans antialiased bg-background text-foreground bg-stone-50 dark:bg-stone-950 min-h-screen flex flex-col">
-        {children}
+        <AppProviders>
+          {children}
+        </AppProviders>
         <Analytics />
       </body>
     </html>

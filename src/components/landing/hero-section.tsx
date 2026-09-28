@@ -9,6 +9,9 @@ import { Float, Environment, Sparkles } from '@react-three/drei'
 import * as THREE from 'three'
 import { motion } from 'framer-motion'
 
+import { useLanguage } from '@/components/shared/language-context'
+import { Sparkles as SparklesIcon } from 'lucide-react'
+
 // A stunning abstract 3D component that looks like a glowing golden lotus/mandala
 function GoldenLotus() {
   const groupRef = React.useRef<THREE.Group>(null)
@@ -55,8 +58,10 @@ function GoldenLotus() {
 }
 
 export default function HeroSection() {
+  const { t, isKannada } = useLanguage()
+
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden bg-stone-50 dark:bg-stone-950 flex flex-col items-center justify-center min-h-[90vh]">
+    <section className="relative pt-36 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-stone-50 dark:bg-stone-950 flex flex-col items-center justify-center min-h-[92vh]">
       {/* Decorative Glow Orbs */}
       <div className="absolute top-1/4 left-[10%] w-96 h-96 bg-saffron-500/20 rounded-full blur-[100px] -z-10 animate-float" />
       <div className="absolute bottom-1/4 right-[10%] w-96 h-96 bg-amber-500/20 rounded-full blur-[100px] -z-10 animate-glow-pulse" />
@@ -81,60 +86,71 @@ export default function HeroSection() {
         >
           <div className="max-w-4xl mx-auto text-center relative z-10">
 
+            {/* Launch Deal Floating Pill */}
+            <Link href="/onboarding?plan=launch-299" className="inline-block mb-6 group">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/10 via-saffron-500/15 to-amber-500/10 border border-saffron-500/30 text-saffron-800 dark:text-saffron-300 text-xs sm:text-sm font-bold shadow-sm backdrop-blur-md group-hover:scale-105 group-hover:border-saffron-500 transition-all">
+                <span className="flex h-2 w-2 rounded-full bg-saffron-500 animate-ping" />
+                <SparklesIcon className="h-3.5 w-3.5 text-saffron-600 dark:text-saffron-400" />
+                <span>{t('hero.badge')}</span>
+                <span className="text-stone-400 dark:text-stone-500">→</span>
+              </div>
+            </Link>
+
             {/* Heading — targets "temple website builder" keyword */}
-            <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-stone-900 dark:text-white mb-6 leading-tight drop-shadow-sm">
-              India&apos;s #1{' '}
+            <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-stone-900 dark:text-white mb-6 leading-tight drop-shadow-sm">
+              {t('hero.title1')}{' '}
               <span className="bg-gradient-to-r from-saffron-500 via-amber-500 to-maroon-600 bg-clip-text text-transparent dark:to-saffron-400 relative">
-                Temple Website Builder
+                {t('hero.titleHighlight')}
                 <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-saffron-500 to-transparent opacity-30 blur-sm"></div>
               </span>
-              {' '}&amp; Management Platform
+              {' '}{t('hero.title2')}
             </h1>
 
-          {/* Subheading */}
-          <p className="max-w-2xl mx-auto text-lg md:text-xl text-stone-700 dark:text-stone-300 mb-10 leading-relaxed font-medium">
-            Build your complete temple website in 3 minutes using AI — then manage donations, seva bookings, devotee CRM, 80G receipts, multilingual pages, and more from one dashboard.
-          </p>
+            {/* Subheading */}
+            <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-stone-700 dark:text-stone-300 mb-10 leading-relaxed font-medium">
+              {t('hero.subtitle')}
+            </p>
 
-          {/* Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-            <Link href="/register">
-              <Button size="lg" className="w-full sm:w-auto font-bold px-8 h-14 text-base shadow-xl shadow-saffron-500/20 hover:scale-105 transition-transform duration-300">
-                Get Started Free
-              </Button>
-            </Link>
-            <Link href="#demo">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto px-8 h-14 gap-2 text-base font-semibold bg-white/50 backdrop-blur-sm dark:bg-stone-950/50 hover:scale-105 transition-transform duration-300">
-                <Play className="h-4 w-4 text-saffron-500 fill-saffron-500" />
-                Watch Demo
-              </Button>
-            </Link>
+            {/* Actions */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+              <Link href="/onboarding?plan=launch-299">
+                <Button size="lg" className="w-full sm:w-auto font-bold px-8 h-14 text-base bg-gradient-to-r from-saffron-600 to-amber-600 hover:from-saffron-500 hover:to-amber-500 text-white shadow-xl shadow-saffron-500/25 hover:scale-105 transition-all duration-300 gap-2">
+                  <SparklesIcon className="h-5 w-5 text-yellow-200" />
+                  <span>{t('hero.ctaPrimary')}</span>
+                </Button>
+              </Link>
+              <Link href="#how-it-works">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto px-8 h-14 gap-2 text-base font-semibold bg-white/60 backdrop-blur-md dark:bg-stone-900/60 hover:scale-105 transition-all duration-300">
+                  <Play className="h-4 w-4 text-saffron-500 fill-saffron-500" />
+                  {t('hero.ctaSecondary')}
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
         </motion.div>
 
         {/* Stats Grid */}
         <motion.div 
-          className="border-t border-stone-200/60 dark:border-stone-800/40 pt-10 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto bg-white/30 dark:bg-stone-900/30 backdrop-blur-md rounded-3xl p-8 shadow-sm"
+          className="border-t border-stone-200/60 dark:border-stone-800/40 pt-10 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto bg-white/40 dark:bg-stone-900/40 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-sm"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
         >
           <div>
             <p className="font-heading text-3xl sm:text-4xl font-black text-saffron-600 dark:text-saffron-400">1,000+</p>
-            <p className="text-sm font-semibold text-stone-600 dark:text-stone-400 mt-1 uppercase tracking-wider">Temples</p>
+            <p className="text-xs sm:text-sm font-semibold text-stone-600 dark:text-stone-400 mt-1 uppercase tracking-wider">{t('hero.statTemples')}</p>
           </div>
           <div>
             <p className="font-heading text-3xl sm:text-4xl font-black text-saffron-600 dark:text-saffron-400">₹10Cr+</p>
-            <p className="text-sm font-semibold text-stone-600 dark:text-stone-400 mt-1 uppercase tracking-wider">Donations</p>
+            <p className="text-xs sm:text-sm font-semibold text-stone-600 dark:text-stone-400 mt-1 uppercase tracking-wider">{t('hero.statDonations')}</p>
           </div>
           <div>
             <p className="font-heading text-3xl sm:text-4xl font-black text-saffron-600 dark:text-saffron-400">50K+</p>
-            <p className="text-sm font-semibold text-stone-600 dark:text-stone-400 mt-1 uppercase tracking-wider">Devotees</p>
+            <p className="text-xs sm:text-sm font-semibold text-stone-600 dark:text-stone-400 mt-1 uppercase tracking-wider">{t('hero.statDevotees')}</p>
           </div>
           <div>
             <p className="font-heading text-3xl sm:text-4xl font-black text-saffron-600 dark:text-saffron-400">99.9%</p>
-            <p className="text-sm font-semibold text-stone-600 dark:text-stone-400 mt-1 uppercase tracking-wider">Uptime</p>
+            <p className="text-xs sm:text-sm font-semibold text-stone-600 dark:text-stone-400 mt-1 uppercase tracking-wider">{t('hero.statUptime')}</p>
           </div>
         </motion.div>
       </div>

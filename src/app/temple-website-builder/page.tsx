@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import LanguageSwitcher from '@/components/shared/language-switcher'
+import LaunchBanner from '@/components/landing/launch-banner'
 
 export const metadata: Metadata = {
   title: 'Temple Website Builder | Create Your Temple Website in Minutes — MandirAI OS',
@@ -167,6 +169,9 @@ export default function TempleWebsiteBuilderPage() {
       />
 
       <main className="min-h-screen bg-white dark:bg-stone-950">
+        {/* ── LAUNCH DISCOUNT BANNER ───────────────────────────────────── */}
+        <LaunchBanner />
+
         {/* ── NAV ─────────────────────────────────────────────────────── */}
         <nav className="sticky top-0 z-50 bg-white/90 dark:bg-stone-950/90 backdrop-blur-md border-b border-stone-100 dark:border-stone-900">
           <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -174,14 +179,15 @@ export default function TempleWebsiteBuilderPage() {
               <span className="text-2xl">🕉️</span> MandirAI OS
             </Link>
             <div className="flex items-center gap-3">
+              <LanguageSwitcher />
               <Link href="/login" className="text-sm font-semibold text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors">
                 Login
               </Link>
               <Link
-                href="/register"
-                className="bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-colors"
+                href="/onboarding?plan=launch-299"
+                className="bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-colors shadow-sm"
               >
-                Start Free →
+                Create Website @ ₹299 →
               </Link>
             </div>
           </div>
