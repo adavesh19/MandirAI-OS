@@ -13,6 +13,7 @@ import { useLanguage } from '@/components/shared/language-context'
 import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
+import TempleUpiModal from '@/components/temple/temple-upi-modal'
 
 export interface TemplateProps {
   temple: any
@@ -73,13 +74,42 @@ export default function DivineGlowTemplate({ temple, page, sevas }: TemplateProp
     }
   }
 
+  const [isUpiModalOpen, setIsUpiModalOpen] = useState(false)
+  const [upiModalConfig, setUpiModalConfig] = useState<{
+    amount: number
+    title?: string
+    description?: string
+    sevaName?: string
+    devoteeName?: string
+  }>({
+    amount: 501,
+    title: 'Sacred E-Hundi Offering',
+    description: 'Direct offering to temple sanctum and annadanam trust'
+  })
+
+  const handleDonationSubmit = () => {
+    const amt = Number(customDonation) || donationAmount || 501
+    setUpiModalConfig({
+      amount: amt,
+      title: 'Radiant E-Hundi Samarpanam',
+      description: `Direct sacred offering to ${tName} eternal sanctum flame`,
+      sevaName: '',
+      devoteeName: devoteeName || ''
+    })
+    setIsUpiModalOpen(true)
+  }
+
   const handleBookSeva = (e: React.FormEvent) => {
     e.preventDefault()
-    setBookingSuccess(true)
-    setTimeout(() => {
-      setBookingSuccess(false)
-      setSelectedSeva(null)
-    }, 2800)
+    const amt = selectedSeva?.amount || selectedSeva?.price || 251
+    setUpiModalConfig({
+      amount: amt,
+      title: `Book Seva: ${selectedSeva?.name}`,
+      description: `Consecrated Sankalpam for ${devoteeName || 'Devotee'}`,
+      sevaName: selectedSeva?.name,
+      devoteeName: devoteeName
+    })
+    setIsUpiModalOpen(true)
   }
 
   // Render template directly
@@ -420,7 +450,7 @@ export default function DivineGlowTemplate({ temple, page, sevas }: TemplateProp
             </div>
 
             <button
-              onClick={() => alert(`Redirecting to secure payment for ₹${customDonation || donationAmount}`)}
+              onClick={handleDonationSubmit}
               className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500 text-stone-950 font-sans font-bold text-sm uppercase tracking-widest hover:brightness-110 shadow-xl shadow-amber-500/25 transition-all flex items-center justify-center gap-2"
             >
               <Heart className="w-4 h-4 fill-current" /> Offer ₹{customDonation || donationAmount} via UPI / Net Banking
@@ -615,6 +645,23 @@ export default function DivineGlowTemplate({ temple, page, sevas }: TemplateProp
           </div>
         </div>
       </footer>
+
+      <TempleUpiModal
+        isOpen={isUpiModalOpen}
+        onClose={() => {
+          setIsUpiModalOpen(false)
+          setSelectedSeva(null)
+        }}
+        templeName={tName}
+        contactPhone={contactPhone}
+        upiId={temple?.upiId}
+        amount={upiModalConfig.amount}
+        title={upiModalConfig.title}
+        description={upiModalConfig.description}
+        sevaName={upiModalConfig.sevaName}
+        devoteeName={upiModalConfig.devoteeName || devoteeName}
+        onDevoteeNameChange={(name) => setDevoteeName(name)}
+      />
 
       <VirtualRitualBar templeName={tName} />
     </div>

@@ -56,6 +56,7 @@ export default async function PublicTempleHome({ params }: TemplePageProps) {
     address,
     timings,
     slug: temple.slug,
+    upiId: temple.upiId,
   }
 
   const pageContent = page && typeof page.content === 'object' && page.content !== null

@@ -13,6 +13,7 @@ import { useLanguage } from '@/components/shared/language-context'
 import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
+import TempleUpiModal from '@/components/temple/temple-upi-modal'
 
 export interface TemplateProps {
   temple: any
@@ -65,13 +66,42 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
     { time: '09:00 PM', name: 'Ekantha Seva & Sayana', desc: 'Night repose ceremony and temple closure' }
   ]
 
+  const [isUpiModalOpen, setIsUpiModalOpen] = useState(false)
+  const [upiModalConfig, setUpiModalConfig] = useState<{
+    amount: number
+    title?: string
+    description?: string
+    sevaName?: string
+    devoteeName?: string
+  }>({
+    amount: 501,
+    title: 'Sacred E-Hundi Offering',
+    description: 'Direct offering to temple sanctum and annadanam trust'
+  })
+
+  const handleDonationSubmit = () => {
+    const amt = Number(customAmount) || selectedAmount || 501
+    setUpiModalConfig({
+      amount: amt,
+      title: 'Royal E-Hundi Samarpanam',
+      description: `Direct sacred offering to ${tName} sanctum and heritage preservation`,
+      sevaName: '',
+      devoteeName: devoteeName || ''
+    })
+    setIsUpiModalOpen(true)
+  }
+
   const handleBookSeva = (e: React.FormEvent) => {
     e.preventDefault()
-    setBookingSuccess(true)
-    setTimeout(() => {
-      setBookingSuccess(false)
-      setSelectedSeva(null)
-    }, 2800)
+    const amt = selectedSeva?.amount || selectedSeva?.price || 501
+    setUpiModalConfig({
+      amount: amt,
+      title: `Book Seva: ${selectedSeva?.name}`,
+      description: `Grand Sankalpam in the name of ${devoteeName || 'Devotee'} ${devoteeGotra ? `(Gotra: ${devoteeGotra})` : ''}`,
+      sevaName: selectedSeva?.name,
+      devoteeName: devoteeName
+    })
+    setIsUpiModalOpen(true)
   }
 
   // Render template directly
@@ -414,7 +444,7 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
             </div>
 
             <button
-              onClick={() => alert(`Proceeding to offer ₹${customAmount || selectedAmount} via Secure UPI / Net Banking`)}
+              onClick={handleDonationSubmit}
               className="w-full py-4 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#e5c158] to-[#b38827] text-stone-950 font-sans font-bold text-sm uppercase tracking-widest hover:brightness-110 shadow-xl shadow-[#d4af37]/20 transition-all flex items-center justify-center gap-2"
             >
               <Heart className="w-4 h-4 fill-current" /> Proceed to Offer ₹{customAmount || selectedAmount}
@@ -643,6 +673,23 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
           </div>
         </div>
       </footer>
+
+      <TempleUpiModal
+        isOpen={isUpiModalOpen}
+        onClose={() => {
+          setIsUpiModalOpen(false)
+          setSelectedSeva(null)
+        }}
+        templeName={tName}
+        contactPhone={contactPhone}
+        upiId={temple?.upiId}
+        amount={upiModalConfig.amount}
+        title={upiModalConfig.title}
+        description={upiModalConfig.description}
+        sevaName={upiModalConfig.sevaName}
+        devoteeName={upiModalConfig.devoteeName || devoteeName}
+        onDevoteeNameChange={(name) => setDevoteeName(name)}
+      />
 
       <VirtualRitualBar templeName={tName} />
     </div>

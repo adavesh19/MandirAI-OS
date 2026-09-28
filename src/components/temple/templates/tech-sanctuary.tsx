@@ -13,6 +13,7 @@ import { useLanguage } from '@/components/shared/language-context'
 import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
+import TempleUpiModal from '@/components/temple/temple-upi-modal'
 
 export interface TemplateProps {
   temple?: any
@@ -66,13 +67,42 @@ export default function TechSanctuaryTemplate({ temple, page, sevas }: TemplateP
     { time: '08:45 PM - 09:15 PM', name: 'Ekantha Seva & Closing', live: false }
   ]
 
+  const [isUpiModalOpen, setIsUpiModalOpen] = useState(false)
+  const [upiModalConfig, setUpiModalConfig] = useState<{
+    amount: number
+    title?: string
+    description?: string
+    sevaName?: string
+    devoteeName?: string
+  }>({
+    amount: 501,
+    title: 'Digital E-Hundi Offering',
+    description: 'Instant direct offering to temple sanctum node'
+  })
+
+  const handleDonationSubmit = () => {
+    const amt = Number(customDonation) || donationAmount || 501
+    setUpiModalConfig({
+      amount: amt,
+      title: 'Digital E-Hundi Offering',
+      description: `Direct offering to ${tName} sanctum node and annadanam trust`,
+      sevaName: '',
+      devoteeName: devoteeName || ''
+    })
+    setIsUpiModalOpen(true)
+  }
+
   const handleBookSeva = (e: React.FormEvent) => {
     e.preventDefault()
-    setBookingSuccess(true)
-    setTimeout(() => {
-      setBookingSuccess(false)
-      setSelectedSeva(null)
-    }, 2800)
+    const amt = selectedSeva?.amount || selectedSeva?.price || 251
+    setUpiModalConfig({
+      amount: amt,
+      title: `Book Seva: ${selectedSeva?.name}`,
+      description: `Digital Sankalpam for ${devoteeName || 'Devotee'} ${devoteeGotra ? `(Gotra: ${devoteeGotra})` : ''}`,
+      sevaName: selectedSeva?.name,
+      devoteeName: devoteeName
+    })
+    setIsUpiModalOpen(true)
   }
 
   // Render template directly
@@ -494,7 +524,7 @@ export default function TechSanctuaryTemplate({ temple, page, sevas }: TemplateP
             </div>
 
             <button
-              onClick={() => alert(`Redirecting to secure payment for ₹${customDonation || donationAmount}`)}
+              onClick={handleDonationSubmit}
               className="w-full py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
             >
               <Heart className="w-4 h-4 fill-current" /> Donate ₹{customDonation || donationAmount} via UPI / Net Banking
@@ -700,6 +730,23 @@ export default function TechSanctuaryTemplate({ temple, page, sevas }: TemplateP
           </div>
         </div>
       </footer>
+
+      <TempleUpiModal
+        isOpen={isUpiModalOpen}
+        onClose={() => {
+          setIsUpiModalOpen(false)
+          setSelectedSeva(null)
+        }}
+        templeName={tName}
+        contactPhone={contactPhone}
+        upiId={temple?.upiId}
+        amount={upiModalConfig.amount}
+        title={upiModalConfig.title}
+        description={upiModalConfig.description}
+        sevaName={upiModalConfig.sevaName}
+        devoteeName={upiModalConfig.devoteeName || devoteeName}
+        onDevoteeNameChange={(name) => setDevoteeName(name)}
+      />
 
       <VirtualRitualBar templeName={tName} />
     </div>

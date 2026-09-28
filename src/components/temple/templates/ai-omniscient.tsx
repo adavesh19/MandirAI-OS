@@ -13,6 +13,7 @@ import { useLanguage } from '@/components/shared/language-context'
 import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
+import TempleUpiModal from '@/components/temple/temple-upi-modal'
 
 export interface TemplateProps {
   temple: any
@@ -73,13 +74,42 @@ export default function AIOmniscientTemplate({ temple, page, sevas }: TemplatePr
     source: "Bhagavad Gita 4.7"
   }
 
+  const [isUpiModalOpen, setIsUpiModalOpen] = useState(false)
+  const [upiModalConfig, setUpiModalConfig] = useState<{
+    amount: number
+    title?: string
+    description?: string
+    sevaName?: string
+    devoteeName?: string
+  }>({
+    amount: 501,
+    title: 'Cosmic E-Hundi Offering',
+    description: 'Direct celestial offering to temple sanctum'
+  })
+
+  const handleDonationSubmit = () => {
+    const amt = Number(customDonation) || donationAmount || 501
+    setUpiModalConfig({
+      amount: amt,
+      title: 'Cosmic E-Hundi Samarpanam',
+      description: `Direct sacred offering to ${tName} sanctum and global dharma propagation`,
+      sevaName: '',
+      devoteeName: devoteeName || ''
+    })
+    setIsUpiModalOpen(true)
+  }
+
   const handleBookSeva = (e: React.FormEvent) => {
     e.preventDefault()
-    setBookingSuccess(true)
-    setTimeout(() => {
-      setBookingSuccess(false)
-      setSelectedSeva(null)
-    }, 2800)
+    const amt = selectedSeva?.amount || selectedSeva?.price || 501
+    setUpiModalConfig({
+      amount: amt,
+      title: `Book Seva: ${selectedSeva?.name}`,
+      description: `Celestial Sankalpam for ${devoteeName || 'Devotee'} ${devoteeGotra ? `(Gotra: ${devoteeGotra})` : ''}`,
+      sevaName: selectedSeva?.name,
+      devoteeName: devoteeName
+    })
+    setIsUpiModalOpen(true)
   }
 
   // Render template directly
@@ -442,7 +472,7 @@ export default function AIOmniscientTemplate({ temple, page, sevas }: TemplatePr
             </div>
 
             <button
-              onClick={() => alert(`Redirecting to secure payment for ₹${customDonation || donationAmount}`)}
+              onClick={handleDonationSubmit}
               className="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-500 to-sky-400 text-white font-sans font-bold text-sm uppercase tracking-widest hover:brightness-110 shadow-xl shadow-indigo-500/30 transition-all flex items-center justify-center gap-2"
             >
               <Heart className="w-4 h-4 fill-current" /> Donate ₹{customDonation || donationAmount} via UPI / Net Banking
@@ -637,6 +667,23 @@ export default function AIOmniscientTemplate({ temple, page, sevas }: TemplatePr
           </div>
         </div>
       </footer>
+
+      <TempleUpiModal
+        isOpen={isUpiModalOpen}
+        onClose={() => {
+          setIsUpiModalOpen(false)
+          setSelectedSeva(null)
+        }}
+        templeName={tName}
+        contactPhone={contactPhone}
+        upiId={temple?.upiId}
+        amount={upiModalConfig.amount}
+        title={upiModalConfig.title}
+        description={upiModalConfig.description}
+        sevaName={upiModalConfig.sevaName}
+        devoteeName={upiModalConfig.devoteeName || devoteeName}
+        onDevoteeNameChange={(name) => setDevoteeName(name)}
+      />
 
       <VirtualRitualBar templeName={tName} />
     </div>

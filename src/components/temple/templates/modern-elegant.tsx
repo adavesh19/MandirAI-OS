@@ -13,6 +13,7 @@ import { useLanguage } from '@/components/shared/language-context'
 import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
+import TempleUpiModal from '@/components/temple/temple-upi-modal'
 
 export interface TemplateProps {
   temple: any
@@ -64,13 +65,42 @@ export default function ModernElegantTemplate({ temple, page, sevas }: TemplateP
     { label: 'Shayan Aarti (Temple Closes)', time: '09:00 PM', active: false }
   ]
 
+  const [isUpiModalOpen, setIsUpiModalOpen] = useState(false)
+  const [upiModalConfig, setUpiModalConfig] = useState<{
+    amount: number
+    title?: string
+    description?: string
+    sevaName?: string
+    devoteeName?: string
+  }>({
+    amount: 501,
+    title: 'Sacred E-Hundi Offering',
+    description: 'Direct offering to temple sanctum and annadanam trust'
+  })
+
+  const handleDonationSubmit = () => {
+    const amt = Number(customDonation) || donationAmount || 501
+    setUpiModalConfig({
+      amount: amt,
+      title: 'Sacred E-Hundi Offering',
+      description: `Direct offering to ${tName} sanctum and annadanam trust`,
+      sevaName: '',
+      devoteeName: devoteeName || ''
+    })
+    setIsUpiModalOpen(true)
+  }
+
   const handleBook = (e: React.FormEvent) => {
     e.preventDefault()
-    setBookingSuccess(true)
-    setTimeout(() => {
-      setBookingSuccess(false)
-      setSelectedSeva(null)
-    }, 2800)
+    const amt = selectedSeva?.amount || selectedSeva?.price || 251
+    setUpiModalConfig({
+      amount: amt,
+      title: `Book Seva: ${selectedSeva?.name}`,
+      description: `Sankalpam for ${devoteeName || 'Devotee'}`,
+      sevaName: selectedSeva?.name,
+      devoteeName: devoteeName
+    })
+    setIsUpiModalOpen(true)
   }
 
   // Render template directly
@@ -417,7 +447,7 @@ export default function ModernElegantTemplate({ temple, page, sevas }: TemplateP
             </div>
 
             <button
-              onClick={() => alert(`Redirecting to secure payment for ₹${customDonation || donationAmount}`)}
+              onClick={handleDonationSubmit}
               className="w-full py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-sm uppercase tracking-wider hover:opacity-90 shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
             >
               <Heart className="w-4 h-4 fill-current" /> Donate ₹{customDonation || donationAmount} via UPI / Card
@@ -612,6 +642,23 @@ export default function ModernElegantTemplate({ temple, page, sevas }: TemplateP
           </div>
         </div>
       </footer>
+
+      <TempleUpiModal
+        isOpen={isUpiModalOpen}
+        onClose={() => {
+          setIsUpiModalOpen(false)
+          setSelectedSeva(null)
+        }}
+        templeName={tName}
+        contactPhone={contactPhone}
+        upiId={temple?.upiId}
+        amount={upiModalConfig.amount}
+        title={upiModalConfig.title}
+        description={upiModalConfig.description}
+        sevaName={upiModalConfig.sevaName}
+        devoteeName={upiModalConfig.devoteeName || devoteeName}
+        onDevoteeNameChange={(name) => setDevoteeName(name)}
+      />
 
       <VirtualRitualBar templeName={tName} />
     </div>

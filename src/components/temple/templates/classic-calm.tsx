@@ -13,6 +13,7 @@ import { useLanguage } from '@/components/shared/language-context'
 import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
+import TempleUpiModal from '@/components/temple/temple-upi-modal'
 
 export interface TemplateProps {
   temple: any
@@ -65,13 +66,42 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
     { time: '09:00 PM', name: 'Sayana Seva & Ekantha Repose', desc: 'Night lullaby chants and sanctum closure' }
   ]
 
+  const [isUpiModalOpen, setIsUpiModalOpen] = useState(false)
+  const [upiModalConfig, setUpiModalConfig] = useState<{
+    amount: number
+    title?: string
+    description?: string
+    sevaName?: string
+    devoteeName?: string
+  }>({
+    amount: 501,
+    title: 'Sacred E-Hundi Offering',
+    description: 'Direct offering to temple sanctum and annadanam trust'
+  })
+
+  const handleDonationSubmit = () => {
+    const amt = Number(customDonation) || donationAmount || 501
+    setUpiModalConfig({
+      amount: amt,
+      title: 'Sacred E-Hundi Offering',
+      description: `Direct offering to ${tName} sanctum and annadanam trust`,
+      sevaName: '',
+      devoteeName: devoteeName || ''
+    })
+    setIsUpiModalOpen(true)
+  }
+
   const handleBook = (e: React.FormEvent) => {
     e.preventDefault()
-    setBookingSuccess(true)
-    setTimeout(() => {
-      setBookingSuccess(false)
-      setSelectedSeva(null)
-    }, 2800)
+    const amt = selectedSeva?.amount || selectedSeva?.price || 101
+    setUpiModalConfig({
+      amount: amt,
+      title: `Book Seva: ${selectedSeva?.name}`,
+      description: `Sankalpam in the name of ${devoteeName || 'Devotee'} ${devoteeGotra ? `(Gotra: ${devoteeGotra})` : ''}`,
+      sevaName: selectedSeva?.name,
+      devoteeName: devoteeName
+    })
+    setIsUpiModalOpen(true)
   }
 
   // Render template directly
@@ -412,7 +442,7 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
             </div>
 
             <button
-              onClick={() => alert(`Redirecting to secure payment for ₹${customDonation || donationAmount}`)}
+              onClick={handleDonationSubmit}
               className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#c8923f] via-[#d6a24e] to-[#a6752d] text-white font-bold text-sm uppercase tracking-wider hover:opacity-95 shadow-lg shadow-[#c8923f]/25 transition-all flex items-center justify-center gap-2"
             >
               <Heart className="w-4 h-4 fill-current" /> Offer ₹{customDonation || donationAmount} via UPI / Net Banking
@@ -618,6 +648,23 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
           </div>
         </div>
       </footer>
+
+      <TempleUpiModal
+        isOpen={isUpiModalOpen}
+        onClose={() => {
+          setIsUpiModalOpen(false)
+          setSelectedSeva(null)
+        }}
+        templeName={tName}
+        contactPhone={contactPhone}
+        upiId={temple?.upiId}
+        amount={upiModalConfig.amount}
+        title={upiModalConfig.title}
+        description={upiModalConfig.description}
+        sevaName={upiModalConfig.sevaName}
+        devoteeName={upiModalConfig.devoteeName || devoteeName}
+        onDevoteeNameChange={(name) => setDevoteeName(name)}
+      />
 
       <VirtualRitualBar templeName={tName} />
     </div>
