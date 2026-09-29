@@ -33,11 +33,17 @@ export default function CTASection() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link href="/onboarding?plan=free" className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto font-black px-8 h-14 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white shadow-2xl shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all text-base gap-2 border border-emerald-400/30">
+              <Sparkles className="h-4 w-4 text-emerald-200 animate-pulse" />
+              <span>{isKannada ? 'ಉಚಿತ ದೇವಾಲಯ ವೆಬ್‌ಸೈಟ್ ರಚಿಸಿ (ಸಂಪೂರ್ಣ ಉಚಿತ)' : 'Create Free Temple Website (Fully Free)'}</span>
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
           <Link href="/onboarding?plan=launch-299" className="w-full sm:w-auto">
-            <Button size="lg" className="w-full sm:w-auto font-black px-8 h-14 bg-gradient-to-r from-saffron-600 via-amber-600 to-saffron-700 hover:from-saffron-500 hover:to-amber-500 text-white shadow-2xl shadow-saffron-500/30 hover:scale-105 active:scale-95 transition-all text-base gap-2">
+            <Button size="lg" className="w-full sm:w-auto font-bold px-8 h-14 bg-gradient-to-r from-saffron-600 via-amber-600 to-saffron-700 hover:from-saffron-500 hover:to-amber-500 text-white shadow-xl shadow-saffron-500/20 hover:scale-105 active:scale-95 transition-all text-base gap-2">
               <Sparkles className="h-4 w-4 text-yellow-200" />
               <span>{isKannada ? '₹299 ಕ್ಕೆ ವೆಬ್‌ಸೈಟ್ ರಚಿಸಿ' : 'Create Temple Website @ ₹299'}</span>
-              <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
           <Link href="#pricing" className="w-full sm:w-auto">

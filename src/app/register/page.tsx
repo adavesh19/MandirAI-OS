@@ -65,8 +65,12 @@ export default function RegisterPage() {
       <div className="w-full max-w-md bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-850 rounded-2xl shadow-xl p-8 space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-saffron-500/10 mb-2">
-            <span className="text-2xl">🕉️</span>
+          <div className="inline-flex items-center justify-center mb-2">
+            <img 
+              src="/logo.png" 
+              alt="MandirAI OS" 
+              className="h-16 w-16 object-contain rounded-full shadow-lg"
+            />
           </div>
           <h1 className="font-heading text-2xl font-bold tracking-tight text-stone-900 dark:text-white">
             Register Your Temple

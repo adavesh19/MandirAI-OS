@@ -90,12 +90,20 @@ export default async function PlatformLayout({ children }: PlatformLayoutProps) 
       ─────────────────────────────────────────────────────────── */}
       <aside className="hidden md:flex w-64 bg-stone-900 text-stone-200 flex-col border-r border-stone-850 shrink-0">
         {/* Sidebar Header */}
-        <div className="h-16 flex items-center px-4 border-b border-stone-800">
+        <div className="h-16 flex items-center px-4 border-b border-stone-800 gap-3">
           <img 
-            src="/logo-long.png" 
+            src="/logo.png" 
             alt="MandirAI OS" 
-            className="h-8 w-auto max-w-[130px] object-contain brightness-0 invert drop-shadow-md"
+            className="h-9 w-9 object-contain rounded-full shadow-md shrink-0"
           />
+          <div className="flex flex-col min-w-0">
+            <span className="font-heading font-black text-sm text-white tracking-wide truncate">
+              MandirAI OS
+            </span>
+            <span className="text-[10px] text-saffron-400 font-bold uppercase tracking-wider">
+              Management Portal
+            </span>
+          </div>
         </div>
 
         {/* Sidebar Nav */}

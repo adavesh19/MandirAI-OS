@@ -22,6 +22,16 @@ export default function OnboardingPage() {
     isKannada ? 'ದೇವಾಲಯದ ವೆಬ್‌ಸೈಟ್ ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ...' : 'Preparing environment...'
   )
   const [error, setError] = React.useState<string | null>(null)
+  const [selectedPlan, setSelectedPlan] = React.useState<string>('free')
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const planParam = new URLSearchParams(window.location.search).get('plan')
+      if (planParam) {
+        setSelectedPlan(planParam)
+      }
+    }
+  }, [])
 
   // Form State
   const [formData, setFormData] = React.useState({
@@ -281,12 +291,20 @@ export default function OnboardingPage() {
       {/* Top Header with Brand, Launch Promo & Language Selector */}
       <div className="max-w-4xl mx-auto w-full px-4 mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-stone-200/80 dark:border-stone-800/80">
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center gap-2.5 group">
             <img 
-              src="/logo-long.png" 
+              src="/logo.png" 
               alt="MandirAI OS" 
-              className="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform"
+              className="h-10 w-10 object-contain rounded-full shadow-md group-hover:scale-105 transition-transform"
             />
+            <div className="flex flex-col">
+              <span className="font-heading text-lg font-black tracking-tight bg-gradient-to-r from-saffron-600 via-amber-600 to-amber-700 bg-clip-text text-transparent leading-none">
+                MandirAI OS
+              </span>
+              <span className="text-[9px] font-bold text-stone-500 uppercase tracking-wider mt-0.5">
+                Temple Onboarding
+              </span>
+            </div>
           </Link>
 
           {/* Launch Special Offer Badge */}
@@ -867,25 +885,46 @@ export default function OnboardingPage() {
               </CardHeader>
 
               <CardContent className="pt-6">
-                {/* Launch deal highlight banner inside step 5 */}
-                <div className="mb-6 p-3.5 rounded-xl bg-gradient-to-r from-amber-500/10 via-saffron-500/15 to-amber-500/10 border border-saffron-500/30 flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <span className="p-1 rounded-full bg-saffron-500 text-white">
-                      <Zap className="h-4 w-4" />
-                    </span>
-                    <div>
-                      <p className="text-xs font-bold text-stone-900 dark:text-white">
-                        {isKannada ? '⚡ ₹299 ಬಿಡುಗಡೆ ಕೊಡುಗೆ ಅನ್ವಯಿಸಲಾಗಿದೆ' : '⚡ ₹299 Special Launch Offer Applied'}
-                      </p>
-                      <p className="text-[11px] text-stone-500 dark:text-stone-400">
-                        {isKannada ? 'ಪೂರ್ಣ ವೆಬ್‌ಸೈಟ್ + ಸೇವಾ ಬುಕಿಂಗ್ + ಇ-ಹುಂಡಿ ಸಕ್ರಿಯಗೊಳ್ಳುತ್ತದೆ' : 'Full Website + Seva Booking + UPI Hundi included'}
-                      </p>
+                {/* Plan highlight banner inside step 5 */}
+                {selectedPlan === 'free' ? (
+                  <div className="mb-6 p-3.5 rounded-xl bg-gradient-to-r from-emerald-500/10 via-teal-500/15 to-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <span className="p-1 rounded-full bg-emerald-500 text-white">
+                        <Sparkles className="h-4 w-4" />
+                      </span>
+                      <div>
+                        <p className="text-xs font-bold text-stone-900 dark:text-white">
+                          {isKannada ? '🎁 ಸಂಪೂರ್ಣ ಉಚಿತ ದೇವಾಲಯ ವೆಬ್‌ಸೈಟ್ ಯೋಜನೆ ಅನ್ವಯಿಸಲಾಗಿದೆ' : '🎁 100% Fully Free Temple Website Plan Applied'}
+                        </p>
+                        <p className="text-[11px] text-stone-500 dark:text-stone-400">
+                          {isKannada ? 'ಉಚಿತ ವೆಬ್‌ಸೈಟ್ + ದರ್ಶನ ಸಮಯ + UPI ದೇಣಿಗೆ ಯಾವುದೇ ವೆಚ್ಚವಿಲ್ಲದೆ ಶಾಶ್ವತವಾಗಿ ಲಭ್ಯ' : 'Free AI Website + Darshan Timings + Direct UPI QR Donations forever with 0 payment'}
+                        </p>
+                      </div>
                     </div>
+                    <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wide bg-emerald-100 dark:bg-emerald-950/60 px-2.5 py-1 rounded-full whitespace-nowrap">
+                      {isKannada ? '₹0 ಉಚಿತ' : '₹0 / Free'}
+                    </span>
                   </div>
-                  <span className="text-xs font-black text-saffron-600 dark:text-saffron-400">
-                    ₹299/yr
-                  </span>
-                </div>
+                ) : (
+                  <div className="mb-6 p-3.5 rounded-xl bg-gradient-to-r from-amber-500/10 via-saffron-500/15 to-amber-500/10 border border-saffron-500/30 flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <span className="p-1 rounded-full bg-saffron-500 text-white">
+                        <Zap className="h-4 w-4" />
+                      </span>
+                      <div>
+                        <p className="text-xs font-bold text-stone-900 dark:text-white">
+                          {isKannada ? '⚡ ₹299 ಬಿಡುಗಡೆ ಕೊಡುಗೆ ಅನ್ವಯಿಸಲಾಗಿದೆ' : '⚡ ₹299 Special Launch Offer Applied'}
+                        </p>
+                        <p className="text-[11px] text-stone-500 dark:text-stone-400">
+                          {isKannada ? 'ಪೂರ್ಣ ವೆಬ್‌ಸೈಟ್ + ಸೇವಾ ಬುಕಿಂಗ್ + ಇ-ಹುಂಡಿ ಸಕ್ರಿಯಗೊಳ್ಳುತ್ತದೆ' : 'Full Website + Seva Booking + UPI Hundi included'}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-xs font-black text-saffron-600 dark:text-saffron-400">
+                      ₹299/yr
+                    </span>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {templatesList.map((tmpl) => (

@@ -55,8 +55,12 @@ export default function TempleNavigation({ temple, pages }: TempleNavigationProp
           
           {/* Logo / Title */}
           <Link href={`/temple/${temple.slug}`} className="flex items-center space-x-3 group">
-            <div className="h-10 w-10 rounded-full bg-saffron-50 dark:bg-saffron-950/30 border border-saffron-200/50 flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform">
-              <span className="text-xl">🕉️</span>
+            <div className="h-10 w-10 rounded-full bg-saffron-50 dark:bg-saffron-950/30 border border-saffron-200/50 flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform overflow-hidden">
+              <img 
+                src="/logo.png" 
+                alt={temple.name} 
+                className="h-full w-full object-cover" 
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-serif font-black text-stone-900 dark:text-white text-base tracking-wide leading-tight group-hover:text-saffron-600 transition-colors">

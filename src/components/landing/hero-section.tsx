@@ -112,19 +112,42 @@ export default function HeroSection() {
             </p>
 
             {/* Actions */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <Link href="/onboarding?plan=launch-299">
-                <Button size="lg" className="w-full sm:w-auto font-bold px-8 h-14 text-base bg-gradient-to-r from-saffron-600 to-amber-600 hover:from-saffron-500 hover:to-amber-500 text-white shadow-xl shadow-saffron-500/25 hover:scale-105 transition-all duration-300 gap-2">
-                  <SparklesIcon className="h-5 w-5 text-yellow-200" />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-5">
+              {/* Primary Free Temple Website CTA */}
+              <Link href="/onboarding?plan=free" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto font-black px-8 h-14 text-base bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white shadow-xl shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all duration-300 gap-2 border border-emerald-400/40">
+                  <SparklesIcon className="h-5 w-5 text-emerald-200 animate-pulse" />
+                  <span>{t('hero.ctaFree')}</span>
+                </Button>
+              </Link>
+
+              {/* Special ₹299 Launch Offer CTA */}
+              <Link href="/onboarding?plan=launch-299" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto font-bold px-7 h-14 text-base bg-gradient-to-r from-saffron-600 to-amber-600 hover:from-saffron-500 hover:to-amber-500 text-white shadow-xl shadow-saffron-500/20 hover:scale-105 transition-all duration-300 gap-2">
+                  <SparklesIcon className="h-4 w-4 text-yellow-200" />
                   <span>{t('hero.ctaPrimary')}</span>
                 </Button>
               </Link>
-              <Link href="#how-it-works">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto px-8 h-14 gap-2 text-base font-semibold bg-white/60 backdrop-blur-md dark:bg-stone-900/60 hover:scale-105 transition-all duration-300">
+
+              {/* Demo CTA */}
+              <Link href="#how-it-works" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto px-6 h-14 gap-2 text-base font-semibold bg-white/60 backdrop-blur-md dark:bg-stone-900/60 hover:scale-105 transition-all duration-300">
                   <Play className="h-4 w-4 text-saffron-500 fill-saffron-500" />
                   {t('hero.ctaSecondary')}
                 </Button>
               </Link>
+            </div>
+
+            {/* Zero Cost Assurance */}
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs font-semibold text-stone-500 dark:text-stone-400 mb-14">
+              <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping inline-block" />
+                {isKannada ? '100% ಸಂಪೂರ್ಣ ಉಚಿತ' : '100% Fully Free'}
+              </span>
+              <span>•</span>
+              <span>{isKannada ? 'ಯಾವುದೇ ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್ ಬೇಡ' : 'No Credit Card Required'}</span>
+              <span>•</span>
+              <span>{isKannada ? '3 ನಿಮಿಷಗಳಲ್ಲಿ ಲೈವ್' : 'Live in 3 Minutes'}</span>
             </div>
           </div>
         </motion.div>

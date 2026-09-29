@@ -31,6 +31,25 @@ export default function PricingSection() {
 
   const plans = [
     {
+      name: isKannada ? 'ಸಂಪೂರ್ಣ ಉಚಿತ' : '100% Free',
+      priceYearly: 0,
+      description: isKannada
+        ? 'ಯಾವುದೇ ವೆಚ್ಚವಿಲ್ಲದೆ ನಿಮ್ಮ ದೇವಾಲಯಕ್ಕೆ ತಕ್ಷಣವೇ ಸುಂದರ ಉಚಿತ ವೆಬ್‌ಸೈಟ್ ಪ್ರಾರಂಭಿಸಿ.'
+        : 'Launch a temple website completely free. No payment or credit card required.',
+      features: [
+        { name: isKannada ? 'ಉಚಿತ AI ದೇವಾಲಯ ವೆಬ್‌ಸೈಟ್' : 'Free AI Temple Website', desc: 'Instantly publish a full-fledged temple website online.' },
+        { name: isKannada ? 'ದೇವಾಲಯ ಪೂಜೆ & ದರ್ಶನ ಸಮಯ' : 'Darshan & Aarti Timings', desc: 'Display daily morning and evening temple timings.' },
+        { name: isKannada ? 'UPI QR ದೇಣಿಗೆ ಇ-ಹುಂಡಿ' : 'Direct UPI QR Hundi', desc: 'Accept direct donations into the temple bank account.' },
+        { name: isKannada ? 'ಮೊಬೈಲ್ ಮತ್ತು ಗೂಗಲ್ ಸಿದ್ಧ' : 'Mobile & Google Ready', desc: 'Optimized for mobile visitors and local devotees.' },
+        { name: isKannada ? 'ಶಾಶ್ವತ ಉಚಿತ • 0 ಶುಲ್ಕ' : 'Forever Free • Zero Fee', desc: '100% free forever with no hidden charges.' },
+      ],
+      cta: isKannada ? 'ಉಚಿತ ವೆಬ್‌ಸೈಟ್ ರಚಿಸಿ (ಸಂಪೂರ್ಣ ಉಚಿತ)' : 'Create Free Website (Fully Free)',
+      popular: false,
+      launchOffer: false,
+      isFree: true,
+      href: '/onboarding?plan=free',
+    },
+    {
       name: isKannada ? 'ಬಿಡುಗಡೆ ಕೊಡುಗೆ' : 'Launch Special',
       priceYearly: 299,
       originalPrice: 2999,
@@ -130,20 +149,28 @@ export default function PricingSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-stretch max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5 items-stretch max-w-7xl mx-auto">
           {plans.map((plan, index) => {
             return (
               <div
                 key={index}
                 className={cn(
                   'rounded-2xl border bg-white p-6 flex flex-col justify-between transition-all duration-300 dark:bg-stone-950 relative',
-                  plan.launchOffer
+                  plan.isFree
+                    ? 'border-emerald-500/60 shadow-xl shadow-emerald-500/10 scale-[1.02] z-10 bg-gradient-to-b from-emerald-50/30 to-white dark:from-emerald-950/20 dark:to-stone-950'
+                    : plan.launchOffer
                     ? 'border-amber-500 shadow-xl shadow-amber-500/15 ring-2 ring-amber-500 scale-[1.03] z-10 bg-gradient-to-b from-amber-50/40 to-white dark:from-amber-950/20 dark:to-stone-950'
                     : plan.popular
                     ? 'border-saffron-500 shadow-xl shadow-saffron-500/10 ring-1 ring-saffron-500 scale-[1.04] z-10 md:-translate-y-2'
                     : 'border-stone-200 dark:border-stone-800 hover:border-stone-300'
                 )}
               >
+                {plan.isFree && (
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-lg whitespace-nowrap">
+                    🎁 100% FULLY FREE
+                  </span>
+                )}
+
                 {plan.launchOffer && (
                   <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-600 via-saffron-600 to-amber-700 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-lg whitespace-nowrap animate-pulse">
                     ⚡ LAUNCH DEAL ₹299
@@ -165,6 +192,11 @@ export default function PricingSection() {
                           90% OFF
                         </span>
                       )}
+                      {plan.isFree && (
+                        <span className="text-[10px] font-extrabold bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 px-2 py-0.5 rounded-full">
+                          FREE
+                        </span>
+                      )}
                     </h3>
                     <p className="text-[11px] text-stone-500 dark:text-stone-400 mt-1 min-h-[34px] leading-snug">
                       {plan.description}
@@ -180,11 +212,14 @@ export default function PricingSection() {
                     <div className="flex items-baseline">
                       <span className={cn(
                         'text-3xl font-black text-stone-900 dark:text-white',
+                        plan.isFree && 'text-emerald-600 dark:text-emerald-400',
                         plan.launchOffer && 'text-amber-600 dark:text-amber-400 text-4xl'
                       )}>
-                        ₹{plan.priceYearly}
+                        {plan.priceYearly === 0 ? (isKannada ? 'ಉಚಿತ' : '₹0 FREE') : `₹${plan.priceYearly}`}
                       </span>
-                      <span className="text-xs text-stone-500 dark:text-stone-400 ml-1">/year</span>
+                      <span className="text-xs text-stone-500 dark:text-stone-400 ml-1">
+                        {plan.priceYearly === 0 ? (isKannada ? 'ಸದಾ ಕಾಲ' : 'Forever') : '/year'}
+                      </span>
                     </div>
                   </div>
 
@@ -201,13 +236,15 @@ export default function PricingSection() {
                   <Button
                     className={cn(
                       'w-full text-xs font-bold',
-                      plan.launchOffer
+                      plan.isFree
+                        ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-md shadow-emerald-500/20'
+                        : plan.launchOffer
                         ? 'bg-gradient-to-r from-amber-600 to-saffron-600 hover:from-amber-500 hover:to-saffron-500 text-white shadow-md shadow-amber-500/20'
                         : plan.popular
                         ? 'bg-saffron-600 hover:bg-saffron-700 text-white'
                         : 'border-stone-300 text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300'
                     )}
-                    variant={plan.popular || plan.launchOffer ? 'default' : 'outline'}
+                    variant={plan.popular || plan.launchOffer || plan.isFree ? 'default' : 'outline'}
                   >
                     {plan.cta}
                   </Button>

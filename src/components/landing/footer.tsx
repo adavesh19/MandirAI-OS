@@ -38,8 +38,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
           {/* Logo & Tagline */}
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold tracking-tight text-saffron-500">🕉️</span>
+            <Link href="/" className="flex items-center space-x-3 group">
+              <img 
+                src="/logo.png" 
+                alt="MandirAI OS" 
+                className="h-9 w-9 object-contain rounded-full shadow-md group-hover:scale-105 transition-transform" 
+              />
               <span className="font-heading text-lg font-bold bg-gradient-to-r from-saffron-500 to-amber-500 bg-clip-text text-transparent">
                 MandirAI OS
               </span>
