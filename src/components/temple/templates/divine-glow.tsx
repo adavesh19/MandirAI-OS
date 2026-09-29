@@ -14,6 +14,7 @@ import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
 import TempleUpiModal from '@/components/temple/temple-upi-modal'
+import TempleLivePlayer from '@/components/temple/temple-live-player'
 
 export interface TemplateProps {
   temple: any
@@ -133,9 +134,17 @@ export default function DivineGlowTemplate({ temple, page, sevas }: TemplateProp
             : 'bg-[#1e0d04]/40 backdrop-blur-md border border-amber-500/15 py-4 px-6'
         } flex items-center justify-between`}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-300 flex items-center justify-center text-xl shadow-lg shadow-amber-500/30 border border-amber-200/40">
-              🪔
-            </div>
+            {temple?.logoUrl ? (
+              <img
+                src={temple.logoUrl}
+                alt={tName}
+                className="w-10 h-10 rounded-2xl object-cover border border-amber-500/40 shadow-lg shadow-amber-500/20"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-300 flex items-center justify-center text-xl shadow-lg shadow-amber-500/30 border border-amber-200/40">
+                🪔
+              </div>
+            )}
             <div>
               <div className="font-serif text-lg sm:text-xl font-bold tracking-wide text-amber-200 truncate max-w-[200px] sm:max-w-md">
                 {tName}
@@ -166,8 +175,18 @@ export default function DivineGlowTemplate({ temple, page, sevas }: TemplateProp
         </div>
       </header>
 
-      {/* HERO: Full Bandwidth Radiant Glass Sanctum */}
-      <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 z-10">
+      {/* HERO: Full Bandwidth Radiant Glass Sanctum with Uploaded Cover Image */}
+      <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 z-10 overflow-hidden">
+        {/* Uploaded Temple Cover Photo Backdrop */}
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          <div
+            className="w-full h-full bg-cover bg-center filter blur-[3px] scale-105 opacity-20 transition-all duration-700"
+            style={{
+              backgroundImage: `url('${temple?.coverImageUrl || temple?.themeConfig?.heroImageUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1920&q=80'}')`
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#180903]/75 via-[#180903]/90 to-[#180903]" />
+        </div>
         <div className="max-w-5xl w-full mx-auto text-center flex flex-col items-center">
           {/* Sacred Vedic Chants Tag */}
           <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[#271206]/80 backdrop-blur-xl border border-amber-400/40 shadow-xl shadow-amber-500/10 mb-8">
@@ -351,50 +370,12 @@ export default function DivineGlowTemplate({ temple, page, sevas }: TemplateProp
             </p>
           </div>
 
-          <div className="rounded-3xl bg-[#1c0c04]/90 backdrop-blur-2xl border border-amber-500/30 p-4 sm:p-6 shadow-2xl">
-            <div className="relative aspect-video w-full rounded-2xl bg-black overflow-hidden flex items-center justify-center group">
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-65 group-hover:scale-105 transition-transform duration-700"
-                style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1920&q=80')`
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-
-              <div className="relative z-10 flex flex-col items-center gap-3">
-                <div className="w-20 h-20 rounded-full bg-amber-400 text-stone-950 flex items-center justify-center shadow-[0_0_40px_rgba(245,158,11,0.6)] group-hover:scale-110 transition-transform cursor-pointer">
-                  <Play className="w-8 h-8 fill-current ml-1" />
-                </div>
-                <span className="font-sans text-xs uppercase tracking-widest text-amber-200 font-bold">
-                  Tap to Join Live Deeparadhana
-                </span>
-              </div>
-
-              <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                <span className="px-3 py-1 rounded-lg bg-rose-600 text-white font-sans text-xs font-bold tracking-wider">
-                  LIVE
-                </span>
-                <span className="px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md text-stone-200 font-sans text-xs border border-white/10">
-                  Main Akhand Jyoti
-                </span>
-              </div>
-
-              <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between text-xs font-sans text-stone-300">
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-amber-400" />
-                  <span>3,190 Devotees in sacred darshan</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button className="px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all">
-                    🔔 Ring Temple Bell
-                  </button>
-                  <button className="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 hover:bg-amber-500/30 transition-all">
-                    🌺 Consecrate Flowers
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TempleLivePlayer
+            liveStreamUrl={temple?.liveStreamUrl}
+            coverImageUrl={temple?.coverImageUrl}
+            templeName={tName}
+            accentColor="#f59e0b"
+          />
         </div>
       </section>
 

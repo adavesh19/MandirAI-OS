@@ -14,6 +14,7 @@ import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
 import TempleUpiModal from '@/components/temple/temple-upi-modal'
+import TempleLivePlayer from '@/components/temple/temple-live-player'
 
 export interface TemplateProps {
   temple: any
@@ -125,9 +126,17 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
             : 'bg-white/50 backdrop-blur-md border border-[#c8923f]/15 py-4 px-6'
         } flex items-center justify-between`}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#c8923f] via-[#deb165] to-[#a6752d] flex items-center justify-center text-white shadow-md text-xl border border-white/40">
-              🕉
-            </div>
+            {temple?.logoUrl ? (
+              <img
+                src={temple.logoUrl}
+                alt={tName}
+                className="w-10 h-10 rounded-2xl object-cover border border-[#c8923f]/40 shadow-md"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#c8923f] via-[#deb165] to-[#a6752d] flex items-center justify-center text-white shadow-md text-xl border border-white/40">
+                🕉
+              </div>
+            )}
             <div>
               <div className="font-serif text-lg sm:text-xl font-bold tracking-wide text-[#2c1810] truncate max-w-[200px] sm:max-w-md">
                 {tName}
@@ -158,8 +167,18 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
         </div>
       </header>
 
-      {/* HERO: Full Bandwidth Serene Glass Hero */}
-      <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 z-10">
+      {/* HERO: Full Bandwidth Serene Glass Hero with Uploaded Cover Image */}
+      <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 z-10 overflow-hidden">
+        {/* Uploaded Temple Cover Photo Backdrop */}
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          <div
+            className="w-full h-full bg-cover bg-center filter blur-[3px] scale-105 opacity-25 transition-all duration-700"
+            style={{
+              backgroundImage: `url('${temple?.coverImageUrl || temple?.themeConfig?.heroImageUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1920&q=80'}')`
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#faf8f4]/60 via-[#faf8f4]/85 to-[#faf8f4]" />
+        </div>
         <div className="max-w-5xl w-full mx-auto text-center flex flex-col items-center">
           {/* Shanti Invocation Badge */}
           <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/80 backdrop-blur-xl border border-[#c8923f]/30 shadow-sm mb-8">
@@ -343,50 +362,12 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
             </p>
           </div>
 
-          <div className="rounded-3xl bg-stone-900/90 backdrop-blur-2xl border border-stone-800 p-4 sm:p-6 shadow-2xl">
-            <div className="relative aspect-video w-full rounded-2xl bg-black overflow-hidden flex items-center justify-center group">
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-65 group-hover:scale-105 transition-transform duration-700"
-                style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1920&q=80')`
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-              <div className="relative z-10 flex flex-col items-center gap-3">
-                <div className="w-20 h-20 rounded-full bg-[#c8923f] text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform cursor-pointer">
-                  <Play className="w-8 h-8 fill-current ml-1" />
-                </div>
-                <span className="text-xs uppercase tracking-widest text-amber-200 font-bold">
-                  Tap to Join Live Broadcast
-                </span>
-              </div>
-
-              <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                <span className="px-3 py-1 rounded-lg bg-rose-600 text-white text-xs font-bold tracking-wider">
-                  LIVE
-                </span>
-                <span className="px-3 py-1 rounded-lg bg-stone-900/80 backdrop-blur-md text-stone-200 text-xs border border-white/10">
-                  Main Moolavar Sanctum
-                </span>
-              </div>
-
-              <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between text-xs text-stone-300">
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-[#c8923f]" />
-                  <span>2,830 Devotees currently connected</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 transition-all">
-                    🔔 Ring Temple Bell
-                  </button>
-                  <button className="px-3 py-1.5 rounded-xl bg-[#c8923f]/20 text-amber-200 border border-[#c8923f]/40 hover:bg-[#c8923f]/30 transition-all">
-                    🌺 Offer Flowers
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TempleLivePlayer
+            liveStreamUrl={temple?.liveStreamUrl}
+            coverImageUrl={temple?.coverImageUrl}
+            templeName={tName}
+            accentColor="#c8923f"
+          />
         </div>
       </section>
 

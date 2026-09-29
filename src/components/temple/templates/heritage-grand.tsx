@@ -14,6 +14,7 @@ import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
 import TempleUpiModal from '@/components/temple/temple-upi-modal'
+import TempleLivePlayer from '@/components/temple/temple-live-player'
 
 export interface TemplateProps {
   temple: any
@@ -125,9 +126,17 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
             : 'bg-[#180905]/40 backdrop-blur-md border border-[#d4af37]/15 py-4 px-6'
         } flex items-center justify-between`}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#8a2b0e] flex items-center justify-center text-xl shadow-lg border border-[#f5d77f]/40">
-              🕉
-            </div>
+            {temple?.logoUrl ? (
+              <img
+                src={temple.logoUrl}
+                alt={tName}
+                className="w-10 h-10 rounded-xl object-cover border border-[#f5d77f]/40 shadow-lg"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#8a2b0e] flex items-center justify-center text-xl shadow-lg border border-[#f5d77f]/40">
+                🕉
+              </div>
+            )}
             <div>
               <div className="font-serif text-lg sm:text-xl font-bold tracking-wide text-[#f5d77f] truncate max-w-[220px] sm:max-w-md">
                 {tName}
@@ -158,8 +167,18 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
         </div>
       </header>
 
-      {/* HERO SECTION: Full Bandwidth, Full Screen, Glassmorphic Grandeur */}
-      <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 z-10">
+      {/* HERO SECTION: Full Bandwidth, Full Screen, Glassmorphic Grandeur with Uploaded Cover Image */}
+      <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 z-10 overflow-hidden">
+        {/* Uploaded Temple Cover Photo Backdrop */}
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          <div
+            className="w-full h-full bg-cover bg-center filter blur-[3px] scale-105 opacity-25 transition-all duration-700"
+            style={{
+              backgroundImage: `url('${temple?.coverImageUrl || temple?.themeConfig?.heroImageUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1920&q=80'}')`
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#180905]/75 via-[#180905]/90 to-[#180905]" />
+        </div>
         <div className="max-w-6xl w-full mx-auto text-center flex flex-col items-center">
           {/* Sacred Crest Badge */}
           <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[#240e07]/80 backdrop-blur-xl border border-[#d4af37]/40 shadow-xl mb-8">
@@ -343,52 +362,12 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
             </p>
           </div>
 
-          <div className="rounded-3xl bg-[#160804]/90 backdrop-blur-2xl border border-[#d4af37]/30 p-4 sm:p-6 shadow-2xl overflow-hidden">
-            <div className="relative aspect-video w-full rounded-2xl bg-black overflow-hidden flex items-center justify-center group">
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-105 transition-transform duration-700"
-                style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1920&q=80')`
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-              {/* Center Play Glass Pill */}
-              <div className="relative z-10 flex flex-col items-center gap-3">
-                <div className="w-20 h-20 rounded-full bg-[#d4af37]/90 text-stone-950 flex items-center justify-center shadow-[0_0_40px_rgba(212,175,55,0.6)] group-hover:scale-110 transition-transform cursor-pointer">
-                  <Play className="w-8 h-8 fill-current ml-1" />
-                </div>
-                <span className="font-sans text-xs uppercase tracking-widest text-[#f5d77f] font-bold">
-                  Tap to Join Live Broadcast
-                </span>
-              </div>
-
-              {/* Status Tags */}
-              <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                <span className="px-3 py-1 rounded-lg bg-rose-600/90 text-white font-sans text-xs font-bold tracking-wider">
-                  LIVE NOW
-                </span>
-                <span className="px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md text-stone-200 font-sans text-xs border border-white/10">
-                  Garbhagriha View 1
-                </span>
-              </div>
-
-              <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between text-xs font-sans text-stone-300">
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-[#d4af37]" />
-                  <span>3,842 Devotees watching right now</span>
-                </div>
-                <div className="hidden sm:flex items-center gap-3">
-                  <button className="px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all flex items-center gap-1.5">
-                    🔔 Ring Temple Bell
-                  </button>
-                  <button className="px-3 py-1.5 rounded-lg bg-[#d4af37]/20 border border-[#d4af37]/40 text-[#f5d77f] hover:bg-[#d4af37]/30 transition-all flex items-center gap-1.5">
-                    🌺 Offer Flowers
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TempleLivePlayer
+            liveStreamUrl={temple?.liveStreamUrl}
+            coverImageUrl={temple?.coverImageUrl}
+            templeName={tName}
+            accentColor="#d4af37"
+          />
         </div>
       </section>
 

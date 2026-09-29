@@ -115,6 +115,9 @@ export async function onboardTemple(formData: {
           upiId: upiId || null,
           bankDetails: bankDetails || {},
           trustRegistrationNo: trustRegistrationNo || null,
+          coverImageUrl: images.temple || null,
+          logoUrl: images.deity || images.temple || null,
+          history: { text: historyText || '' },
           onboardingCompleted: true,
           isPublished: false,
           themeConfig: {
@@ -123,6 +126,8 @@ export async function onboardTemple(formData: {
             accent_color: '#D97706',
             font_family: 'Outfit',
             hero_style: 'gradient',
+            heroImageUrl: images.temple || null,
+            logoUrl: images.deity || images.temple || null,
           },
           seoConfig: {
             title: `${name} — Official Temple Portal`,

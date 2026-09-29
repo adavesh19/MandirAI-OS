@@ -7,6 +7,7 @@ import ModernElegantTemplate from '@/components/temple/templates/modern-elegant'
 import DivineGlowTemplate from '@/components/temple/templates/divine-glow'
 import TechSanctuaryTemplate from '@/components/temple/templates/tech-sanctuary'
 import AIOmniscientTemplate from '@/components/temple/templates/ai-omniscient'
+import VisualWebsiteEditor from '@/components/temple/visual-website-editor'
 
 interface TemplePageProps {
   params: Promise<{ slug: string }>
@@ -47,9 +48,19 @@ export default async function PublicTempleHome({ params }: TemplePageProps) {
   const themeConfig = (temple.themeConfig as any) || {}
   const templateId = themeConfig.templateId || 'classic'
 
+  const pageContent = page && typeof page.content === 'object' && page.content !== null
+    ? (page.content as any)
+    : null
+
   const serializableTemple = {
+    id: temple.id,
     name: temple.name,
     primaryDeity: temple.primaryDeity,
+    description: (themeConfig as any).description || (pageContent as any)?.description || '',
+    history: (temple.history as any)?.text || (themeConfig as any)?.history || (pageContent as any)?.html || '',
+    coverImageUrl: temple.coverImageUrl || (themeConfig as any)?.heroImageUrl || null,
+    logoUrl: temple.logoUrl || (themeConfig as any)?.logoUrl || null,
+    liveStreamUrl: temple.liveStreamUrl || (themeConfig as any)?.liveStreamUrl || null,
     contactPhone: temple.contactPhone,
     contactEmail: temple.contactEmail,
     templeType: temple.templeType,
@@ -57,11 +68,8 @@ export default async function PublicTempleHome({ params }: TemplePageProps) {
     timings,
     slug: temple.slug,
     upiId: temple.upiId,
+    themeConfig,
   }
-
-  const pageContent = page && typeof page.content === 'object' && page.content !== null
-    ? (page.content as any)
-    : null
 
   const serializablePage = pageContent
     ? {
@@ -76,6 +84,7 @@ export default async function PublicTempleHome({ params }: TemplePageProps) {
     id: s.id,
     name: s.name,
     amount: Number(s.price),
+    price: Number(s.price),
     description: s.description as string | null,
   }))
 
@@ -85,27 +94,29 @@ export default async function PublicTempleHome({ params }: TemplePageProps) {
     sevas: serializableSevas,
   }
 
+  let templateElement = <ClassicCalmTemplate {...props} />
+
   // Dynamic Template Router
   if (templateId === 'heritage') {
-    return <HeritageGrandTemplate {...props} />
-  }
-  
-  if (templateId === 'modern') {
-    return <ModernElegantTemplate {...props} />
-  }
-
-  if (templateId === 'divine-glow') {
-    return <DivineGlowTemplate {...props} />
-  }
-
-  if (templateId === 'tech-sanctuary') {
-    return <TechSanctuaryTemplate {...props} />
+    templateElement = <HeritageGrandTemplate {...props} />
+  } else if (templateId === 'modern') {
+    templateElement = <ModernElegantTemplate {...props} />
+  } else if (templateId === 'divine-glow') {
+    templateElement = <DivineGlowTemplate {...props} />
+  } else if (templateId === 'tech-sanctuary') {
+    templateElement = <TechSanctuaryTemplate {...props} />
+  } else if (templateId === 'ai-omniscient') {
+    templateElement = <AIOmniscientTemplate {...props} />
   }
 
-  if (templateId === 'ai-omniscient') {
-    return <AIOmniscientTemplate {...props} />
-  }
-
-  // Default to Classic Calm
-  return <ClassicCalmTemplate {...props} />
+  return (
+    <>
+      {templateElement}
+      <VisualWebsiteEditor
+        initialTemple={serializableTemple}
+        initialSevas={serializableSevas}
+        slug={temple.slug}
+      />
+    </>
+  )
 }

@@ -14,6 +14,7 @@ import { SacredParticles } from '@/components/ui/sacred-particles'
 import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
 import TempleUpiModal from '@/components/temple/temple-upi-modal'
+import TempleLivePlayer from '@/components/temple/temple-live-player'
 
 export interface TemplateProps {
   temple?: any
@@ -126,9 +127,17 @@ export default function TechSanctuaryTemplate({ temple, page, sevas }: TemplateP
             : 'bg-zinc-950/50 backdrop-blur-md border border-zinc-800/60 py-4 px-6'
         } flex items-center justify-between`}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-zinc-950 shadow-lg shadow-emerald-500/20 font-bold text-lg">
-              🕉
-            </div>
+            {temple?.logoUrl ? (
+              <img
+                src={temple.logoUrl}
+                alt={tName}
+                className="w-10 h-10 rounded-2xl object-cover border border-emerald-500/40 shadow-lg shadow-emerald-500/10"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-zinc-950 shadow-lg shadow-emerald-500/20 font-bold text-lg">
+                🕉
+              </div>
+            )}
             <div>
               <div className="font-serif text-lg sm:text-xl font-bold tracking-tight text-white truncate max-w-[200px] sm:max-w-md">
                 {tName}
@@ -161,8 +170,18 @@ export default function TechSanctuaryTemplate({ temple, page, sevas }: TemplateP
         </div>
       </header>
 
-      {/* HERO: Full Bandwidth Obsidian Glass Hero */}
-      <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 z-10">
+      {/* HERO: Full Bandwidth Obsidian Glass Hero with Uploaded Cover Image */}
+      <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 z-10 overflow-hidden">
+        {/* Uploaded Temple Cover Photo Backdrop */}
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          <div
+            className="w-full h-full bg-cover bg-center filter blur-[3px] scale-105 opacity-20 transition-all duration-700"
+            style={{
+              backgroundImage: `url('${temple?.coverImageUrl || temple?.themeConfig?.heroImageUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1920&q=80'}')`
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/75 via-zinc-950/90 to-zinc-950" />
+        </div>
         <div className="max-w-5xl w-full mx-auto text-center flex flex-col items-center">
           {/* Status Pill */}
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 shadow-sm mb-6">
@@ -373,50 +392,12 @@ export default function TechSanctuaryTemplate({ temple, page, sevas }: TemplateP
             ))}
           </div>
 
-          <div className="rounded-3xl bg-zinc-900/90 backdrop-blur-2xl border border-zinc-800 p-4 sm:p-6 shadow-2xl">
-            <div className="relative aspect-video w-full rounded-2xl bg-black overflow-hidden flex items-center justify-center group">
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-70 group-hover:scale-105 transition-transform duration-700"
-                style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1920&q=80')`
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-              <div className="relative z-10 flex flex-col items-center gap-3">
-                <div className="w-20 h-20 rounded-full bg-emerald-500 text-zinc-950 flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform cursor-pointer">
-                  <Play className="w-8 h-8 fill-current ml-1" />
-                </div>
-                <span className="text-xs uppercase tracking-widest text-emerald-300 font-bold">
-                  Tap to Join Live Sanctum Audio & Video
-                </span>
-              </div>
-
-              <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                <span className="px-3 py-1 rounded-lg bg-rose-600 text-white text-xs font-bold tracking-wider">
-                  LIVE
-                </span>
-                <span className="px-3 py-1 rounded-lg bg-zinc-900/80 backdrop-blur-md text-zinc-300 text-xs border border-white/10 uppercase">
-                  {activeCam} Camera
-                </span>
-              </div>
-
-              <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between text-xs text-zinc-300">
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-emerald-400" />
-                  <span>3,418 Devotees currently connected</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 transition-all">
-                    🔔 Ring Temple Bell
-                  </button>
-                  <button className="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 transition-all">
-                    🌺 Offer Sacred Flowers
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TempleLivePlayer
+            liveStreamUrl={temple?.liveStreamUrl}
+            coverImageUrl={temple?.coverImageUrl}
+            templeName={tName}
+            accentColor="#10b981"
+          />
         </div>
       </section>
 
