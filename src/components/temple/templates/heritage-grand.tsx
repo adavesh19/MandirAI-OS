@@ -15,6 +15,7 @@ import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
 import TempleUpiModal from '@/components/temple/temple-upi-modal'
 import TempleLivePlayer from '@/components/temple/temple-live-player'
+import TempleSanctumShowcase from '@/components/temple/temple-sanctum-showcase'
 
 export interface TemplateProps {
   temple: any
@@ -180,6 +181,20 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
           <div className="absolute inset-0 bg-gradient-to-b from-[#180905]/75 via-[#180905]/90 to-[#180905]" />
         </div>
         <div className="max-w-6xl w-full mx-auto text-center flex flex-col items-center">
+          {/* Sacred Deity Darshan Medallion (God Image) */}
+          <div className="relative mb-6 group">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-[#d4af37]/60 shadow-[0_0_40px_rgba(212,175,55,0.4)] p-1 bg-gradient-to-tr from-[#d4af37] via-[#f5d77f] to-[#8a2b0e] ring-8 ring-[#d4af37]/20">
+              <img
+                src={temple?.deityImageUrl || temple?.logoUrl || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&w=600&q=80'}
+                alt={tDeity}
+                className="w-full h-full rounded-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-3.5 py-0.5 rounded-full bg-[#180905] border border-[#d4af37]/50 text-[#f5d77f] text-[10px] font-bold uppercase tracking-wider shadow-lg">
+              🙏 {tDeity}
+            </div>
+          </div>
+
           {/* Sacred Crest Badge */}
           <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[#240e07]/80 backdrop-blur-xl border border-[#d4af37]/40 shadow-xl mb-8">
             <Sparkles className="w-4 h-4 text-[#d4af37]" />
@@ -243,6 +258,17 @@ export default function HeritageGrandTemplate({ temple, page, sevas }: TemplateP
           </div>
         </div>
       </section>
+
+      {/* SECTION 1.5: Holy Sanctum & Abode of Divinity (God Image & Math Image) */}
+      <TempleSanctumShowcase
+        deityImageUrl={temple?.deityImageUrl || temple?.logoUrl}
+        templeImageUrl={temple?.templeImageUrl || temple?.coverImageUrl}
+        templeName={tName}
+        primaryDeity={tDeity}
+        historyText={temple?.history?.text || temple?.history || temple?.themeConfig?.history}
+        description={tDesc}
+        themeVariant="heritage"
+      />
 
       {/* SECTION 2: Sacred Darshan Schedule (Full-Width Glass Card) */}
       <section id="darshan" className="py-24 px-4 sm:px-6 lg:px-8 relative z-10 bg-gradient-to-b from-transparent via-[#1a0904]/60 to-transparent">

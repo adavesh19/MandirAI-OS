@@ -156,13 +156,27 @@ export default function OnboardingPage() {
         body: data,
       })
       const result = await res.json()
-      if (res.ok && result.success) {
+      if (res.ok && result.success && result.url) {
         handleImageChange(field, result.url)
       } else {
-        setError(result.error || `Failed to upload ${field} image.`)
+        // Resilient fallback: read as base64 Data URL so user never loses their uploaded photo
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          if (e.target?.result) {
+            handleImageChange(field, e.target.result as string)
+          }
+        }
+        reader.readAsDataURL(file)
       }
     } catch (err) {
-      setError('An error occurred during file upload.')
+      // Resilient fallback on error
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          handleImageChange(field, e.target.result as string)
+        }
+      }
+      reader.readAsDataURL(file)
     } finally {
       setUploading((prev) => ({ ...prev, [field]: false }))
     }

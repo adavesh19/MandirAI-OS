@@ -57,8 +57,10 @@ export async function GET(request: NextRequest) {
         primaryDeity: temple.primaryDeity || '',
         description: themeConfig.description || pageContent.description || '',
         historyText: historyData.text || themeConfig.history || pageContent.html || '',
-        coverImageUrl: temple.coverImageUrl || themeConfig.heroImageUrl || '',
-        logoUrl: temple.logoUrl || themeConfig.logoUrl || '',
+        coverImageUrl: temple.coverImageUrl || themeConfig.templeImageUrl || themeConfig.heroImageUrl || '',
+        logoUrl: temple.logoUrl || themeConfig.deityImageUrl || themeConfig.godImageUrl || themeConfig.logoUrl || '',
+        templeImageUrl: temple.coverImageUrl || themeConfig.templeImageUrl || themeConfig.heroImageUrl || '',
+        deityImageUrl: temple.logoUrl || themeConfig.deityImageUrl || themeConfig.godImageUrl || themeConfig.logoUrl || '',
         liveStreamUrl: temple.liveStreamUrl || themeConfig.liveStreamUrl || '',
         timings: temple.timings || {
           morning_open: '06:00',
@@ -124,8 +126,16 @@ export async function POST(request: NextRequest) {
       ...(body.templateId ? { templateId: body.templateId } : {}),
       ...(body.description !== undefined ? { description: body.description } : {}),
       ...(body.historyText !== undefined ? { history: body.historyText } : {}),
-      ...(body.coverImageUrl !== undefined ? { heroImageUrl: body.coverImageUrl } : {}),
-      ...(body.logoUrl !== undefined ? { logoUrl: body.logoUrl } : {}),
+      ...(body.coverImageUrl !== undefined ? { 
+        heroImageUrl: body.coverImageUrl,
+        coverImageUrl: body.coverImageUrl,
+        templeImageUrl: body.coverImageUrl 
+      } : {}),
+      ...(body.logoUrl !== undefined ? { 
+        logoUrl: body.logoUrl,
+        deityImageUrl: body.logoUrl,
+        godImageUrl: body.logoUrl 
+      } : {}),
       ...(body.liveStreamUrl !== undefined ? { liveStreamUrl: body.liveStreamUrl } : {}),
     }
 

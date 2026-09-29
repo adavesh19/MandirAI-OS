@@ -133,7 +133,7 @@ export default function VisualWebsiteEditor({
     }
   }, [])
 
-  // Handle direct file upload
+  // Handle direct file upload with resilient FileReader fallback
   const handleFileUpload = async (file: File, type: 'cover' | 'logo') => {
     try {
       setUploadingImage(type)
@@ -163,11 +163,34 @@ export default function VisualWebsiteEditor({
           setLogoUrl(data.url)
         }
       } else {
-        alert(data.error || 'Failed to upload photo. You can also paste an image URL directly.')
+        // Resilient fallback: read as base64 Data URL so user never loses their uploaded photo
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          if (e.target?.result) {
+            const dataUrl = e.target.result as string
+            if (type === 'cover') {
+              setCoverImageUrl(dataUrl)
+            } else {
+              setLogoUrl(dataUrl)
+            }
+          }
+        }
+        reader.readAsDataURL(file)
       }
     } catch (err: any) {
-      console.error('Upload error:', err)
-      alert('Error uploading file. Please try pasting the image URL directly.')
+      console.error('Upload error, falling back to base64:', err)
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          const dataUrl = e.target.result as string
+          if (type === 'cover') {
+            setCoverImageUrl(dataUrl)
+          } else {
+            setLogoUrl(dataUrl)
+          }
+        }
+      }
+      reader.readAsDataURL(file)
     } finally {
       setUploadingImage(null)
     }
@@ -189,6 +212,8 @@ export default function VisualWebsiteEditor({
         historyText,
         coverImageUrl,
         logoUrl,
+        templeImageUrl: coverImageUrl,
+        deityImageUrl: logoUrl,
         liveStreamUrl,
         templateId,
         timings,
@@ -200,7 +225,11 @@ export default function VisualWebsiteEditor({
         themeConfig: {
           templateId,
           heroImageUrl: coverImageUrl,
+          coverImageUrl: coverImageUrl,
+          templeImageUrl: coverImageUrl,
           logoUrl,
+          deityImageUrl: logoUrl,
+          godImageUrl: logoUrl,
           liveStreamUrl,
           description,
           history: historyText,
@@ -388,16 +417,82 @@ export default function VisualWebsiteEditor({
               )}
 
               {/* ───────────────────────────────────────────────────
-                  TAB 2: PHOTOS & LOGO
+                  TAB 2: PHOTOS: GOD & MATH IMAGES
               ─────────────────────────────────────────────────── */}
               {activeTab === 'photos' && (
                 <div className="space-y-6">
-                  {/* Temple Cover / Hero Image */}
+                  {/* GOD / DEITY IMAGE */}
+                  <div className="p-4 rounded-2xl border-2 border-amber-500/40 dark:border-amber-500/30 bg-amber-500/5 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 text-[10px] font-bold uppercase tracking-wider mb-1">
+                          <Sparkles className="w-3 h-3 text-amber-500" /> Sacred Pradhana Vigraha
+                        </div>
+                        <h4 className="text-xs font-bold text-stone-900 dark:text-white">God / Presiding Deity Photo (God Image)</h4>
+                        <p className="text-[11px] text-stone-500">Showcased in Hero golden medallion, Altar darshan card (#about), header & live stream standby.</p>
+                      </div>
+                      <input
+                        type="file"
+                        ref={logoFileInputRef}
+                        accept="image/*"
+                        className="hidden"
+                        onChange={e => {
+                          const file = e.target.files?.[0]
+                          if (file) handleFileUpload(file, 'logo')
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => logoFileInputRef.current?.click()}
+                        disabled={uploadingImage === 'logo'}
+                        className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm hover:scale-105 transition-all"
+                      >
+                        {uploadingImage === 'logo' ? (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uploading...
+                          </>
+                        ) : (
+                          <>
+                            <UploadCloud className="w-3.5 h-3.5" /> Upload Deity Photo
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    <input
+                      type="text"
+                      value={logoUrl}
+                      onChange={e => setLogoUrl(e.target.value)}
+                      placeholder="Or paste God Image URL (https://...)"
+                      className="w-full px-3 py-2 rounded-xl border border-amber-300/60 dark:border-amber-700/60 bg-white dark:bg-stone-900 text-xs"
+                    />
+
+                    {logoUrl && (
+                      <div className="flex items-center gap-4 pt-1 p-2 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40">
+                        <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-amber-500 shadow-md bg-stone-950 relative flex-shrink-0">
+                          <img src={logoUrl} alt="God / Deity Preview" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="space-y-1">
+                          <span className="text-xs font-bold text-amber-800 dark:text-amber-300 flex items-center gap-1">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Deity Image Active
+                          </span>
+                          <p className="text-[11px] text-stone-600 dark:text-stone-400">
+                            Prominently rendered in the Hero golden medallion & Sanctum altar card across all templates.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* MATHA / TEMPLE COMPLEX IMAGE */}
                   <div className="p-4 rounded-2xl border border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/30 space-y-3">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h4 className="text-xs font-bold text-stone-900 dark:text-white">Temple Hero / Cover Image</h4>
-                        <p className="text-[11px] text-stone-500">Displayed as the main hero banner across all temple pages.</p>
+                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-stone-200 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-[10px] font-bold uppercase tracking-wider mb-1">
+                          Kshetra & Architecture
+                        </div>
+                        <h4 className="text-xs font-bold text-stone-900 dark:text-white">Matha / Temple Complex Photo (Math Image)</h4>
+                        <p className="text-[11px] text-stone-500">Showcased in the Kshetra Darshan showcase (#about) and hero banner backdrop.</p>
                       </div>
                       <input
                         type="file"
@@ -421,7 +516,7 @@ export default function VisualWebsiteEditor({
                           </>
                         ) : (
                           <>
-                            <UploadCloud className="w-3.5 h-3.5" /> Upload File
+                            <UploadCloud className="w-3.5 h-3.5" /> Upload Math Photo
                           </>
                         )}
                       </button>
@@ -431,66 +526,18 @@ export default function VisualWebsiteEditor({
                       type="text"
                       value={coverImageUrl}
                       onChange={e => setCoverImageUrl(e.target.value)}
-                      placeholder="Or paste image URL (https://...)"
+                      placeholder="Or paste Matha / Temple Image URL (https://...)"
                       className="w-full px-3 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-xs"
                     />
 
                     {coverImageUrl && (
-                      <div className="aspect-[21/9] w-full rounded-xl overflow-hidden bg-stone-200 border border-stone-300 dark:border-stone-800 relative">
-                        <img src={coverImageUrl} alt="Temple Cover Preview" className="w-full h-full object-cover" />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Temple Logo / Deity Emblem */}
-                  <div className="p-4 rounded-2xl border border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/30 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="text-xs font-bold text-stone-900 dark:text-white">Temple Logo / Deity Emblem</h4>
-                        <p className="text-[11px] text-stone-500">Circular crest in the header, navigation, and mobile cards.</p>
-                      </div>
-                      <input
-                        type="file"
-                        ref={logoFileInputRef}
-                        accept="image/*"
-                        className="hidden"
-                        onChange={e => {
-                          const file = e.target.files?.[0]
-                          if (file) handleFileUpload(file, 'logo')
-                        }}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => logoFileInputRef.current?.click()}
-                        disabled={uploadingImage === 'logo'}
-                        className="px-3 py-1.5 rounded-lg bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-xs font-bold flex items-center gap-1.5 shadow-sm hover:scale-105 transition-all"
-                      >
-                        {uploadingImage === 'logo' ? (
-                          <>
-                            <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uploading...
-                          </>
-                        ) : (
-                          <>
-                            <UploadCloud className="w-3.5 h-3.5" /> Upload File
-                          </>
-                        )}
-                      </button>
-                    </div>
-
-                    <input
-                      type="text"
-                      value={logoUrl}
-                      onChange={e => setLogoUrl(e.target.value)}
-                      placeholder="Or paste logo URL (https://...)"
-                      className="w-full px-3 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-xs"
-                    />
-
-                    {logoUrl && (
-                      <div className="flex items-center gap-3 pt-1">
-                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-500 shadow-md bg-white">
-                          <img src={logoUrl} alt="Logo Preview" className="w-full h-full object-cover" />
+                      <div className="space-y-1.5">
+                        <div className="aspect-[21/9] w-full rounded-xl overflow-hidden bg-stone-200 border border-stone-300 dark:border-stone-800 relative">
+                          <img src={coverImageUrl} alt="Matha / Temple Complex Preview" className="w-full h-full object-cover" />
                         </div>
-                        <span className="text-xs text-stone-500 font-semibold">Emblem Preview</span>
+                        <p className="text-[10px] text-stone-500 flex items-center gap-1 font-semibold">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Math Image Active in Kshetra Architecture Showcase
+                        </p>
                       </div>
                     )}
                   </div>

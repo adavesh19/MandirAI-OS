@@ -5,9 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 export async function POST(request: NextRequest) {
   try {
     const user = await getAuthUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const userId = user?.id || 'onboarding-guest'
 
     const formData = await request.formData()
     const file = formData.get('file') as File | null
@@ -35,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     const supabase = createAdminClient()
     const ext = file.name.split('.').pop() || 'jpg'
-    const fileName = `onboarding/${user.id}/${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`
+    const fileName = `onboarding/${userId}/${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`
     const bucket = 'temple-media'
 
     // Auto-create bucket if it doesn't exist

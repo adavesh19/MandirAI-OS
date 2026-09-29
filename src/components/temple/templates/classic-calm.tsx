@@ -15,6 +15,7 @@ import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
 import TempleUpiModal from '@/components/temple/temple-upi-modal'
 import TempleLivePlayer from '@/components/temple/temple-live-player'
+import TempleSanctumShowcase from '@/components/temple/temple-sanctum-showcase'
 
 export interface TemplateProps {
   temple: any
@@ -180,6 +181,20 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
           <div className="absolute inset-0 bg-gradient-to-b from-[#faf8f4]/60 via-[#faf8f4]/85 to-[#faf8f4]" />
         </div>
         <div className="max-w-5xl w-full mx-auto text-center flex flex-col items-center">
+          {/* Sacred Deity Darshan Medallion (God Image) */}
+          <div className="relative mb-6 group">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-[#c8923f]/50 shadow-2xl p-1 bg-gradient-to-tr from-[#c8923f] via-[#f7d88e] to-[#a6752d] ring-8 ring-[#c8923f]/20">
+              <img
+                src={temple?.deityImageUrl || temple?.logoUrl || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&w=600&q=80'}
+                alt={tDeity}
+                className="w-full h-full rounded-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-0.5 rounded-full bg-white/95 backdrop-blur-md border border-[#c8923f]/40 text-[#a6752d] text-[10px] font-bold uppercase tracking-wider shadow-md">
+              🙏 {tDeity}
+            </div>
+          </div>
+
           {/* Shanti Invocation Badge */}
           <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/80 backdrop-blur-xl border border-[#c8923f]/30 shadow-sm mb-8">
             <Sparkles className="w-4 h-4 text-[#c8923f]" />
@@ -244,6 +259,17 @@ export default function ClassicCalmTemplate({ temple, page, sevas }: TemplatePro
           </div>
         </div>
       </section>
+
+      {/* SECTION 1.5: Holy Sanctum & Abode of Divinity (God Image & Math Image) */}
+      <TempleSanctumShowcase
+        deityImageUrl={temple?.deityImageUrl || temple?.logoUrl}
+        templeImageUrl={temple?.templeImageUrl || temple?.coverImageUrl}
+        templeName={tName}
+        primaryDeity={tDeity}
+        historyText={temple?.history?.text || temple?.history || temple?.themeConfig?.history}
+        description={tDescription}
+        themeVariant="classic"
+      />
 
       {/* SECTION 2: Daily Darshan & Aarti Schedule (Frosted Glass Cards) */}
       <section id="schedule" className="py-24 px-4 sm:px-6 lg:px-8 relative z-10 bg-[#f4eee1]/50">

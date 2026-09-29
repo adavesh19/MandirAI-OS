@@ -15,6 +15,7 @@ import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
 import TempleUpiModal from '@/components/temple/temple-upi-modal'
 import TempleLivePlayer from '@/components/temple/temple-live-player'
+import TempleSanctumShowcase from '@/components/temple/temple-sanctum-showcase'
 
 export interface TemplateProps {
   temple?: any
@@ -183,6 +184,20 @@ export default function TechSanctuaryTemplate({ temple, page, sevas }: TemplateP
           <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/75 via-zinc-950/90 to-zinc-950" />
         </div>
         <div className="max-w-5xl w-full mx-auto text-center flex flex-col items-center">
+          {/* Sacred Deity Darshan Medallion (God Image) */}
+          <div className="relative mb-6 group">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-emerald-500/50 shadow-[0_0_40px_rgba(16,185,129,0.3)] p-1 bg-gradient-to-tr from-emerald-500 via-teal-400 to-zinc-900 ring-8 ring-emerald-500/20">
+              <img
+                src={temple?.deityImageUrl || temple?.logoUrl || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&w=600&q=80'}
+                alt={tDeity}
+                className="w-full h-full rounded-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-3.5 py-0.5 rounded-full bg-zinc-900 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold uppercase tracking-wider shadow-lg">
+              🙏 {tDeity}
+            </div>
+          </div>
+
           {/* Status Pill */}
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 shadow-sm mb-6">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -245,6 +260,17 @@ export default function TechSanctuaryTemplate({ temple, page, sevas }: TemplateP
           </div>
         </div>
       </section>
+
+      {/* SECTION 1.5: Holy Sanctum & Abode of Divinity (God Image & Math Image) */}
+      <TempleSanctumShowcase
+        deityImageUrl={temple?.deityImageUrl || temple?.logoUrl}
+        templeImageUrl={temple?.templeImageUrl || temple?.coverImageUrl}
+        templeName={tName}
+        primaryDeity={tDeity}
+        historyText={temple?.history?.text || temple?.history || temple?.themeConfig?.history}
+        description={tDesc}
+        themeVariant="tech"
+      />
 
       {/* SECTION 2: Daily Schedule (Clean Obsidian Glass) */}
       <section id="schedule" className="py-24 px-4 sm:px-6 lg:px-8 relative z-10 bg-zinc-950/60">

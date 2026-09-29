@@ -15,6 +15,7 @@ import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
 import TempleUpiModal from '@/components/temple/temple-upi-modal'
 import TempleLivePlayer from '@/components/temple/temple-live-player'
+import TempleSanctumShowcase from '@/components/temple/temple-sanctum-showcase'
 
 export interface TemplateProps {
   temple: any
@@ -49,6 +50,9 @@ export default function AIOmniscientTemplate({ temple, page, sevas }: TemplatePr
   const addressLine = temple?.address?.street || temple?.address?.city 
     ? `${temple?.address?.street || ''} ${temple?.address?.city || ''}, ${temple?.address?.state || ''} ${temple?.address?.zip || ''}`
     : '108 Celestial Starlight Hill, Sacred Valley, Karnataka - 571201'
+
+  const deityImage = temple?.deityImageUrl || temple?.logoUrl || temple?.themeConfig?.deityImageUrl || temple?.themeConfig?.godImageUrl || temple?.themeConfig?.logoUrl || 'https://images.unsplash.com/photo-1583089892943-e02e5b017b6a?auto=format&fit=crop&w=800&q=80'
+  const templeImage = temple?.templeImageUrl || temple?.coverImageUrl || temple?.themeConfig?.templeImageUrl || temple?.themeConfig?.heroImageUrl || temple?.themeConfig?.coverImageUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1920&q=80'
 
   const activeSevas = sevas && sevas.length > 0 ? sevas : [
     { id: '1', name: 'Maha Mrityunjaya Homam', price: 1501, amount: 1501, description: 'Vedic fire ritual invoking longevity, divine health, and liberation from fear.' },
@@ -191,11 +195,35 @@ export default function AIOmniscientTemplate({ temple, page, sevas }: TemplatePr
         </div>
         <div className="max-w-5xl w-full mx-auto text-center flex flex-col items-center">
           {/* Sacred Invocation Badge */}
-          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[#121736]/80 backdrop-blur-xl border border-indigo-500/40 shadow-xl mb-8">
+          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[#121736]/80 backdrop-blur-xl border border-indigo-500/40 shadow-xl mb-6">
             <Sparkles className="w-4 h-4 text-indigo-300" />
             <span className="font-sans text-xs uppercase tracking-widest text-indigo-200 font-semibold">
               ॐ द्यौः शान्तिरन्तरिक्षं शान्तिः • Universal Peace
             </span>
+          </div>
+
+          {/* UPLOADED GOD IMAGE: Sacred Deity Medallion */}
+          <div 
+            className="relative mb-6 group cursor-pointer" 
+            onClick={() => {
+              const el = document.getElementById('about')
+              if (el) el.scrollIntoView({ behavior: 'smooth' })
+            }}
+          >
+            <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500/30 via-sky-400/40 to-amber-300/30 rounded-full blur-xl opacity-75 group-hover:opacity-100 transition-all duration-700 animate-pulse" />
+            <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1.5 bg-gradient-to-tr from-amber-400 via-indigo-500 to-sky-400 shadow-2xl shadow-indigo-950/80">
+              <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/40 bg-indigo-950/80">
+                <img
+                  src={deityImage}
+                  alt={tDeity}
+                  className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+            </div>
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-slate-950/90 border border-amber-400/60 shadow-lg whitespace-nowrap text-[11px] font-sans font-bold text-amber-200 tracking-wider uppercase flex items-center gap-1.5">
+              <Sparkles className="w-3 h-3 text-amber-400" />
+              <span>{tDeity}</span>
+            </div>
           </div>
 
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#ffffff] via-[#e0e7ff] to-[#a5b4fc] leading-[1.1] tracking-wide mb-6 drop-shadow-2xl">
@@ -251,6 +279,17 @@ export default function AIOmniscientTemplate({ temple, page, sevas }: TemplatePr
           </div>
         </div>
       </section>
+
+      {/* SANCTUM & KSHETRA SHOWCASE: Prominently Featuring Uploaded God Image & Math Image */}
+      <TempleSanctumShowcase
+        deityImageUrl={deityImage}
+        templeImageUrl={templeImage}
+        templeName={tName}
+        primaryDeity={tDeity}
+        historyText={temple?.history?.text || temple?.history || temple?.themeConfig?.history}
+        description={tDesc}
+        themeVariant="celestial"
+      />
 
       {/* SECTION 2: Daily Vedic Wisdom Card */}
       <section id="wisdom" className="py-20 px-4 sm:px-6 lg:px-8 relative z-10">

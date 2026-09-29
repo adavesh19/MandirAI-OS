@@ -127,6 +127,10 @@ export async function onboardTemple(formData: {
             font_family: 'Outfit',
             hero_style: 'gradient',
             heroImageUrl: images.temple || null,
+            templeImageUrl: images.temple || null,
+            deityImageUrl: images.deity || null,
+            godImageUrl: images.deity || null,
+            swamijiImageUrl: images.swamiji || null,
             logoUrl: images.deity || images.temple || null,
           },
           seoConfig: {

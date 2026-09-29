@@ -15,6 +15,7 @@ import { VirtualRitualBar } from '@/components/temple/virtual-ritual-bar'
 import { PanchangTicker } from '@/components/temple/panchang-ticker'
 import TempleUpiModal from '@/components/temple/temple-upi-modal'
 import TempleLivePlayer from '@/components/temple/temple-live-player'
+import TempleSanctumShowcase from '@/components/temple/temple-sanctum-showcase'
 
 export interface TemplateProps {
   temple: any
@@ -188,6 +189,20 @@ export default function DivineGlowTemplate({ temple, page, sevas }: TemplateProp
           <div className="absolute inset-0 bg-gradient-to-b from-[#180903]/75 via-[#180903]/90 to-[#180903]" />
         </div>
         <div className="max-w-5xl w-full mx-auto text-center flex flex-col items-center">
+          {/* Sacred Deity Darshan Medallion (God Image) */}
+          <div className="relative mb-6 group">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-amber-400/60 shadow-[0_0_40px_rgba(245,158,11,0.5)] p-1 bg-gradient-to-tr from-amber-400 via-yellow-300 to-orange-600 ring-8 ring-amber-500/20">
+              <img
+                src={temple?.deityImageUrl || temple?.logoUrl || 'https://images.unsplash.com/photo-1601058269550-93ed9cd5c54e?auto=format&fit=crop&w=600&q=80'}
+                alt={tDeity}
+                className="w-full h-full rounded-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-3.5 py-0.5 rounded-full bg-[#1e0d04] border border-amber-400/50 text-amber-200 text-[10px] font-bold uppercase tracking-wider shadow-lg">
+              🙏 {tDeity}
+            </div>
+          </div>
+
           {/* Sacred Vedic Chants Tag */}
           <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[#271206]/80 backdrop-blur-xl border border-amber-400/40 shadow-xl shadow-amber-500/10 mb-8">
             <Flame className="w-4 h-4 text-amber-400 animate-bounce" />
@@ -252,6 +267,17 @@ export default function DivineGlowTemplate({ temple, page, sevas }: TemplateProp
           </div>
         </div>
       </section>
+
+      {/* SECTION 1.5: Holy Sanctum & Abode of Divinity (God Image & Math Image) */}
+      <TempleSanctumShowcase
+        deityImageUrl={temple?.deityImageUrl || temple?.logoUrl}
+        templeImageUrl={temple?.templeImageUrl || temple?.coverImageUrl}
+        templeName={tName}
+        primaryDeity={tDeity}
+        historyText={temple?.history?.text || temple?.history || temple?.themeConfig?.history}
+        description={tDesc}
+        themeVariant="divine"
+      />
 
       {/* SECTION 2: Sacred Aarti & Timings (Luminous Glass Cards) */}
       <section id="schedule" className="py-24 px-4 sm:px-6 lg:px-8 relative z-10 bg-gradient-to-b from-transparent via-[#1c0c04]/80 to-transparent">
